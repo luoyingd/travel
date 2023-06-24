@@ -1,2 +1,2 @@
 # travel
-A travel website used for practicing python and react
+A travel website used for practicing react
