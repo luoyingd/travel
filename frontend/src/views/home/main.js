@@ -34,7 +34,7 @@ function Main() {
           </div>
         </div>
       </header>
-      <section class="page-section" id="services">
+      <section class="page-section-service" id="services">
         <Services></Services>
       </section>
       <div id="portfolio">

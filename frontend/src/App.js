@@ -6,6 +6,7 @@ import history from "./utils/history";
 import Error from "./views/404";
 import Main from "./views/home/main";
 import Login from "./views/login/login";
+import SignUp from "./views/login/signup";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/" element={<Home></Home>}>
             <Route index element={<Main></Main>}></Route>
             <Route path="login" element={<Login></Login>}></Route>
+            <Route path="signup" element={<SignUp></SignUp>}></Route>
           </Route>
           {/* use high-level component for auth */}
           {/* <Route
