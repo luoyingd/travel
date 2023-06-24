@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.travel.common.dao.UserDao">
+    <insert id="add" parameterType="com.example.travel.base.pojo.User">
+        insert into tb_user (username, password, photo, email)
+        values (#{username}, #{password}, #{photo}, #{email})
+    </insert>
+    <select id="searchByUsernameOrEmail" parameterType="java.lang.String"
+            resultType="com.example.travel.base.pojo.User">
+        select *
+        from tb_user
+        where username = #{username}
+           or email = #{email}
+    </select>
+    <update id="update" parameterType="com.example.travel.base.pojo.User">
+        update tb_user set
+        <if test="username != null">
+            username = #{username},
+        </if>
+        <if test="password != null">
+            password = #{password},
+        </if>
+        <if test="photo != null">
+            photo = #{photo},
+        </if>
+        <if test="email != null">
+            email = #{email},
+        </if>
+        id = #{id} where id = #{id}
+    </update>
+    <select id="searchUserInfoById" parameterType="java.lang.Integer"
+            resultType="com.example.travel.base.response.user.LoadUserInfoVO">
+        select username, id, photo
+        from tb_user
+        where id = #{userId}
+    </select>
+    <select id="searchPhotoById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select photo
+        from tb_user
+        where id = #{userId}
+    </select>
+    <select id="searchUserCount" resultType="java.lang.Integer">
+        select count(distinct id)
+        from tb_user
+    </select>
+    <select id="loadAllUserName" resultType="com.example.travel.base.response.user.LoadUserVO">
+        select id, username
+        from tb_user
+    </select>
+</mapper>
