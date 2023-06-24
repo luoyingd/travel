@@ -7,6 +7,8 @@ import Error from "./views/404";
 import Main from "./views/home/main";
 import Login from "./views/login/login";
 import SignUp from "./views/login/signup";
+import SendResetMail from "./views/login/resetPwd";
+import ConfirmResetPwd from "./views/login/confirmResetPwd";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
             <Route index element={<Main></Main>}></Route>
             <Route path="login" element={<Login></Login>}></Route>
             <Route path="signup" element={<SignUp></SignUp>}></Route>
+            <Route path="sendResetMail" element={<SendResetMail></SendResetMail>}></Route>
+            <Route path="confirmResetPwd" element={<ConfirmResetPwd></ConfirmResetPwd>}></Route>
           </Route>
           {/* use high-level component for auth */}
           {/* <Route
