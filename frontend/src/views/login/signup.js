@@ -9,15 +9,34 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { TextField } from "@mui/material";
+import loginStore from "../../stores/login/loginStore";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 function SignUp() {
-  const [validate, setValidate] = React.useState(true);
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [firstNameValidate, setFirstNameValidate] = React.useState(true);
+  const [lastNameValidate, setLastNameValidate] = React.useState(true);
+  const [emailValidate, setEmailValidate] = React.useState(true);
+  const [pwdValidate, setPwdValidate] = React.useState(true);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+    };
+    console.log(form);
+    setFirstNameValidate(form.firstName != null && form.firstName != "");
+    setLastNameValidate(form.lastName != null && form.lastName != "");
+    setEmailValidate(form.email != null && form.email != "");
+    setPwdValidate(form.password != null && form.password != "");
+    const result = await loginStore.register(form);
+    if (result) {
+      message.success("Successfully registered!", [3]);
+      navigate("/login", { replace: true });
+    }
   };
   return (
     <section class="page-section-login" id="services">
@@ -42,7 +61,6 @@ function SignUp() {
             noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
-            
           >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -55,7 +73,8 @@ function SignUp() {
                   label="First Name"
                   autoFocus
                   style={{ backgroundColor: "white" }}
-                  error={!validate}
+                  error={!firstNameValidate}
+                  variant="filled"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -67,7 +86,8 @@ function SignUp() {
                   name="lastName"
                   autoComplete="family-name"
                   style={{ backgroundColor: "white" }}
-                  error={!validate}
+                  error={!lastNameValidate}
+                  variant="filled"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -79,7 +99,8 @@ function SignUp() {
                   name="email"
                   autoComplete="email"
                   style={{ backgroundColor: "white" }}
-                  error={!validate}
+                  error={!emailValidate}
+                  variant="filled"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,9 +111,10 @@ function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="new-password"
+                  autoComplete="password"
                   style={{ backgroundColor: "white" }}
-                  error={!validate}
+                  error={!pwdValidate}
+                  variant="filled"
                 />
               </Grid>
             </Grid>

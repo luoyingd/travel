@@ -30,14 +30,18 @@ class LoginStore {
     myUser.saveUserId(userId);
   };
 
-  // register = async (data) => {
-  //   const registerResult = await http.post("/user/register", {
-  //     username: data.username,
-  //     password: data.password,
-  //     email: data.email,
-  //   });
-  //   return registerResult;
-  // };
+  register = async (data) => {
+    try {
+      const result = await http.post("/user/register", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
+        email: data.email,
+      });
+      return result;
+    } catch (e) {}
+    return null;
+  };
 
   // resetPwdSendMail = async (email) => {
   //   const result = await http.post("/user/resetPwdSendMail", {
