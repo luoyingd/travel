@@ -8,27 +8,29 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
+import { TextField } from "@mui/material";
+import loginStore from "../../stores/login/loginStore";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [validate, setValidate] = React.useState(true);
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const [emailValidate, setEmailValidate] = React.useState(true);
+  const [pwdValidate, setPwdValidate] = React.useState(true);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const form = {
       email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+      password: data.get("password")
+    };
+    console.log(form);
+    setEmailValidate(form.email != null && form.email != "");
+    setPwdValidate(form.password != null && form.password != "");
+    const result = await loginStore.login(form);
+    if (result) {
+      message.success("Successfully login!", [3]);
+      navigate("/", { replace: true });
+    }
   };
   return (
     <section class="page-section-login" id="services">
@@ -53,54 +55,41 @@ function Login() {
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
+            style={{marginTop: 20}}
           >
-            <FormControl
-              fullWidth
-              sx={{ m: 1 }}
-              style={{ backgroundColor: "white" }}
-              required
-              error={!validate}
-            >
-              <InputLabel htmlFor="outlined-adornment-amount">
-                Email Address
-              </InputLabel>
-              <OutlinedInput id="outlined-adornment-amount" label="email" />
-            </FormControl>
-            <FormControl
-              sx={{ m: 1 }}
-              fullWidth
-              variant="outlined"
-              style={{ backgroundColor: "white" }}
-              required
-              error={!validate}
-            >
-              <InputLabel htmlFor="outlined-adornment-password">
-                Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-              />
-            </FormControl>
-
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  error={!emailValidate}
+                  style={{ backgroundColor: "white" }}
+                  variant="filled"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="password"
+                  error={!pwdValidate}
+                  style={{ backgroundColor: "white" }}
+                  variant="filled"
+                />
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              style={{ marginLeft: 5 }}
               fullWidth
             >
               Sign In

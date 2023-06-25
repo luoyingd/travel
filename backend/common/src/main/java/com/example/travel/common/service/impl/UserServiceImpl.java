@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public LoginVO login(LoginForm loginForm) throws TravelException {
         // if from Google, search user first
         User user = null;
-        if (loginForm.getIsFromGoogle()) {
+        if (loginForm.getIsFromGoogle() != null && loginForm.getIsFromGoogle()) {
             if (StringUtils.isEmpty(loginForm.getAccessToken())) {
                 throw new TravelException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
             }

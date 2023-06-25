@@ -14,6 +14,7 @@ function Main() {
       // perform login
       const result = await loginStore.loginGoogle(codeResponse.access_token);
       if (result) {
+        message.success("Successfully login!", [3]);
         navigate("/", { replace: true });
       }
     },

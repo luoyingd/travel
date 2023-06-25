@@ -3,12 +3,16 @@ import { makeAutoObservable } from "mobx";
 import { myToken, myUser } from "../../utils/auth";
 
 class LoginStore {
-  login = async (username, password) => {
-    // const loginResult = await http.post("/user/login", {
-    //   username: username,
-    //   password: password,
-    // });
-    // this.saveToken(loginResult);
+  login = async (data) => {
+    try {
+      const result = await http.post("/user/login", {
+        email: data.email,
+        password: data.password,
+      });
+      this.saveToken(result);
+      return result;
+    } catch (e) {}
+    return null;
   };
 
   loginGoogle = async (accessToken) => {
