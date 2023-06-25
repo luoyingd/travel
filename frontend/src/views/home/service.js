@@ -9,9 +9,9 @@ function Services() {
             <div class="mb-2">
               <i class="bi-gem fs-1 text-primary"></i>
             </div>
-            <h3 class="h4 mb-2">Different Categories</h3>
+            <h3 class="h4 mb-2">6 Categories</h3>
             <p class="text-muted mb-0">
-              6 categories to browse from!
+              Different categories to browse from!
             </p>
           </div>
         </div>
