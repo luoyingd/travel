@@ -9,6 +9,8 @@ import Login from "./views/login/login";
 import SignUp from "./views/login/signup";
 import SendResetMail from "./views/login/resetPwd";
 import ConfirmResetPwd from "./views/login/confirmResetPwd";
+import Notes from "./views/note";
+import AuthLogin from "./components/authLogin";
 
 function App() {
   return (
@@ -20,27 +22,27 @@ function App() {
             <Route index element={<Main></Main>}></Route>
             <Route path="login" element={<Login></Login>}></Route>
             <Route path="signup" element={<SignUp></SignUp>}></Route>
-            <Route path="sendResetMail" element={<SendResetMail></SendResetMail>}></Route>
-            <Route path="confirmResetPwd" element={<ConfirmResetPwd></ConfirmResetPwd>}></Route>
+            <Route
+              path="sendResetMail"
+              element={<SendResetMail></SendResetMail>}
+            ></Route>
+            <Route
+              path="confirmResetPwd"
+              element={<ConfirmResetPwd></ConfirmResetPwd>}
+            ></Route>
           </Route>
           {/* use high-level component for auth */}
-          {/* <Route
-            path="/home"
+          <Route
+            path="/note"
             element={
               <AuthLogin>
-                <Main></Main>
+                <Notes></Notes>
               </AuthLogin>
             }
           >
-            <Route
-              index
-              element={
-                <AuthLogin>
-                  <Data></Data>
-                </AuthLogin>
-              }
-            ></Route>
-            <Route path="allBlog">
+            {" "}
+          </Route>
+          {/* <Route path="list">
               <Route
                 index
                 element={
@@ -48,25 +50,16 @@ function App() {
                     <Blog></Blog>
                   </AuthLogin>
                 }
-              ></Route>
-              <Route
+              ></Route> */}
+          {/* <Route
                 path="info/:id"
                 element={
                   <AuthLogin>
                     <BlogInfo></BlogInfo>
                   </AuthLogin>
                 }
-              ></Route>
-            </Route>
-            <Route
-              path="publish"
-              element={
-                <AuthLogin>
-                  <Publish></Publish>
-                </AuthLogin>
-              }
-            ></Route>
-          </Route> */}
+              ></Route> */}
+          {/* </Route> */}
           {/* 404配置 */}
           <Route path="*" element={<Error></Error>}></Route>
         </Routes>

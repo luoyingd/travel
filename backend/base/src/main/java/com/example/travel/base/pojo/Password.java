@@ -12,4 +12,5 @@ public class Password {
     private int id;
     private String clientId;
     private String key;
+    private String googleApi;
 }

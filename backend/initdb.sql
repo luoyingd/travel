@@ -75,5 +75,6 @@ CREATE TABLE `tb_password`  (
   `key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'key',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'tb_password' ROW_FORMAT = DYNAMIC;
+alter table `tb_password` add column `google_api` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'google_api';
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -10,4 +10,6 @@ public interface CommonService {
     void uploadPhoto(String filePath, String key) throws TravelException;
 
     byte[] getPhoto(String key) throws TravelException, IOException;
+
+    String getMapApi();
 }

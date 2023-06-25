@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import "./index.scss";
 function Home() {
   return (
     <div>
@@ -52,7 +51,7 @@ function Home() {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#contact">
+                  <a class="nav-link" href="/note?id=1">
                     My Notes
                   </a>
                 </li>
