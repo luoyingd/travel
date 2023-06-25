@@ -1,8 +1,8 @@
 import axios from "axios";
-import { message } from "antd";
 import { myToken } from "./auth";
 import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
+import { message } from "antd";
 const baseURL = "http://localhost:8090/api";
 const http = axios.create({
   baseURL: baseURL,
@@ -45,7 +45,7 @@ const responseSuccess = (response) => {
       if (data.code === 401) {
         history.push("/login");
       }
-      return Promise.reject();
+      return Promise.reject(data.msg);
     }
   }
   return Promise.resolve(data);
@@ -63,4 +63,4 @@ const responseFailed = (error) => {
 http.interceptors.response.use(responseSuccess, responseFailed);
 http_file.interceptors.response.use(responseSuccess, responseFailed);
 
-export { http, baseURL, http_file };
+export { http };

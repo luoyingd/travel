@@ -3,7 +3,7 @@ package com.example.travel.api.controller;
 import com.example.travel.base.exception.TravelException;
 import com.example.travel.base.pojo.User;
 import com.example.travel.base.request.user.*;
-import com.example.travel.base.util.R;
+import com.example.travel.common.util.R;
 import com.example.travel.common.service.inter.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

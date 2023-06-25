@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserDao {
     void add(User user);
 
-    User searchByUsernameOrEmail(String username, String email);
+    User searchByEmail(String email);
 
     void update(User user);
 

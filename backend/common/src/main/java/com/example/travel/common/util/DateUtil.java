@@ -1,4 +1,4 @@
-package com.example.travel.base.util;
+package com.example.travel.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -4,7 +4,7 @@ import com.example.travel.base.exception.TravelException;
 import com.example.travel.base.pojo.Blog;
 import com.example.travel.base.request.blog.GetBlogForm;
 import com.example.travel.base.request.blog.UpdateLikeForm;
-import com.example.travel.base.util.R;
+import com.example.travel.common.util.R;
 import com.example.travel.common.service.inter.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

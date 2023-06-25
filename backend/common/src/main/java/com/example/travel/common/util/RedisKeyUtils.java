@@ -1,4 +1,4 @@
-package com.example.travel.base.util;
+package com.example.travel.common.util;
 
 public class RedisKeyUtils {
     public static final String MAP_KEY_USER_LIKED = "MAP_USER_LIKED_";

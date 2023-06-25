@@ -1,24 +1,39 @@
-package com.example.travel.base.util;
+package com.example.travel.common.util;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.example.travel.base.constant.Constant;
+import com.example.travel.base.pojo.Password;
+import com.example.travel.common.dao.PasswordDao;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.*;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
+@Component
 public class FileUtils {
-    public static final AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-            .withRegion(Constant.AWS_CLIENT_REGION)
-//            .withCredentials(new AWSStaticCredentialsProvider(
-//                    new BasicAWSCredentials(Constant.AWS_SECRET_ID, Constant.AWS_SECRET_KEY)))
-            .build();
+    public static final AmazonS3 s3Client;
+//    @Resource
+//    public static PasswordDao passwordDao;
+
+    static {
+//        List<Password> password = passwordDao.getPassword();
+        s3Client = AmazonS3ClientBuilder.standard()
+                .withRegion(Constant.AWS_CLIENT_REGION)
+//                .withCredentials(new AWSStaticCredentialsProvider(
+//                        new BasicAWSCredentials(password.get(0).getClientId(), password.get(0).getKey())))
+                .build();
+    }
 
     public static byte[] downloadPhoto(String key) throws IOException {
         S3Object fullObject = null, objectPortion = null, headerOverrideObject = null;

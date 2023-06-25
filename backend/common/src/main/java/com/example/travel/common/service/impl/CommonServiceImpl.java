@@ -3,7 +3,7 @@ package com.example.travel.common.service.impl;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.example.travel.base.exception.TravelException;
 import com.example.travel.base.exception.CodeAndMsg;
-import com.example.travel.base.util.FileUtils;
+import com.example.travel.common.util.FileUtils;
 import com.example.travel.common.service.inter.CommonService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

@@ -1,7 +1,7 @@
 package com.example.travel.api.config;
 
 import com.example.travel.base.exception.TravelException;
-import com.example.travel.base.util.R;
+import com.example.travel.common.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

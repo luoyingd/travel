@@ -3,7 +3,7 @@ package com.example.travel.common.service.impl;
 import com.example.travel.base.enums.LikeStatusEnum;
 import com.example.travel.base.response.blog.BlogLikeCountRedisData;
 import com.example.travel.base.response.blog.BlogLikeStatusRedisData;
-import com.example.travel.base.util.RedisKeyUtils;
+import com.example.travel.common.util.RedisKeyUtils;
 import com.example.travel.common.service.inter.RedisService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
