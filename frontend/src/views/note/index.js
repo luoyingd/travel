@@ -1,12 +1,31 @@
-import { Button } from "antd";
+import { Button, Radio, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AddNote from "./add";
+import { AudioOutlined } from "@ant-design/icons";
+import NoteCard from "./card";
+import { Empty } from "antd";
 function Notes() {
   const [params] = useSearchParams();
   const id = params.get("id");
   const [openAdd, setOpenAdd] = useState(false);
   const [key, setKey] = useState(0);
+  const [value, setValue] = useState(1);
+  const { Search } = Input;
+  const [list, setList] = useState([]);
+  const suffix = (
+    <AudioOutlined
+      style={{
+        fontSize: 16,
+        color: "#1677ff",
+      }}
+    />
+  );
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
+  const onSearch = (value) => console.log(value);
   useEffect(() => {}, []);
   return (
     <div>
@@ -56,268 +75,30 @@ function Notes() {
         </header>
 
         <section class="py-5">
+          <div style={{ paddingLeft: 60 }} class="container px-lg-5">
+            <Radio.Group onChange={onChange} value={value}>
+              <Radio value={1}>Hottest</Radio>
+              <Radio value={2}>Most Recent</Radio>
+            </Radio.Group>
+            <Search
+              placeholder="Find something you like"
+              onSearch={onSearch}
+              style={{
+                width: 300,
+              }}
+            />
+          </div>
           <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Fancy Product</h5>
-                      $40.00 - $80.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        View options
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <div
-                    class="badge bg-dark text-white position-absolute"
-                    style={{ top: 0.5, right: 0.5 }}
-                  >
-                    Sale
-                  </div>
-
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Special Item</h5>
-                      <div class="d-flex justify-content-center small text-warning mb-2">
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                      </div>
-                      <span class="text-muted text-decoration-line-through">
-                        $20.00
-                      </span>
-                      $18.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <div
-                    class="badge bg-dark text-white position-absolute"
-                    style={{ top: 0.5, right: 0.5 }}
-                  >
-                    Sale
-                  </div>
-
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Sale Item</h5>
-                      <span class="text-muted text-decoration-line-through">
-                        $50.00
-                      </span>
-                      $25.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Popular Item</h5>
-                      <div class="d-flex justify-content-center small text-warning mb-2">
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                      </div>
-                      $40.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <div
-                    class="badge bg-dark text-white position-absolute"
-                    style={{ top: 0.5, right: 0.5 }}
-                  >
-                    Sale
-                  </div>
-
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Sale Item</h5>
-                      <span class="text-muted text-decoration-line-through">
-                        $50.00
-                      </span>
-                      $25.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Fancy Product</h5>
-                      $120.00 - $280.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        View options
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <div
-                    class="badge bg-dark text-white position-absolute"
-                    style={{ top: 0.5, right: 0.5 }}
-                  >
-                    Sale
-                  </div>
-
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Special Item</h5>
-                      <div class="d-flex justify-content-center small text-warning mb-2">
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                      </div>
-                      <span class="text-muted text-decoration-line-through">
-                        $20.00
-                      </span>
-                      $18.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col mb-5">
-                <div class="card h-100">
-                  <img
-                    class="card-img-top"
-                    src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-                    alt="..."
-                  />
-
-                  <div class="card-body p-4">
-                    <div class="text-center">
-                      <h5 class="fw-bolder">Popular Item</h5>
-                      <div class="d-flex justify-content-center small text-warning mb-2">
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                        <div class="bi-star-fill"></div>
-                      </div>
-                      $40.00
-                    </div>
-                  </div>
-
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center">
-                      <a class="btn btn-outline-dark mt-auto" href="#">
-                        Add to cart
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {list.length > 0 ? (
+                <>
+                  {list.map((item) => (
+                    <NoteCard></NoteCard>
+                  ))}
+                </>
+              ) : (
+                <Empty description={false} />
+              )}
             </div>
           </div>
         </section>
