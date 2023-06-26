@@ -1,17 +1,25 @@
 package com.example.travel.api.controller;
 
+import com.example.travel.base.constant.Constant;
 import com.example.travel.base.exception.TravelException;
 import com.example.travel.base.pojo.Blog;
 import com.example.travel.base.request.blog.GetBlogForm;
 import com.example.travel.base.request.blog.UpdateLikeForm;
 import com.example.travel.common.service.inter.BlogService;
 import com.example.travel.common.service.inter.CommonService;
+import com.example.travel.common.util.FileUtils;
 import com.example.travel.common.util.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/common")
@@ -25,47 +33,26 @@ public class CommonController {
         return R.ok(commonService.getAddress(input));
     }
 
-//    @GetMapping("/getBlogsCount")
-//    public R getBlogsCount(GetBlogForm getBlogForm) {
-//        return R.ok(blogService.searchBlogCount(getBlogForm));
-//    }
-//
-//    @GetMapping("/getBlogContent/{id}")
-//    public R getBlogContent(@PathVariable int id) throws TravelException {
-//        return R.ok(blogService.loadBlogContent(id));
-//    }
-//
-//    @GetMapping("/getBlogDetail/{id}")
-//    public R getBlogDetail(@PathVariable int id) throws TravelException {
-//        return R.ok(blogService.loadBlogDetail(id));
-//    }
-//
-//    @GetMapping("/getLikeStatus/{blogId}/{userId}")
-//    public R getLikeStatus(@PathVariable int blogId, @PathVariable int userId) throws TravelException {
-//        return R.ok(blogService.loadLikeStatus(userId, blogId));
-//    }
-//
-//    @GetMapping("/getBlogLikeCount/{blogId}")
-//    public R getBlogLikeCount(@PathVariable int blogId) throws TravelException {
-//        return R.ok(blogService.loadLikeCount(blogId));
-//    }
+    @PostMapping("/uploadPhoto")
+    public R uploadPhoto(@RequestParam(value = "file") MultipartFile multipartFile) throws IOException, TravelException {
+        String filePath = FileUtils.saveFile(Constant.BASE_DIR, multipartFile);
+        log.info("file path is " + filePath);
+        String key = UUID.randomUUID() + filePath.substring(filePath.lastIndexOf("."));
+        commonService.uploadPhoto(filePath, key);
+        return R.ok(key);
+    }
 
-//    @PutMapping("/updateLike")
-//    public R updateLike(@RequestBody UpdateLikeForm updateLikeForm) throws TravelException {
-//        blogService.updateLike(updateLikeForm);
-//        return R.ok();
-//    }
-//
-//    @PostMapping("/addOrUpdate")
-//    public R addOrUpdate(@RequestBody Blog blog) throws TravelException {
-//        blogService.addOrUpdateBlog(blog);
-//        return R.ok();
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public R delete(@PathVariable int id) {
-//        blogService.delete(id);
-//        return R.ok();
-//    }
+    @GetMapping("/photo/{key}")
+    public void photo(@PathVariable String key,
+                      HttpServletResponse httpServletResponse) throws TravelException {
+        httpServletResponse.setContentType(MediaType.IMAGE_PNG_VALUE);
+        try {
+            OutputStream out = httpServletResponse.getOutputStream();
+            out.write(commonService.getPhoto(key));
+            out.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

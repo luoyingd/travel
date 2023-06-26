@@ -9,11 +9,6 @@ const http = axios.create({
   timeout: 20000,
   withCredentials: true,
 });
-const http_file = axios.create({
-  baseURL: baseURL,
-  timeout: 20000,
-  withCredentials: true,
-});
 
 const beforeRequest = (config) => {
   const token = myToken.getToken();
@@ -23,18 +18,8 @@ const beforeRequest = (config) => {
   loadingStore.isLoading = true;
   return config;
 };
-const beforeRequestFile = (config) => {
-  const token = myToken.getToken();
-  if (token) {
-    config.headers["token"] = token;
-  }
-  config.headers["Content-Type"] = "multipart/form-data";
-  loadingStore.isLoading = true;
-  return config;
-};
 
 http.interceptors.request.use(beforeRequest);
-http_file.interceptors.request.use(beforeRequestFile);
 
 const responseSuccess = (response) => {
   const data = response.data;
@@ -52,7 +37,7 @@ const responseSuccess = (response) => {
 };
 const responseFailed = (error) => {
   const { response } = error;
-  loadingStore.isLoading = false;
+
   if (response) {
     return Promise.reject();
   } else if (!window.navigator.onLine) {
@@ -61,6 +46,5 @@ const responseFailed = (error) => {
   return Promise.reject(error);
 };
 http.interceptors.response.use(responseSuccess, responseFailed);
-http_file.interceptors.response.use(responseSuccess, responseFailed);
 
-export { http };
+export { http, baseURL };

@@ -31,6 +31,8 @@ import java.util.List;
 public class CommonServiceImpl implements CommonService {
     @Resource
     private PasswordDao passwordDao;
+//    @Resource
+//    private FileUtils fileUtils;
 
     @Override
     public void uploadPhoto(String filePath, String key) throws TravelException {

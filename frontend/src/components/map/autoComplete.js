@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import { http } from "../../utils/http";
 import { useState } from "react";
-function AutoComplete({placeholder}) {
+function AutoComplete({ placeholder }) {
   let currentValue;
   let timeout;
   const [data, setData] = useState([]);
@@ -12,10 +12,14 @@ function AutoComplete({placeholder}) {
       timeout = null;
     }
     currentValue = value;
-    const getMap = async () => {
+    const getMap = () => {
       if (currentValue === value) {
-        let res = await http.get("/common/getMapResult/" + currentValue);
-        callback(res.data);
+        http
+          .get("/common/getMapResult/" + currentValue)
+          .then((res) => {
+            callback(res.data);
+          })
+          .catch((err) => {});
       }
     };
     if (value) {
