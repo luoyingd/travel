@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/common")
@@ -22,6 +23,11 @@ public class CommonController {
     @GetMapping("/getMapApi")
     public R getMapApi() {
         return R.ok(commonService.getMapApi());
+    }
+
+    @GetMapping("/getMapResult/{input}")
+    public R getMapResult(@PathVariable String input){
+        return R.ok(commonService.getAddress(input));
     }
 
 //    @GetMapping("/getBlogsCount")

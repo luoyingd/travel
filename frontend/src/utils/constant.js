@@ -8,5 +8,4 @@ const topics = [
   "Cloud Computing",
   "Data Science",
 ];
-
 export { topics };

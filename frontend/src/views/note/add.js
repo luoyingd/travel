@@ -6,39 +6,17 @@ import {
   Input,
   Row,
   Space,
-  AutoComplete,
 } from "antd";
 import { useEffect, useState } from "react";
-import mapApiStore from "../../stores/common/mapApiStore";
 import { observer } from "mobx-react-lite";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import { mapAPI } from "../../utils/constant";
+import AutoComplete from "../../components/map/autoComplete";
 function AddNote({ isOpen, key }) {
   const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [address, setAddress] = useState();
-  const { placePredictions, getPlacePredictions } = usePlacesService({
-    apiKey: mapAPI,
-    language: "en",
-  });
-  const getPanelValue = (searchText) => (!searchText ? [] : getMap(searchText));
-  const getMap = (str) => {
-    getPlacePredictions({ input: str });
-    const list = [];
-    placePredictions.forEach((item) => {
-      list.push({ value: item.description });
-    });
-    return list;
-  };
-  const onSelect = (data) => {
-    setAddress(data);
-  };
   const onClose = () => {
     setOpen(false);
   };
   useEffect(() => {
     setOpen(isOpen);
-    mapApiStore.getApi();
   }, []);
   return (
     <>
@@ -88,12 +66,7 @@ function AddNote({ isOpen, key }) {
                   },
                 ]}
               >
-                <AutoComplete
-                  options={options}
-                  onSelect={onSelect}
-                  onSearch={(text) => setOptions(getPanelValue(text))}
-                  placeholder="Please enter address"
-                />
+                <AutoComplete placeholder="Please enter address" />
               </Form.Item>
             </Col>
           </Row>
