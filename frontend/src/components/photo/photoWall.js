@@ -2,6 +2,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Upload, Modal, message } from "antd";
 import { useState } from "react";
 import { baseURL, http } from "../../utils/http";
+import { observer } from "mobx-react-lite";
+import noteStore from "../../stores/notes/noteStore";
 const PhotoWall = () => {
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -14,7 +16,6 @@ const PhotoWall = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState([]);
-  const [keyList, setKeyList] = useState([]);
   const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
@@ -55,7 +56,6 @@ const PhotoWall = () => {
     } else {
       file.status = "uploading";
       let uid = file.uid;
-      console.log(uid);
       let newList = [...fileList, file];
       setFileList(newList);
       // do upload here
@@ -64,7 +64,7 @@ const PhotoWall = () => {
       http
         .post("/common/uploadPhoto", formData)
         .then((res) => {
-          setKeyList([...keyList, res.data]);
+          noteStore.photoKeys.push(res.data);
           // find the file and replace status
           const newFileList = newList.map((file) => {
             if (file.uid == uid) {
@@ -116,4 +116,4 @@ const PhotoWall = () => {
     </>
   );
 };
-export default PhotoWall;
+export default observer(PhotoWall);

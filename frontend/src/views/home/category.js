@@ -4,6 +4,7 @@ import entertainment from "../../assets/img/category/entertainment.jpeg";
 import meseum from "../../assets/img/category/meseum.webp";
 import shopping from "../../assets/img/category/shopping.jpeg";
 import adventure from "../../assets/img/category/adventure.webp";
+import { categories } from "../../utils/constant";
 function Category() {
   return (
     <div class="container-fluid p-0">
@@ -17,7 +18,7 @@ function Category() {
           >
             <img class="img-fluid" src={meseum} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Meseum</div>
+              <div class="project-name">{categories[0]}</div>
             </div>
           </a>
         </div>
@@ -29,7 +30,7 @@ function Category() {
           >
             <img class="img-fluid" src={city} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">City</div>
+              <div class="project-name">{categories[1]}</div>
             </div>
           </a>
         </div>
@@ -41,7 +42,7 @@ function Category() {
           >
             <img class="img-fluid" src={shopping} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Shopping</div>
+              <div class="project-name">{categories[2]}</div>
             </div>
           </a>
         </div>
@@ -53,7 +54,7 @@ function Category() {
           >
             <img class="img-fluid" src={adventure} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Adventure</div>
+              <div class="project-name">{categories[3]}</div>
             </div>
           </a>
         </div>
@@ -61,7 +62,7 @@ function Category() {
           <a class="portfolio-box" href="" title="Nature">
             <img class="img-fluid" src={entertainment} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Entertainment</div>
+              <div class="project-name">{categories[4]}</div>
             </div>
           </a>
         </div>
@@ -73,7 +74,7 @@ function Category() {
           >
             <img class="img-fluid" src={nature} alt="..." />
             <div class="portfolio-box-caption p-3">
-              <div class="project-name">Nature</div>
+              <div class="project-name">{categories[5]}</div>
             </div>
           </a>
         </div>

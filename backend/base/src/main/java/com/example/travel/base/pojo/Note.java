@@ -5,16 +5,16 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Blog {
+public class Note {
     private int id;
     private int userId;
     private String content;
     private String title;
-    private String topic;
-    private String introduction;
-    private String cover;
+    private String category;
+    private String addressCode;
+    private String address;
     private Integer likes;
-    private Integer comment;
+    private String photos;
     private Date createTime;
     private Date updateTime;
 }

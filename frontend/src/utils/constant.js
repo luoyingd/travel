@@ -1,11 +1,9 @@
-const topics = [
-  "All",
-  "Programming Language",
-  "Machine Learning",
-  "Cyber Security",
-  "Distributed Algorithms",
-  "Information Systems",
-  "Cloud Computing",
-  "Data Science",
+const categories = [
+  "Museum",
+  "City",
+  "Shopping",
+  "Adventure",
+  "Entertainment",
+  "Nature",
 ];
-export { topics };
+export { categories };

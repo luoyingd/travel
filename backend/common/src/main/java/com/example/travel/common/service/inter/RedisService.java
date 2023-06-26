@@ -1,7 +1,5 @@
 package com.example.travel.common.service.inter;
 
-import com.example.travel.base.response.blog.BlogLikeCountRedisData;
-import com.example.travel.base.response.blog.BlogLikeStatusRedisData;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +12,8 @@ public interface RedisService {
     void decrementLikedCount(int likedBlogId, int count);
     Integer getLikedCountFromRedis(int likedBlogId);
     Integer getLikedStatusFromRedis(int likedUserId, int likedBlogId);
-    List<BlogLikeCountRedisData> getAllLikeCountRedisDataFromRedis();
-    List<BlogLikeStatusRedisData> getAllLikeStatusRedisDataFromRedis();
+//    List<BlogLikeCountRedisData> getAllLikeCountRedisDataFromRedis();
+//    List<BlogLikeStatusRedisData> getAllLikeStatusRedisDataFromRedis();
     void deleteLikeCountDataFromRedis();
     void deleteLikeDataFromRedis();
 }

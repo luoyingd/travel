@@ -1,6 +1,8 @@
 import { Select } from "antd";
 import { http } from "../../utils/http";
 import { useState } from "react";
+import { observer } from "mobx-react-lite";
+import noteStore from "../../stores/notes/noteStore";
 function AutoComplete({ placeholder }) {
   let currentValue;
   let timeout;
@@ -32,7 +34,11 @@ function AutoComplete({ placeholder }) {
     fetch(newValue, setData);
   };
   const handleChange = (newValue) => {
+    console.log(newValue);
     setValue(newValue);
+    let addressInfo = newValue.split("@");
+    noteStore.address = addressInfo[1];
+    noteStore.addressCode = addressInfo[0];
   };
   return (
     <Select
@@ -46,11 +52,11 @@ function AutoComplete({ placeholder }) {
       onChange={handleChange}
       notFoundContent={null}
       options={(data || []).map((d) => ({
-        value: d.code,
+        value: d.code + "@" + d.address,
         label: d.address,
       }))}
     />
   );
 }
 
-export default AutoComplete;
+export default observer(AutoComplete);

@@ -2,10 +2,6 @@ package com.example.travel.api.controller;
 
 import com.example.travel.base.constant.Constant;
 import com.example.travel.base.exception.TravelException;
-import com.example.travel.base.pojo.Blog;
-import com.example.travel.base.request.blog.GetBlogForm;
-import com.example.travel.base.request.blog.UpdateLikeForm;
-import com.example.travel.common.service.inter.BlogService;
 import com.example.travel.common.service.inter.CommonService;
 import com.example.travel.common.util.FileUtils;
 import com.example.travel.common.util.R;
@@ -18,7 +14,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 @RestController

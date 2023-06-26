@@ -1,8 +1,6 @@
 package com.example.travel.common.service.impl;
 
 import com.example.travel.base.enums.LikeStatusEnum;
-import com.example.travel.base.response.blog.BlogLikeCountRedisData;
-import com.example.travel.base.response.blog.BlogLikeStatusRedisData;
 import com.example.travel.common.util.RedisKeyUtils;
 import com.example.travel.common.service.inter.RedisService;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -66,46 +64,46 @@ public class RedisServiceImpl implements RedisService {
         return redisIntegerTemplate.opsForValue().get(key);
     }
 
-    @Override
-    public List<BlogLikeCountRedisData> getAllLikeCountRedisDataFromRedis() {
-        List<BlogLikeCountRedisData> list = new ArrayList<>();
-        Set<String> keys = redisIntegerTemplate.keys(RedisKeyUtils.MAP_KEY_BLOG_LIKED_COUNT + "*");
-        if (keys != null) {
-            keys.forEach(key -> {
-                Integer count = redisIntegerTemplate.opsForValue().get(key);
-                if (count != null) {
-                    String[] strings = key.split("_");
-                    int blogId = Integer.parseInt(strings[strings.length - 1]);
-                    list.add(BlogLikeCountRedisData.builder().count(count).blogId(blogId).build());
-                }
-
-            });
-        }
-        return list;
-    }
-
-    @Override
-    public List<BlogLikeStatusRedisData> getAllLikeStatusRedisDataFromRedis() {
-        List<BlogLikeStatusRedisData> list = new ArrayList<>();
-        Set<String> keys = redisIntegerTemplate.keys(RedisKeyUtils.MAP_KEY_USER_LIKED + "*");
-        if (keys != null) {
-            keys.forEach(key -> {
-                Integer like = redisIntegerTemplate.opsForValue().get(key);
-                if (like != null) {
-                    String[] strings = key.split("_");
-                    String[] myKeys = strings[strings.length - 1].split("::");
-                    int blogId = Integer.parseInt(myKeys[1]);
-                    int userId = Integer.parseInt(myKeys[0]);
-                    list.add(BlogLikeStatusRedisData.builder()
-                            .userId(userId)
-                            .blogId(blogId)
-                            .like(like.byteValue())
-                            .build());
-                }
-            });
-        }
-        return list;
-    }
+//    @Override
+//    public List<BlogLikeCountRedisData> getAllLikeCountRedisDataFromRedis() {
+//        List<BlogLikeCountRedisData> list = new ArrayList<>();
+//        Set<String> keys = redisIntegerTemplate.keys(RedisKeyUtils.MAP_KEY_BLOG_LIKED_COUNT + "*");
+//        if (keys != null) {
+//            keys.forEach(key -> {
+//                Integer count = redisIntegerTemplate.opsForValue().get(key);
+//                if (count != null) {
+//                    String[] strings = key.split("_");
+//                    int blogId = Integer.parseInt(strings[strings.length - 1]);
+//                    list.add(BlogLikeCountRedisData.builder().count(count).blogId(blogId).build());
+//                }
+//
+//            });
+//        }
+//        return list;
+//    }
+//
+//    @Override
+//    public List<BlogLikeStatusRedisData> getAllLikeStatusRedisDataFromRedis() {
+//        List<BlogLikeStatusRedisData> list = new ArrayList<>();
+//        Set<String> keys = redisIntegerTemplate.keys(RedisKeyUtils.MAP_KEY_USER_LIKED + "*");
+//        if (keys != null) {
+//            keys.forEach(key -> {
+//                Integer like = redisIntegerTemplate.opsForValue().get(key);
+//                if (like != null) {
+//                    String[] strings = key.split("_");
+//                    String[] myKeys = strings[strings.length - 1].split("::");
+//                    int blogId = Integer.parseInt(myKeys[1]);
+//                    int userId = Integer.parseInt(myKeys[0]);
+//                    list.add(BlogLikeStatusRedisData.builder()
+//                            .userId(userId)
+//                            .blogId(blogId)
+//                            .like(like.byteValue())
+//                            .build());
+//                }
+//            });
+//        }
+//        return list;
+//    }
 
     @Override
     public void deleteLikeCountDataFromRedis() {
