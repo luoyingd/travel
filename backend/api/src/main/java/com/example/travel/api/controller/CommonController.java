@@ -20,11 +20,6 @@ public class CommonController {
     @Resource
     private CommonService commonService;
 
-    @GetMapping("/getMapApi")
-    public R getMapApi() {
-        return R.ok(commonService.getMapApi());
-    }
-
     @GetMapping("/getMapResult/{input}")
     public R getMapResult(@PathVariable String input){
         return R.ok(commonService.getAddress(input));

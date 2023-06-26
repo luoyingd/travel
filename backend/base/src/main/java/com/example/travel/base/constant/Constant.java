@@ -11,4 +11,5 @@ public class Constant {
     public static final String RESET_PWD_URL = "localhost:3000/login/resetPwd";
     public static final String BASE_DIR = System.getProperty("user.dir") + "/tmp_file";
     public static final String GOOGLE_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=";
+    public static final String GOOGLE_ADDRESS_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=";
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.example.travel.base.constant.Constant;
 import com.example.travel.base.exception.TravelException;
 import com.example.travel.base.exception.CodeAndMsg;
 import com.example.travel.base.response.map.MapResVO;
@@ -59,7 +60,7 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
-    public List<MapResVO> getAddress(String input){
+    public List<MapResVO> getAddress(String input) {
         List<MapResVO> list = new ArrayList<>();
         if (StringUtils.isEmpty(input)) {
             return list;
@@ -67,7 +68,7 @@ public class CommonServiceImpl implements CommonService {
         String encodeInput = URLEncoder.encode(input, StandardCharsets.UTF_8);
         log.info("encodeInput input: {}", encodeInput);
         String mapApi = getMapApi();
-        JSONObject response = HttpUtil.doGet("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" +
+        JSONObject response = HttpUtil.doGet(Constant.GOOGLE_ADDRESS_URL +
                 encodeInput +
                 "&types=geocode&key=" + mapApi, null);
         log.info("google address response: {}", response);
