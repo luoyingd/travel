@@ -1,0 +1,12 @@
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/28/2023 7:39:42 PM','4.5')
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/28/2023 7:39:46 PM','4.5')
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/29/2023 3:45:50 PM','4.5')
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/29/2023 3:49:13 PM','4.5')
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/29/2023 3:53:34 PM','4.5')
+INSERT INTO Computer (Motherboard, CPUCores, 
+            ReleaseDate, Price) VALUES ('John','4','6/29/2023 5:23:08 PM','4.5')
