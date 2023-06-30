@@ -1,9 +1,13 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using c_web.Form;
 using c_web.Models;
 using c_web.Repository;
 using c_web.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace c_web.Controllers
 {
@@ -58,9 +62,33 @@ namespace c_web.Controllers
         {
             User user = _userRepository.GetUser(userLoginForm.Email);
             string? salt = user.Salt;
-            string? password = user.Password;
             Console.WriteLine(PasswordEncrypt.Encrypt(userLoginForm.Password, _configuration, salt));
-            return Ok();
+            // return a token
+            string token = GetToken(user.Id);
+            return Ok(token);
+        }
+
+        private string GetToken(int userId)
+        {
+            Claim[] claims = new Claim[]{
+                new Claim("userId", userId.ToString())
+            };
+            SymmetricSecurityKey symmetricSecurityKey = new(
+                Encoding
+                .UTF8.GetBytes(_configuration.GetSection("AppSettings:token_key").Value)
+            );
+            SigningCredentials signingCredentials = new(
+                symmetricSecurityKey, SecurityAlgorithms.HmacSha512Signature
+            );
+            SecurityTokenDescriptor securityTokenDescriptor = new()
+            {
+                Subject = new ClaimsIdentity(claims),
+                SigningCredentials = signingCredentials,
+                Expires = DateTime.Now.AddHours(2)
+            };
+            JwtSecurityTokenHandler securityTokenHandler = new();
+            SecurityToken securityToken = securityTokenHandler.CreateToken(securityTokenDescriptor);
+            return securityTokenHandler.WriteToken(securityToken);
         }
     }
 }

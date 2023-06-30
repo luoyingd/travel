@@ -8,7 +8,6 @@ namespace c_web.Utils
     {
         public static string Encrypt(string password, IConfiguration configuration, string salt)
         {
-            Dictionary<string, string> map = new();
             string plus = configuration.GetSection("AppSettings:hash_key").Value + salt;
             byte[] pwdBytes = KeyDerivation.Pbkdf2(
                 password: password,
