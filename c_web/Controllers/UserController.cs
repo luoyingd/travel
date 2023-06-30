@@ -6,13 +6,14 @@ using c_web.Form;
 using c_web.Models;
 using c_web.Repository;
 using c_web.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace c_web.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -24,20 +25,22 @@ namespace c_web.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("/pwd")]
+        [HttpGet("/user/pwd")]
         public IEnumerable<Password> GetPwd()
         {
             return _userRepository.GetPwd();
         }
 
-        [HttpPost("/pwd")]
+        [HttpPost("/user/pwd")]
         public IActionResult AddPwd(Password password)
         {
             _userRepository.AddPwd(password);
             return Ok();
         }
 
-        [HttpPost("/")]
+        // allow no token for this api
+        [AllowAnonymous]
+        [HttpPost("/user")]
         public IActionResult AddUser(UserRegisterForm userRegisterForm)
         {
             User user = new()
@@ -57,7 +60,8 @@ namespace c_web.Controllers
             return Ok();
         }
 
-        [HttpPost("/login")]
+        [HttpPost("/user/login")]
+        [AllowAnonymous]
         public IActionResult Login(UserLoginForm userLoginForm)
         {
             User user = _userRepository.GetUser(userLoginForm.Email);

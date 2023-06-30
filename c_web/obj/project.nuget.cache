@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TdbTwDekgybIWYTHBME2lvR2OlfWz9RwLnM7K1qS2upnWCUYD1YImdmwjrJRKOpSETXD1ysPDX6B7P6U0RSIQg==",
+  "dgSpecHash": "tsNFiX1YFf1syyJIHLHTgBVsMMd4MM5tMlmP+VL5pxF82Q/Pw3dbdhhoymx92DcnYB47JclbAod5dXHgODXRag==",
   "success": true,
   "projectFilePath": "/Users/dongluoying/Desktop/code/travel/c_web/c_web.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "/Users/dongluoying/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/dapper/2.0.143/dapper.2.0.143.nupkg.sha512",
+    "/Users/dongluoying/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/7.0.8/microsoft.aspnetcore.authentication.jwtbearer.7.0.8.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/microsoft.aspnetcore.openapi/7.0.8/microsoft.aspnetcore.openapi.7.0.8.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",

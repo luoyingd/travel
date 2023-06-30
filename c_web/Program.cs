@@ -1,7 +1,12 @@
+using System.Security.Cryptography;
+using System.Text;
 using c_web.Controllers;
 using c_web.Data;
 using c_web.Repository;
 using c_web.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +33,22 @@ builder.Services.AddCors((options) =>
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
+// set up authentication of jwt
+// frontend need to set Authorization = Bearer {token} in headers
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            builder.Configuration.GetSection("AppSettings:token_key").Value
+        )),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
 
 // make dapper column mapping
 ColumnMapper.SetMapper();
@@ -45,6 +66,8 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
+// authentication has to be prior to authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
