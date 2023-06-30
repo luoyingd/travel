@@ -9,6 +9,7 @@ namespace c_web.Utils
         {
             // you need to register every model here
             SqlMapper.SetTypeMap(typeof(Password), new ColumnAttributeTypeMapper<Password>());
+            SqlMapper.SetTypeMap(typeof(User), new ColumnAttributeTypeMapper<User>());
         }
     }
 }

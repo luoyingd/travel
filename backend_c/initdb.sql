@@ -14,7 +14,8 @@ CREATE TABLE tb_user
   password varchar(20) NULL DEFAULT NULL,
   email varchar(50) NULL DEFAULT NULL,
   create_time datetime NOT NULL DEFAULT GETDATE(),
-  update_time datetime NOT NULL DEFAULT GETDATE()
+  update_time datetime NOT NULL DEFAULT GETDATE(),
+  [salt] NVARCHAR(20) Not NULL
 )
 GO
 

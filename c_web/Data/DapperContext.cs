@@ -5,22 +5,22 @@ namespace c_web.Data
 {
     public class DapperContext
     {
-         private readonly SqlConnection _connection;
+        private readonly SqlConnection _connection;
 
         public DapperContext(IConfiguration configuration)
         {
             _connection = new SqlConnection(configuration.GetConnectionString("db_server"));
         }
 
-        public IEnumerable<T> QueryData<T>(string sql)
+        public IEnumerable<T> QueryData<T>(string sql, DynamicParameters? dynamicParameters)
         {
-            return _connection.Query<T>(sql);
+            return _connection.Query<T>(sql, dynamicParameters);
         }
 
-        public void Execute(string sql)
+        public void Execute(string sql, DynamicParameters? dynamicParameters)
         {
-            _connection.Execute(sql);
-        } 
+            _connection.Execute(sql, dynamicParameters);
+        }
 
 
     }
