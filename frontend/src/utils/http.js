@@ -3,7 +3,7 @@ import { myToken } from "./auth";
 import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
 import { message } from "antd";
-const baseURL = "http://localhost:3000/api";
+const baseURL = "http://localhost:8090";
 const http = axios.create({
   baseURL: baseURL,
   timeout: 20000,
@@ -25,12 +25,13 @@ const responseSuccess = (response) => {
   const data = response.data;
   loadingStore.isLoading = false;
   if (data !== null) {
-    if (data.code !== 200) {
-      message.error(data.msg, [3]);
+    if (data.Code !== 200) {
+      message.error(data.Message, [3]);
+      // TODO
       if (data.code === 401) {
         history.push("/login");
       }
-      return Promise.reject(data.msg);
+      return Promise.reject(data.Message);
     }
   }
   return Promise.resolve(data);
