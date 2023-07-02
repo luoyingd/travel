@@ -13,7 +13,7 @@ const http = axios.create({
 const beforeRequest = (config) => {
   const token = myToken.getToken();
   if (token) {
-    config.headers["token"] = token;
+    config.headers["Authorization"] = "Bearer " + token;
   }
   loadingStore.isLoading = true;
   return config;
@@ -27,10 +27,6 @@ const responseSuccess = (response) => {
   if (data !== null) {
     if (data.code !== 200) {
       message.error(data.message, [3]);
-      // TODO:
-      // if (data.code === 401) {
-      //   history.push("/login");
-      // }
       return Promise.reject(data.message);
     }
   }
@@ -38,8 +34,12 @@ const responseSuccess = (response) => {
 };
 const responseFailed = (error) => {
   const { response } = error;
-
   if (response) {
+    console.log(response)
+    if (response.status === 401) {
+      message.error("Need Login!", [3]);
+      history.push("/login");
+    }
     return Promise.reject();
   } else if (!window.navigator.onLine) {
     return Promise.reject(new Error("Please check the Internet..."));
