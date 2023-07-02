@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Http.Headers;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,15 +28,12 @@ namespace backend.Controllers
             return R.OK(key);
         }
 
-        // [HttpGet("/common/photo/{key}")]
-        // public async Task<R> Photo(string key)
-        // {
-        //     var filePath = Path.Combine(Constant.Constant.BASE_DIR, key);
-        //     await FileUtil.SaveFile(filePath, file);
-        //     await FileUtil.WritingAnObjectAsync(key, filePath, _passwordRepository);
-        //     // delete file
-            
-        //     return R.OK(key);
-        // }
+        [HttpGet("/common/photo/{key}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> Photo(string key)
+        {
+            byte[] bytes = await _fileUtil.ReadObjectDataAsync(key);
+            return File(bytes, "image/png");
+        }
     }
 }

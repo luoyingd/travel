@@ -50,9 +50,9 @@ namespace backend.Utils
             }
         }
 
-        public async Task ReadObjectDataAsync(string key)
+        public async Task<byte[]> ReadObjectDataAsync(string key)
         {
-            string responseBody = "";
+            byte[]? bytes = null;
             try
             {
                 GetObjectRequest request = new GetObjectRequest
@@ -60,14 +60,11 @@ namespace backend.Utils
                     BucketName = Constant.Constant.AWS_BUCKET_NAME,
                     Key = key
                 };
-                using (GetObjectResponse response = await client.GetObjectAsync(request))
-                using (Stream responseStream = response.ResponseStream)
-                using (StreamReader reader = new StreamReader(responseStream))
+                GetObjectResponse response = await client.GetObjectAsync(request);
+                Stream responseStream = response.ResponseStream;
+                using (var binaryReader = new BinaryReader(responseStream))
                 {
-                    string contentType = response.Headers["Content-Type"];
-                    Console.WriteLine("Content type: {0}", contentType);
-
-                    responseBody = reader.ReadToEnd(); // Now you process the response body.
+                    bytes = binaryReader.ReadBytes((int)responseStream.Length);
                 }
             }
             catch (AmazonS3Exception e)
@@ -79,6 +76,7 @@ namespace backend.Utils
             {
                 Console.WriteLine("Unknown encountered on server. Message:'{0}' when reading object", e.Message);
             }
+            return bytes;
         }
     }
 
