@@ -28,7 +28,7 @@ namespace backend.Filters
                 {
                     r.Message = "service error";
                     r.Code = StatusCodes.Status500InternalServerError;
-                    Console.WriteLine(context.Exception.Message);
+                    Console.WriteLine(context.Exception);
                 }
                 context.Result = new ContentResult
                 {
