@@ -11,20 +11,6 @@ namespace backend.Repository
         {
             _dapperContext = dapperContext;
         }
-        public void AddPwd(Password password)
-        {
-            string sql = @"insert into [tb_password] ([client_id], [client_key], [google_api])
-            values ('" + password.ClientId + "',"
-             + "'" + password.ClientKey + "',"
-             + "'" + password.GoogleApi + "'" +
-            ")";
-            _dapperContext.Execute(sql, null);
-        }
-
-        public IEnumerable<Password> GetPwd()
-        {
-            return _dapperContext.QueryData<Password>("select * from [tb_password]", null);
-        }
 
         public User GetUser(string? email)
         {

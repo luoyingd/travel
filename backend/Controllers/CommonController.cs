@@ -1,5 +1,3 @@
-using System.Net;
-using System.Net.Http.Headers;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
