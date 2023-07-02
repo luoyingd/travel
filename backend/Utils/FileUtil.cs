@@ -7,9 +7,15 @@ namespace backend.Utils
 {
     public class FileUtil
     {
-        private static IAmazonS3? client;
+        private IAmazonS3? client;
 
-        public static async Task SaveFile(string filePath, IFormFile file)
+        public FileUtil(IPasswordRepository passwordRepository)
+        {
+            Models.Password password = passwordRepository.GetAwsPassword();
+            client = new AmazonS3Client(password.ClientId, password.ClientKey, Constant.Constant.AWS_CLIENT_REGION);
+        }
+
+        public async Task SaveFile(string filePath, IFormFile file)
         {
             if (file.Length > 0)
             {
@@ -18,11 +24,8 @@ namespace backend.Utils
             }
         }
 
-        public static async Task WritingAnObjectAsync(string key, string filePath, IPasswordRepository passwordRepository)
+        public async Task WritingAnObjectAsync(string key, string filePath)
         {
-            Models.Password password = passwordRepository.GetAwsPassword();
-            Console.WriteLine(filePath);
-            client = new AmazonS3Client(password.ClientId, password.ClientKey, Constant.Constant.AWS_CLIENT_REGION);
             try
             {
                 var putRequest1 = new PutObjectRequest
@@ -46,5 +49,38 @@ namespace backend.Utils
                     , e.Message);
             }
         }
+
+        public async Task ReadObjectDataAsync(string key)
+        {
+            string responseBody = "";
+            try
+            {
+                GetObjectRequest request = new GetObjectRequest
+                {
+                    BucketName = Constant.Constant.AWS_BUCKET_NAME,
+                    Key = key
+                };
+                using (GetObjectResponse response = await client.GetObjectAsync(request))
+                using (Stream responseStream = response.ResponseStream)
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    string contentType = response.Headers["Content-Type"];
+                    Console.WriteLine("Content type: {0}", contentType);
+
+                    responseBody = reader.ReadToEnd(); // Now you process the response body.
+                }
+            }
+            catch (AmazonS3Exception e)
+            {
+                // If bucket or object does not exist
+                Console.WriteLine("Error encountered ***. Message:'{0}' when reading object", e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Unknown encountered on server. Message:'{0}' when reading object", e.Message);
+            }
+        }
     }
+
 }
+

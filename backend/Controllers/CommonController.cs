@@ -1,7 +1,3 @@
-using System;
-using System.Security.AccessControl;
-using backend.Form;
-using backend.Repository.Common;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +8,10 @@ namespace backend.Controllers
     [ApiController]
     public class CommonController : ControllerBase
     {
-        private readonly IPasswordRepository _passwordRepository;
-        public CommonController(IPasswordRepository passwordRepository)
+        private readonly FileUtil _fileUtil;
+        public CommonController(FileUtil fileUtil)
         {
-            _passwordRepository = passwordRepository;
+            _fileUtil = fileUtil;
         }
 
         [HttpPost("/common/upload")]
@@ -23,10 +19,10 @@ namespace backend.Controllers
         {
             string key = Guid.NewGuid() + ".png";
             var filePath = Path.Combine(Constant.Constant.BASE_DIR, key);
-            await FileUtil.SaveFile(filePath, file);
-            await FileUtil.WritingAnObjectAsync(key, filePath, _passwordRepository);
+            await _fileUtil.SaveFile(filePath, file);
+            await _fileUtil.WritingAnObjectAsync(key, filePath);
             // delete file
-
+            System.IO.File.Delete(filePath);
             return R.OK(key);
         }
 

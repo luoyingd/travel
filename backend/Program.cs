@@ -37,6 +37,7 @@ builder.Services.AddCors((options) =>
 // 如果是需要每个请求一个实例, 用scoped
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddSingleton<FileUtil>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IPasswordRepository, PasswordRepository>();
