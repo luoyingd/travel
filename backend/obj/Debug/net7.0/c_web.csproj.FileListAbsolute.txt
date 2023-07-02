@@ -147,3 +147,5 @@
 /Users/dongluoying/Desktop/code/travel/backend/obj/Debug/net7.0/c_web.genruntimeconfig.cache
 /Users/dongluoying/Desktop/code/travel/backend/obj/Debug/net7.0/ref/c_web.dll
 /Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/AWSSDK.Core.dll
+/Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/AWSSDK.S3.dll

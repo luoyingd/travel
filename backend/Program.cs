@@ -1,13 +1,11 @@
-using System.Security.Cryptography;
 using System.Text;
-using backend.Controllers;
 using backend.Data;
 using backend.Filters;
 using backend.Repository;
+using backend.Repository.Common;
 using backend.Service.User;
 using backend.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +39,7 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IPasswordRepository, PasswordRepository>();
 
 // set up authentication of jwt
 // frontend need to set Authorization = Bearer {token} in headers

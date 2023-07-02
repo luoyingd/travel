@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "nFsdPHorcAQDqmcD40VABy30VFW9lTADALPqvnvi9D2WiEnsz1D2r0Kxi0c+N6Uwlsy5VdL0PRMxSjg7wUB3gQ==",
+  "dgSpecHash": "bmfbpuhpH/JVVNKNSxN4qjJzzIATS/U53xQfyLJx2tpCL91Sler7Z2hSlWInCiXaXnRnCt8QgFFTNmNhGoh4MA==",
   "success": true,
   "projectFilePath": "/Users/dongluoying/Desktop/code/travel/backend/c_web.csproj",
   "expectedPackageFiles": [
     "/Users/dongluoying/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
+    "/Users/dongluoying/.nuget/packages/awssdk.core/3.7.107.8/awssdk.core.3.7.107.8.nupkg.sha512",
+    "/Users/dongluoying/.nuget/packages/awssdk.s3/3.7.107/awssdk.s3.3.7.107.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
     "/Users/dongluoying/.nuget/packages/dapper/2.0.143/dapper.2.0.143.nupkg.sha512",

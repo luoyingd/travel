@@ -62,7 +62,7 @@ const PhotoWall = () => {
       let formData = new FormData();
       formData.append("file", file);
       http
-        .post("/common/uploadPhoto", formData)
+        .post("/common/upload", formData)
         .then((res) => {
           noteStore.photoKeys.push(res.data);
           // find the file and replace status
