@@ -2,31 +2,33 @@ import { Button, Radio, Input } from "antd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AddNote from "./add";
-import { AudioOutlined } from "@ant-design/icons";
 import NoteCard from "./card";
-import { Empty } from "antd";
+import { Empty, Carousel } from "antd";
+import { categories } from "../../utils/constant";
 function Notes() {
+  const { Search } = Input;
   const [params] = useSearchParams();
   const id = params.get("id");
   const [openAdd, setOpenAdd] = useState(false);
   const [key, setKey] = useState(0);
-  const [value, setValue] = useState(1);
-  const { Search } = Input;
   const [list, setList] = useState([]);
-  const suffix = (
-    <AudioOutlined
-      style={{
-        fontSize: 16,
-        color: "#1677ff",
-      }}
-    />
-  );
+  const [keyWord, setKeyWord] = useState(params.get("keyWord"));
+  const [filter, setFilter] = useState(params.get("filter") ? params.get("filter") : 1);
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
-    setValue(e.target.value);
+    setFilter(e.target.value);
+    // TODO: load data
   };
-  const onSearch = (value) => console.log(value);
-  useEffect(() => {}, []);
+  const onSearch = (value) => {
+    setKeyWord(value);
+    // TODO: load data
+  };
+  const onCategoryChange = (currentSlide) => {
+    console.log(currentSlide);
+  };
+  useEffect(() => {
+    // TODO: load data
+  }, []);
   return (
     <div>
       <body>
@@ -63,20 +65,25 @@ function Notes() {
 
         <AddNote isOpen={openAdd} key={key}></AddNote>
 
-        <header class="bg-dark py-5">
-          <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white">
-              <h1 class="display-4 fw-bolder">Shop in style</h1>
-              <p class="lead fw-normal text-white-50 mb-0">
-                With this shop hompeage template
-              </p>
-            </div>
-          </div>
-        </header>
+        <Carousel afterChange={onCategoryChange}>
+          {categories.map((category) => {
+            return (
+              <header
+                className={"py-5 bg-category-" + category.name}
+              >
+                <div class="container px-4 px-lg-5 my-5">
+                  <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">{category.name}</h1>
+                  </div>
+                </div>
+              </header>
+            );
+          })}
+        </Carousel>
 
         <section class="py-5">
           <div style={{ paddingLeft: 60 }} class="container px-lg-5">
-            <Radio.Group onChange={onChange} value={value}>
+            <Radio.Group onChange={onChange} value={filter}>
               <Radio value={1}>Hottest</Radio>
               <Radio value={2}>Most Recent</Radio>
             </Radio.Group>
@@ -86,6 +93,7 @@ function Notes() {
               style={{
                 width: 300,
               }}
+              value={keyWord}
             />
           </div>
           <div class="container px-4 px-lg-5 mt-5">

@@ -1,9 +1,3 @@
-import nature from "../../assets/img/category/nature.png";
-import city from "../../assets/img/category/city.jpeg";
-import entertainment from "../../assets/img/category/entertainment.jpeg";
-import meseum from "../../assets/img/category/meseum.webp";
-import shopping from "../../assets/img/category/shopping.jpeg";
-import adventure from "../../assets/img/category/adventure.webp";
 import { categories } from "../../utils/constant";
 function Category() {
   return (
@@ -16,9 +10,9 @@ function Category() {
             href="../../assets/img/portfolio/fullsize/1.jpg"
             title="Project Name"
           >
-            <img class="img-fluid" src={meseum} alt="..." />
+            <img class="img-fluid" src={categories[0].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">{categories[0]}</div>
+              <div class="project-name">{categories[0].name}</div>
             </div>
           </a>
         </div>
@@ -28,9 +22,9 @@ function Category() {
             href="../../assets/img/portfolio/fullsize/2.jpg"
             title="Project Name"
           >
-            <img class="img-fluid" src={city} alt="..." />
+            <img class="img-fluid" src={categories[1].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">{categories[1]}</div>
+              <div class="project-name">{categories[1].name}</div>
             </div>
           </a>
         </div>
@@ -40,9 +34,9 @@ function Category() {
             href="../../assets/img/portfolio/fullsize/3.jpg"
             title="Project Name"
           >
-            <img class="img-fluid" src={shopping} alt="..." />
+            <img class="img-fluid" src={categories[2].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">{categories[2]}</div>
+              <div class="project-name">{categories[2].name}</div>
             </div>
           </a>
         </div>
@@ -52,17 +46,17 @@ function Category() {
             href="../../assets/img/portfolio/fullsize/4.jpg"
             title="Project Name"
           >
-            <img class="img-fluid" src={adventure} alt="..." />
+            <img class="img-fluid" src={categories[3].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">{categories[3]}</div>
+              <div class="project-name">{categories[3].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
           <a class="portfolio-box" href="" title="Nature">
-            <img class="img-fluid" src={entertainment} alt="..." />
+            <img class="img-fluid" src={categories[4].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">{categories[4]}</div>
+              <div class="project-name">{categories[4].name}</div>
             </div>
           </a>
         </div>
@@ -72,9 +66,9 @@ function Category() {
             href="../../assets/img/portfolio/fullsize/6.jpg"
             title="Project Name"
           >
-            <img class="img-fluid" src={nature} alt="..." />
+            <img class="img-fluid" src={categories[5].src} alt="..." />
             <div class="portfolio-box-caption p-3">
-              <div class="project-name">{categories[5]}</div>
+              <div class="project-name">{categories[5].name}</div>
             </div>
           </a>
         </div>
