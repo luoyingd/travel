@@ -25,13 +25,13 @@ const responseSuccess = (response) => {
   const data = response.data;
   loadingStore.isLoading = false;
   if (data !== null) {
-    if (data.Code !== 200) {
-      message.error(data.Message, [3]);
-      // TODO
-      if (data.code === 401) {
-        history.push("/login");
-      }
-      return Promise.reject(data.Message);
+    if (data.code !== 200) {
+      message.error(data.message, [3]);
+      // TODO:
+      // if (data.code === 401) {
+      //   history.push("/login");
+      // }
+      return Promise.reject(data.message);
     }
   }
   return Promise.resolve(data);

@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using backend.Utils;
 using backend.Response.VO.User;
 using backend.Exceptions;
+using Newtonsoft.Json;
 
 namespace backend.Service.User
 {
@@ -15,23 +16,69 @@ namespace backend.Service.User
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
-        public UserService(IConfiguration configuration, IUserRepository userRepository)
+        private readonly ILogger _logger;
+        private readonly HttpClient _httpClient;
+        public UserService(IConfiguration configuration, IUserRepository userRepository,
+        ILogger<UserService> logger, HttpClient httpClient)
         {
             _configuration = configuration;
             _userRepository = userRepository;
+            _logger = logger;
+            _httpClient = httpClient;
         }
 
         public UserLoginVO Login(UserLoginForm userLoginForm)
         {
-            Models.User user = _userRepository.GetUser(userLoginForm.Email);
-            string? salt = user.Salt;
-            // TODO
-            Console.WriteLine(PasswordEncrypt.Encrypt(userLoginForm.Password, _configuration, salt));
+            Models.User curUser;
+            if (userLoginForm.IsFromGoogle)
+            {
+                if (userLoginForm.AccessToken.IsNullOrEmpty())
+                {
+                    throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+                }
+                var response = _httpClient.GetStringAsync(Constant.Constant.GOOGLE_INFO_URL + userLoginForm.AccessToken) ?? throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+                _logger.LogInformation("Google Info response {response}",
+                            response.Result);
+                // check user status, if not exists, create new one
+                GoogleUserResponse googleUserResponse =
+                JsonConvert.DeserializeObject<GoogleUserResponse>(response.Result);
+                UserRegisterForm userRegisterForm = new()
+                {
+                    Email = googleUserResponse.Email,
+                    FirstName = googleUserResponse.Given_name,
+                    LastName = googleUserResponse.Family_name
+                };
+                _logger.LogInformation("UserRegisterForm {email}, {FirstName}, {LastName}",
+                           userRegisterForm.Email, userRegisterForm.FirstName,
+                           userRegisterForm.LastName);
+                Models.User user = _userRepository.GetUser(userRegisterForm.Email);
+                if (user == null)
+                {
+                    userRegisterForm.Password = "000000";
+                    RegisterUser(userRegisterForm);
+                }
+                curUser = _userRepository.GetUser(userRegisterForm.Email);
+            }
+            else
+            {
+                if (userLoginForm.Password.IsNullOrEmpty()
+                    || userLoginForm.Email.IsNullOrEmpty())
+                {
+                    throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+                }
+                curUser = _userRepository.GetUser(userLoginForm.Email) ?? throw new CustomException(CodeAndMsg.USER_WRONG_EMAIL);
+                string? salt = curUser.Salt;
+                string pwd = PasswordEncrypt.Encrypt(userLoginForm.Password, _configuration, salt);
+                if (pwd != curUser.Password)
+                {
+                    throw new CustomException(CodeAndMsg.USER_WRONG_PWD);
+                }
+            }
             // return a token
-            string token = GetToken(user.Id);
+            string token = GetToken(curUser.Id);
             UserLoginVO userLoginVO = new()
             {
-                UserId = user.Id,
+                UserId = curUser.Id,
                 Token = token
             };
             return userLoginVO;
@@ -39,6 +86,13 @@ namespace backend.Service.User
 
         public void RegisterUser(UserRegisterForm userRegisterForm)
         {
+            if (userRegisterForm.Email.IsNullOrEmpty() ||
+            userRegisterForm.LastName.IsNullOrEmpty() ||
+            userRegisterForm.FirstName.IsNullOrEmpty() ||
+            userRegisterForm.Password.IsNullOrEmpty())
+            {
+                throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+            }
             Models.User user = _userRepository.GetUser(userRegisterForm.Email);
             if (user != null)
             {
@@ -81,6 +135,17 @@ namespace backend.Service.User
             JwtSecurityTokenHandler securityTokenHandler = new();
             SecurityToken securityToken = securityTokenHandler.CreateToken(securityTokenDescriptor);
             return securityTokenHandler.WriteToken(securityToken);
+        }
+
+        class GoogleUserResponse
+        {
+            private string? given_name;
+            private string? family_name;
+            private string? email;
+
+            public string? Given_name { get => given_name; set => given_name = value; }
+            public string? Family_name { get => family_name; set => family_name = value; }
+            public string? Email { get => email; set => email = value; }
         }
     }
 }

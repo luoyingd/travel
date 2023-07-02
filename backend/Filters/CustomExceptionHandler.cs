@@ -3,11 +3,16 @@ using backend.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace backend.Filters
 {
     public class CustomExceptionHandler : IAsyncExceptionFilter
     {
+        private readonly JsonSerializerSettings serializerSettings = new()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
         public Task OnExceptionAsync(ExceptionContext context)
         {
             if (context.ExceptionHandled == false)
@@ -23,12 +28,13 @@ namespace backend.Filters
                 {
                     r.Message = "service error";
                     r.Code = StatusCodes.Status500InternalServerError;
+                    Console.WriteLine(context.Exception.Message);
                 }
                 context.Result = new ContentResult
                 {
                     StatusCode = StatusCodes.Status200OK,
                     ContentType = "application/json;charset=utf-8",
-                    Content = JsonConvert.SerializeObject(r)
+                    Content = JsonConvert.SerializeObject(r, Formatting.None, serializerSettings)
                 };
             }
             context.ExceptionHandled = true;

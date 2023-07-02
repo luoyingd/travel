@@ -35,7 +35,7 @@ namespace backend.Repository
             DynamicParameters dynamicParameters = new();
             dynamicParameters.Add("email", email);
             string sql = "select * from tb_user where email = @email";
-            return _dapperContext.QueryData<User>(sql, dynamicParameters).First();
+            return _dapperContext.QueryData<User>(sql, dynamicParameters).FirstOrDefault();
         }
 
         public void RegisterUser(User user)

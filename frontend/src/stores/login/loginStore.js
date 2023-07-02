@@ -6,6 +6,7 @@ class LoginStore {
   login = async (data) => {
     try {
       const result = await http.post("/user/login", {
+        isFromGoogle: false,
         email: data.email,
         password: data.password,
       });
