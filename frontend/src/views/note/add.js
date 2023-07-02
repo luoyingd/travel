@@ -77,7 +77,7 @@ function AddNote({ isOpen, key }) {
               >
                 <Select
                   options={categories.map((item) => {
-                    return { value: item, label: item };
+                    return { value: item.name, label: item.name };
                   })}
                   placeholder="Please select a category"
                 />

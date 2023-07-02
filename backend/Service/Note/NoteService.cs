@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using backend.Exceptions;
 using backend.Form;
 using backend.Repository.Note;
+using backend.Response.VO.Note;
 using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Service.Note
@@ -50,6 +47,14 @@ namespace backend.Service.Note
                 note.Photos = keys.ToString(0, keys.Length - 1);
             }
             _noteRepository.AddNote(note);
+        }
+
+        public NoteListVO GetNoteInfoList(SearchNoteForm searchNoteForm)
+        {
+            searchNoteForm.Offset = (searchNoteForm.Offset - 1) * searchNoteForm.Size;
+            IEnumerable<NoteInfoVO> noteInfoVOs = _noteRepository.GetNoteInfoList(searchNoteForm);
+            int total = _noteRepository.GetNoteListTotal(searchNoteForm);
+            return new NoteListVO() { Notes = noteInfoVOs, Total = total };
         }
     }
 }

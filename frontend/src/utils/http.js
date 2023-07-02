@@ -1,5 +1,5 @@
 import axios from "axios";
-import { myToken } from "./auth";
+import { myToken, myUser } from "./auth";
 import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
 import { message } from "antd";
@@ -38,6 +38,8 @@ const responseFailed = (error) => {
     console.log(response)
     if (response.status === 401) {
       message.error("Need Login!", [3]);
+      myToken.clearToken();
+      myUser.clearUserId();
       history.push("/login");
     }
     return Promise.reject();

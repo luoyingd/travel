@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AddNote from "./add";
 import NoteCard from "./card";
-import { Empty, Carousel } from "antd";
+import { Empty, Carousel, Pagination } from "antd";
 import { categories } from "../../utils/constant";
 function Notes() {
   const { Search } = Input;
@@ -13,7 +13,9 @@ function Notes() {
   const [key, setKey] = useState(0);
   const [list, setList] = useState([]);
   const [keyWord, setKeyWord] = useState(params.get("keyWord"));
-  const [filter, setFilter] = useState(params.get("filter") ? params.get("filter") : 1);
+  const [filter, setFilter] = useState(
+    params.get("filter") ? params.get("filter") : 1
+  );
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setFilter(e.target.value);
@@ -25,6 +27,10 @@ function Notes() {
   };
   const onCategoryChange = (currentSlide) => {
     console.log(currentSlide);
+  };
+  const onPageChange = (page, pageSize) => {
+    console.log(page);
+    console.log(pageSize);
   };
   useEffect(() => {
     // TODO: load data
@@ -68,9 +74,7 @@ function Notes() {
         <Carousel afterChange={onCategoryChange}>
           {categories.map((category) => {
             return (
-              <header
-                className={"py-5 bg-category-" + category.name}
-              >
+              <header className={"py-5 bg-category-" + category.name}>
                 <div class="container px-4 px-lg-5 my-5">
                   <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">{category.name}</h1>
@@ -109,6 +113,13 @@ function Notes() {
               )}
             </div>
           </div>
+          <Pagination
+            style={{ textAlign: "right", marginRight: 50 }}
+            defaultCurrent={1}
+            total={16}
+            pageSize={8}
+            onChange={onPageChange}
+          />
         </section>
 
         <footer class="bg-light py-5">

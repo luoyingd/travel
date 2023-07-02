@@ -23,6 +23,8 @@ class NoteStore {
     return null;
   };
 
+  // loadNotes = async({category, })
+
   constructor() {
     makeAutoObservable(this);
   }
