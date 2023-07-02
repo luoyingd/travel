@@ -20,7 +20,9 @@ namespace backend.Repository.Common
 
         public string GetGoogleApi()
         {
-            throw new NotImplementedException();
+            string sql = "select [google_api] from [tb_password] where id = 1";
+            IEnumerable<string> passwords = _dapperContext.QueryData<string>(sql, null);
+            return passwords.FirstOrDefault();
         }
     }
 }

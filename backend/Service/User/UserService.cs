@@ -143,8 +143,11 @@ namespace backend.Service.User
             private string? family_name;
             private string? email;
 
+            [JsonProperty("given_name")]
             public string? Given_name { get => given_name; set => given_name = value; }
+            [JsonProperty("family_name")]
             public string? Family_name { get => family_name; set => family_name = value; }
+            [JsonProperty("email")]
             public string? Email { get => email; set => email = value; }
         }
     }

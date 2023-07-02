@@ -1,3 +1,4 @@
+using backend.Service.Common;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,20 +10,17 @@ namespace backend.Controllers
     public class CommonController : ControllerBase
     {
         private readonly FileUtil _fileUtil;
-        public CommonController(FileUtil fileUtil)
+        private readonly ICommonService _commonService;
+        public CommonController(FileUtil fileUtil, ICommonService commonService)
         {
             _fileUtil = fileUtil;
+            _commonService = commonService;
         }
 
         [HttpPost("/common/upload")]
         public async Task<R> Upload(IFormFile file)
         {
-            string key = Guid.NewGuid() + ".png";
-            var filePath = Path.Combine(Constant.Constant.BASE_DIR, key);
-            await _fileUtil.SaveFile(filePath, file);
-            await _fileUtil.WritingAnObjectAsync(key, filePath);
-            // delete file
-            System.IO.File.Delete(filePath);
+            string key = await _commonService.Upload(file, _fileUtil);
             return R.OK(key);
         }
 
@@ -32,6 +30,12 @@ namespace backend.Controllers
         {
             byte[] bytes = await _fileUtil.ReadObjectDataAsync(key);
             return File(bytes, "image/png");
+        }
+
+        [HttpGet("/common/getMapResult/{input}")]
+        public R getMapResult(string input)
+        {
+            return R.OK(_commonService.GetMapResult(input));
         }
     }
 }
