@@ -5,6 +5,7 @@ using backend.Repository;
 using backend.Repository.Common;
 using backend.Repository.Note;
 using backend.Service.Common;
+using backend.Service.Note;
 using backend.Service.User;
 using backend.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +46,7 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IPasswordRepository, PasswordRepository>();
 builder.Services.AddSingleton<ICommonService, CommonService>();
 builder.Services.AddSingleton<INoteRepository, NoteRepository>();
+builder.Services.AddSingleton<INoteService, NoteService>();
 
 // set up authentication of jwt
 // frontend need to set Authorization = Bearer {token} in headers
