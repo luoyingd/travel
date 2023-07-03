@@ -42,13 +42,18 @@ namespace backend.Repository.Note
             string sql = @"select n.id as id, n.title as title, n.photos as photos, 
             n.likes as likes, n.content as content,
             u.first_name as firstName, u.last_name as lastName,
+            u.id as authorId,
             n.address as address, n.address_code as addressCode 
             from [tb_note] as n, [tb_user] as u
             where n.user_id = u.id and n.category = @category ";
             if (!searchNoteForm.KeyWord.IsNullOrEmpty())
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
-                sql += "and (n.title like @keyWord or n.content like @keyWord) ";
+                sql += @"and (n.title like @keyWord 
+                or n.content like @keyWord 
+                or n.address like @keyWord
+                or u.first_name like @keyWord
+                or u.last_name like @keyWord) ";
             }
             if (searchNoteForm.UserId != 0)
             {
@@ -75,7 +80,11 @@ namespace backend.Repository.Note
             if (!searchNoteForm.KeyWord.IsNullOrEmpty())
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
-                sql += "and (title like @keyWord or content like @keyWord) ";
+                sql += @"and (n.title like @keyWord 
+                or n.content like @keyWord 
+                or n.address like @keyWord
+                or u.first_name like @keyWord
+                or u.last_name like @keyWord) ";
             }
             if (searchNoteForm.UserId != 0)
             {

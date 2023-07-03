@@ -16,6 +16,7 @@ namespace backend.Response.VO.Note
         private string? _content;
         private string? _firstName;
         private string? _lastName;
+        private int _authorId;
 
         public int Id { get => _id; set => _id = value; }
         public string? Title { get => _title; set => _title = value; }
@@ -26,5 +27,6 @@ namespace backend.Response.VO.Note
         public string? Photos { get => _photos; set => _photos = value; }
         public string? Address { get => _address; set => _address = value; }
         public string? AddressCode { get => _addressCode; set => _addressCode = value; }
+        public int AuthorId { get => _authorId; set => _authorId = value; }
     }
 }
