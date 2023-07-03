@@ -38,15 +38,15 @@ builder.Services.AddCors((options) =>
 
 // add singleton for interface and implementation here. same instance for the entire app
 // 如果是需要每个请求一个实例, 用scoped
-builder.Services.AddSingleton<DapperContext>();
-builder.Services.AddSingleton<HttpClient>();
-builder.Services.AddSingleton<FileUtil>();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<IUserService, UserService>();
-builder.Services.AddSingleton<IPasswordRepository, PasswordRepository>();
-builder.Services.AddSingleton<ICommonService, CommonService>();
-builder.Services.AddSingleton<INoteRepository, NoteRepository>();
-builder.Services.AddSingleton<INoteService, NoteService>();
+builder.Services.AddScoped<DapperContext>();
+builder.Services.AddScoped<HttpClient>();
+builder.Services.AddScoped<FileUtil>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
+builder.Services.AddScoped<ICommonService, CommonService>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 // set up authentication of jwt
 // frontend need to set Authorization = Bearer {token} in headers
