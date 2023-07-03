@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { myUser } from "../../utils/auth";
 function Home() {
   return (
     <div>
@@ -51,7 +52,7 @@ function Home() {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/note?id=1">
+                  <a class="nav-link" href={"/note?id=" + myUser.getUserId()}>
                     My Notes
                   </a>
                 </li>
