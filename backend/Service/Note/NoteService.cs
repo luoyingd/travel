@@ -1,9 +1,11 @@
 using System.Text;
 using backend.Exceptions;
 using backend.Form;
+using backend.Repository.Common;
 using backend.Repository.Note;
 using backend.Response.VO.Note;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace backend.Service.Note
 {
@@ -11,10 +13,15 @@ namespace backend.Service.Note
     {
         private readonly INoteRepository _noteRepository;
         private readonly ILogger _logger;
-        public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger)
+        private readonly IPasswordRepository _passwordRepository;
+        private readonly HttpClient _httpClient;
+        public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger,
+        IPasswordRepository passwordRepository, HttpClient httpClient)
         {
             _logger = logger;
             _noteRepository = noteRepository;
+            _passwordRepository = passwordRepository;
+            _httpClient = httpClient;
         }
 
         public void Add(AddNoteForm addNoteForm)
@@ -49,6 +56,26 @@ namespace backend.Service.Note
             _noteRepository.AddNote(note);
         }
 
+        public NoteInfoVO GetNoteInfo(int id)
+        {
+            NoteInfoVO noteInfoVO = _noteRepository.GetNoteInfo(id);
+            string key = _passwordRepository.GetGoogleApi();
+            string url = Constant.Constant.GOOGLE_MAP_URL
+            + noteInfoVO.AddressCode + "&key=" + key;
+            var response = _httpClient.GetStringAsync(url);
+            _logger.LogInformation("google map response: {}", response.Result);
+            if (response != null)
+            {
+                MapResult mapResult = JsonConvert.DeserializeObject<MapResult>(response.Result);
+                noteInfoVO.AddressCode = mapResult.Result.Url;
+            }
+            else
+            {
+                noteInfoVO.AddressCode = null;
+            }
+            return noteInfoVO;
+        }
+
         public NoteListVO GetNoteInfoList(SearchNoteForm searchNoteForm)
         {
             searchNoteForm.Offset = (searchNoteForm.Offset - 1) * searchNoteForm.Size;
@@ -56,5 +83,20 @@ namespace backend.Service.Note
             int total = _noteRepository.GetNoteListTotal(searchNoteForm);
             return new NoteListVO() { Notes = noteInfoVOs, Total = total };
         }
+    }
+
+    class MapResult
+    {
+        private Address? result;
+
+        public Address? Result { get => result; set => result = value; }
+    }
+
+    class Address
+    {
+        private string? _url;
+
+        [JsonProperty("url")]
+        public string? Url { get => _url; set => _url = value; }
     }
 }

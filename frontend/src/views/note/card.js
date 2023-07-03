@@ -1,8 +1,12 @@
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { baseURL } from "../../utils/http";
 import { Card, Col} from "antd";
+import history from "../../utils/history";
 function NoteCard({ item }) {
   const { Meta } = Card;
+  const toInfo = () => {
+    history.push("/note/info?id=" + item.id);
+  }
   return (
     <Col span={8}>
       <Card
@@ -21,6 +25,7 @@ function NoteCard({ item }) {
             }
           />
         }
+        onClick={toInfo}
       >
         {item.likes > 20 ? (
           <div

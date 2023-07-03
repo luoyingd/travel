@@ -33,6 +33,20 @@ namespace backend.Repository.Note
             _dapperContext.Execute(sql, dynamicParameters);
         }
 
+        public NoteInfoVO GetNoteInfo(int id)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("id", id);
+            string sql = @"select n.title as title, n.photos as photos, 
+            n.likes as likes, n.content as content,
+            u.first_name as firstName, u.last_name as lastName,
+            u.id as authorId,
+            n.address as address, n.address_code as addressCode 
+            from [tb_note] as n, [tb_user] as u
+            where n.id = @id and n.user_id = u.id";
+            return _dapperContext.QueryData<NoteInfoVO>(sql, dynamicParameters).FirstOrDefault();
+        }
+
         public IEnumerable<NoteInfoVO> GetNoteInfoList(SearchNoteForm searchNoteForm)
         {
             DynamicParameters dynamicParameters = new();
@@ -40,12 +54,10 @@ namespace backend.Repository.Note
             dynamicParameters.Add("size", searchNoteForm.Size);
             dynamicParameters.Add("category", searchNoteForm.Category);
             string sql = @"select n.id as id, n.title as title, n.photos as photos, 
-            n.likes as likes, n.content as content,
-            u.first_name as firstName, u.last_name as lastName,
-            u.id as authorId,
+            n.likes as likes,
             n.address as address, n.address_code as addressCode 
-            from [tb_note] as n, [tb_user] as u
-            where n.user_id = u.id and n.category = @category ";
+            from [tb_note] as n join [tb_user] as u
+            on n.user_id = u.id where n.category = @category ";
             if (!searchNoteForm.KeyWord.IsNullOrEmpty())
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
@@ -76,7 +88,8 @@ namespace backend.Repository.Note
         {
             DynamicParameters dynamicParameters = new();
             dynamicParameters.Add("category", searchNoteForm.Category);
-            string sql = "select count(id) from tb_note where category = @category ";
+            string sql = @"select count(n.id) from [tb_note] as n join [tb_user] as u 
+            on n.user_id = u.id where n.category = @category ";
             if (!searchNoteForm.KeyWord.IsNullOrEmpty())
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
@@ -89,7 +102,7 @@ namespace backend.Repository.Note
             if (searchNoteForm.UserId != 0)
             {
                 dynamicParameters.Add("userId", searchNoteForm.UserId);
-                sql += "and user_id = @userId  ";
+                sql += "and n.user_id = @userId  ";
             }
             return _dapperContext.QueryData<int>(sql, dynamicParameters).FirstOrDefault();
         }

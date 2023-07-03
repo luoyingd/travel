@@ -4449,6 +4449,18 @@ fieldset:disabled .btn {
   height: 200px;
 }
 
+.info-box {
+  width:50%;
+  height:100%;
+  margin:0 auto;
+  overflow: hidden;
+}
+.card-img-info {
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .card-antd{
   height: 100%
 }

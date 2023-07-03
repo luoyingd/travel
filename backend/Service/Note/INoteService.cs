@@ -11,5 +11,6 @@ namespace backend.Service.Note
     {
         void Add(AddNoteForm addNoteForm);
         NoteListVO GetNoteInfoList(SearchNoteForm searchNoteForm);
+        NoteInfoVO GetNoteInfo(int id);
     }
 }

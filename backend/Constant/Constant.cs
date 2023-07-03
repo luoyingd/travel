@@ -16,5 +16,6 @@ namespace backend.Constant
         public static readonly string BASE_DIR = System.Environment.CurrentDirectory + "/tmp_file";
         public static readonly string GOOGLE_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=";
         public static readonly string GOOGLE_ADDRESS_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=";
+        public static readonly string GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
     }
 }

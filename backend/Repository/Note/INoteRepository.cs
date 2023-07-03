@@ -10,5 +10,7 @@ namespace backend.Repository.Note
          public IEnumerable<NoteInfoVO> GetNoteInfoList(SearchNoteForm searchNoteForm);
 
          public int GetNoteListTotal(SearchNoteForm searchNoteForm);
+
+         public NoteInfoVO GetNoteInfo(int id);
     }
 }

@@ -28,5 +28,11 @@ namespace backend.Controllers
         {
             return R.OK(_noteService.GetNoteInfoList(searchNoteForm));
         }
+
+        [HttpGet("/note/{id}")]
+        public R GetInfo(int id)
+        {
+            return R.OK(_noteService.GetNoteInfo(id));
+        }
     }
 }

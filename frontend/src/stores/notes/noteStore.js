@@ -18,6 +18,18 @@ class NoteStore {
     total: 0,
     list: [],
   };
+  noteInfo = {
+    address: null,
+    addressCode: null,
+    authorId: 0,
+    content: null,
+    firstName: null,
+    id: 0,
+    lastName: null,
+    likes: 0,
+    photos: null,
+    title: null,
+  };
   addNote = async ({ title, description, category }) => {
     let data = {
       title: title,
@@ -33,6 +45,15 @@ class NoteStore {
       return result;
     } catch (e) {}
     return null;
+  };
+
+  loadNote = (id) => {
+    http
+      .get("/note/" + id)
+      .then((res) => {
+        this.noteInfo = res.data;
+      })
+      .catch((err) => {});
   };
 
   loadNotes = ({ filter, category, keyWord, page, userId }) => {

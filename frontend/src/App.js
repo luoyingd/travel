@@ -11,6 +11,7 @@ import SendResetMail from "./views/login/resetPwd";
 import ConfirmResetPwd from "./views/login/confirmResetPwd";
 import Notes from "./views/note";
 import AuthLogin from "./components/authLogin";
+import NoteInfo from "./views/note/info";
 
 function App() {
   return (
@@ -32,34 +33,24 @@ function App() {
             ></Route>
           </Route>
           {/* use high-level component for auth */}
-          <Route
-            path="/note"
-            element={
-              <AuthLogin>
-                <Notes></Notes>
-              </AuthLogin>
-            }
-          >
-            {" "}
+          <Route path="/note">
+            <Route
+              index
+              element={
+                <AuthLogin>
+                  <Notes></Notes>
+                </AuthLogin>
+              }
+            ></Route>
+            <Route
+              path="info"
+              element={
+                <AuthLogin>
+                  <NoteInfo></NoteInfo>
+                </AuthLogin>
+              }
+            ></Route>
           </Route>
-          {/* <Route path="list">
-              <Route
-                index
-                element={
-                  <AuthLogin>
-                    <Blog></Blog>
-                  </AuthLogin>
-                }
-              ></Route> */}
-          {/* <Route
-                path="info/:id"
-                element={
-                  <AuthLogin>
-                    <BlogInfo></BlogInfo>
-                  </AuthLogin>
-                }
-              ></Route> */}
-          {/* </Route> */}
           {/* 404配置 */}
           <Route path="*" element={<Error></Error>}></Route>
         </Routes>
