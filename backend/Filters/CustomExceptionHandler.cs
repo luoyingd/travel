@@ -9,11 +9,6 @@ namespace backend.Filters
 {
     public class CustomExceptionHandler : IAsyncExceptionFilter
     {
-        private ILogger _logger;
-        public CustomExceptionHandler(ILogger<CustomExceptionHandler> logger)
-        {
-            _logger = logger;
-        }
         private readonly JsonSerializerSettings serializerSettings = new()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -33,7 +28,7 @@ namespace backend.Filters
                 {
                     r.Message = "service error";
                     r.Code = StatusCodes.Status500InternalServerError;
-                    _logger.LogError("System Error: {}", context.Exception);
+                    Console.WriteLine(context.Exception);
                 }
                 context.Result = new ContentResult
                 {
