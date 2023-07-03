@@ -1,13 +1,13 @@
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { baseURL } from "../../utils/http";
-import { Card, Col } from "antd";
+import { Card, Col} from "antd";
 function NoteCard({ item }) {
   const { Meta } = Card;
   return (
     <Col span={8}>
       <Card
         style={{
-          width: 320
+          width: 320,
         }}
         className="card-antd"
         cover={
@@ -22,8 +22,20 @@ function NoteCard({ item }) {
           />
         }
       >
+        {item.likes > 20 ? (
+          <div
+            class="badge bg-danger text-white position-absolute"
+            style={{ top: 0.5, right: 0.5 }}
+          >
+            Hot
+          </div>
+        ) : null}
         <Meta
-          title={<div className="text-center" title={item.title}>{item.title}</div>}
+          title={
+            <div className="text-center" title={item.title}>
+              {item.title}
+            </div>
+          }
           description={
             <div class="text-center form-text">
               <LocationOnIcon></LocationOnIcon>
