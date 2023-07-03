@@ -33,7 +33,7 @@ function Notes() {
   const onChange = (e) => {
     let filter = e.target.value;
     setFilterOption(e.target.value);
-    noteStore.loadNotes({ filter, userId });
+    noteStore.loadNotes({ filter, userId, keyWord });
   };
   const onSearch = (value) => {
     let keyWord = value;
@@ -42,10 +42,10 @@ function Notes() {
   };
   const onCategoryChange = (currentSlide) => {
     let category = categories[currentSlide].name;
-    noteStore.loadNotes({ category, userId });
+    noteStore.loadNotes({ category, userId, keyWord });
   };
   const onPageChange = (page, pageSize) => {
-    noteStore.loadNotes({ page, userId });
+    noteStore.loadNotes({ page, userId, keyWord });
   };
   useEffect(() => {
     let filter = params.get("filterOption")
