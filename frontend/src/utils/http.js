@@ -40,7 +40,7 @@ const responseFailed = (error) => {
       message.error("Need Login!", [3]);
       myToken.clearToken();
       myUser.clearUserId();
-      history.push("/login");
+      history.push("/");
     }
     return Promise.reject();
   } else if (!window.navigator.onLine) {

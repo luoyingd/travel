@@ -7,7 +7,7 @@ function AuthLogin({ children }) {
     return <>{children}</>;
   }
   message.error("Need login!", [3]);
-  return <Navigate to="/login" replace={true}></Navigate>;
+  return <Navigate to="/" replace={true}></Navigate>;
 }
 
 export default AuthLogin;
