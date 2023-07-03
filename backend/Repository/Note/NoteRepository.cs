@@ -41,13 +41,19 @@ namespace backend.Repository.Note
             dynamicParameters.Add("category", searchNoteForm.Category);
             string sql = @"select n.id as id, n.title as title, n.photos as photos, 
             n.likes as likes, n.content as content,
-            u.first_name as firstName, u.last_name as lastName
+            u.first_name as firstName, u.last_name as lastName,
+            n.address as address, n.address_code as addressCode 
             from [tb_note] as n, [tb_user] as u
             where n.user_id = u.id and n.category = @category ";
             if (!searchNoteForm.KeyWord.IsNullOrEmpty())
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
                 sql += "and (n.title like @keyWord or n.content like @keyWord) ";
+            }
+            if (searchNoteForm.UserId != 0)
+            {
+                dynamicParameters.Add("userId", searchNoteForm.UserId);
+                sql += "and n.user_id = @userId  ";
             }
             if (searchNoteForm.Filter == (int)NoteFilterTypeEnum.HOT)
             {
@@ -70,6 +76,11 @@ namespace backend.Repository.Note
             {
                 dynamicParameters.Add("keyWord", "%" + searchNoteForm.KeyWord + "%");
                 sql += "and (title like @keyWord or content like @keyWord) ";
+            }
+            if (searchNoteForm.UserId != 0)
+            {
+                dynamicParameters.Add("userId", searchNoteForm.UserId);
+                sql += "and user_id = @userId  ";
             }
             return _dapperContext.QueryData<int>(sql, dynamicParameters).FirstOrDefault();
         }

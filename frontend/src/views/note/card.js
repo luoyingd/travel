@@ -1,34 +1,38 @@
-function NoteCard() {
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { baseURL } from "../../utils/http";
+import { Card, Col } from "antd";
+function NoteCard({ item }) {
+  const { Meta } = Card;
   return (
-    <div class="col mb-5">
-      <div class="card h-100">
-        <div
-          class="badge bg-warning text-white position-absolute"
-          style={{ top: 0.5, right: 0.5 }}
-        >
-          Hot
-        </div>
-        <img
-          class="card-img-top"
-          src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
-          alt="..."
+    <Col span={8}>
+      <Card
+        style={{
+          width: 320
+        }}
+        className="card-antd"
+        cover={
+          <img
+            className="card-img-item"
+            alt="error"
+            src={
+              item.photos && item.photos.length > 0
+                ? baseURL + "/common/photo/" + item.photos.split(",")[0]
+                : "error"
+            }
+          />
+        }
+      >
+        <Meta
+          title={<div className="text-center" title={item.title}>{item.title}</div>}
+          description={
+            <div class="text-center form-text">
+              <LocationOnIcon></LocationOnIcon>
+              {item.address}
+            </div>
+          }
         />
-
-        <div class="card-body p-4">
-          <div class="text-center">
-            澳洲的工作进展效率真的挺慢，继续焦急等待
-          </div>
-        </div>
-
-        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-          <div class="text-center">
-            <a class="btn btn-outline-dark mt-auto" href="#">
-              View more
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+      </Card>
+    </Col>
   );
 }
 

@@ -6,8 +6,7 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            // TODO: 做成路由
-            href="../../assets/img/portfolio/fullsize/1.jpg"
+            href={"/note?category=0"}
             title="Project Name"
           >
             <img class="img-fluid" src={categories[0].src} alt="..." />
@@ -19,7 +18,7 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/2.jpg"
+            href={"/note?category=1"}
             title="Project Name"
           >
             <img class="img-fluid" src={categories[1].src} alt="..." />
@@ -31,7 +30,7 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/3.jpg"
+            href={"/note?category=2"}
             title="Project Name"
           >
             <img class="img-fluid" src={categories[2].src} alt="..." />
@@ -43,7 +42,7 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/4.jpg"
+            href={"/note?category=3"}
             title="Project Name"
           >
             <img class="img-fluid" src={categories[3].src} alt="..." />
@@ -53,7 +52,7 @@ function Category() {
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="" title="Nature">
+          <a class="portfolio-box" href={"/note?category=4"} title="Nature">
             <img class="img-fluid" src={categories[4].src} alt="..." />
             <div class="portfolio-box-caption">
               <div class="project-name">{categories[4].name}</div>
@@ -63,7 +62,7 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/6.jpg"
+            href={"/note?category=5"}
             title="Project Name"
           >
             <img class="img-fluid" src={categories[5].src} alt="..." />

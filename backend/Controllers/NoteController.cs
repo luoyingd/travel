@@ -24,7 +24,6 @@ namespace backend.Controllers
         }
 
         [HttpPost("/note/info")]
-        [AllowAnonymous]
         public R GetInfoList(SearchNoteForm searchNoteForm)
         {
             return R.OK(_noteService.GetNoteInfoList(searchNoteForm));

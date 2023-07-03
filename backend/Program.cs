@@ -37,9 +37,9 @@ builder.Services.AddCors((options) =>
 });
 
 // add singleton for interface and implementation here. same instance for the entire app
-// 如果是需要每个请求一个实例, 用scoped
+// add scoped for one instance in a client request
 builder.Services.AddScoped<DapperContext>();
-builder.Services.AddScoped<HttpClient>();
+builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddScoped<FileUtil>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

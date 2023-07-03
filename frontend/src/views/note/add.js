@@ -59,7 +59,7 @@ function AddNote({ isOpen, key }) {
                   },
                 ]}
               >
-                <Input placeholder="Please enter a title" />
+                <Input placeholder="Please enter a title" maxLength={50} />
               </Form.Item>
             </Col>
           </Row>

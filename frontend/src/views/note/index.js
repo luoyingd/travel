@@ -1,39 +1,61 @@
-import { Button, Radio, Input } from "antd";
+import { Button, Radio, Input, Row, Col } from "antd";
 import { useEffect, useState } from "react";
+import { LogoutOutlined } from "@mui/icons-material";
 import { useSearchParams } from "react-router-dom";
 import AddNote from "./add";
 import NoteCard from "./card";
-import { Empty, Carousel, Pagination } from "antd";
+import { Empty, Carousel, Pagination, Popconfirm, message } from "antd";
 import { categories } from "../../utils/constant";
+import history from "../../utils/history";
+import { myToken, myUser } from "../../utils/auth";
+import noteStore from "../../stores/notes/noteStore";
+import { observer } from "mobx-react-lite";
 function Notes() {
   const { Search } = Input;
   const [params] = useSearchParams();
-  const id = params.get("id");
+  const userId = params.get("id");
   const [openAdd, setOpenAdd] = useState(false);
   const [key, setKey] = useState(0);
-  const [list, setList] = useState([]);
-  const [keyWord, setKeyWord] = useState(params.get("keyWord"));
-  const [filter, setFilter] = useState(
-    params.get("filter") ? params.get("filter") : 1
+  const [filterOption, setFilterOption] = useState(
+    params.get("filterOption") ? Number(params.get("filterOption")) : 1
   );
+  const [category, setCategory] = useState(
+    params.get("category") ? Number(params.get("category")) : 0
+  );
+  const [keyWord, setKeyWord] = useState(params.get("keyWord"));
+  const confirmLogout = async (e) => {
+    myToken.clearToken();
+    myUser.clearUserId();
+    history.push("/");
+    message.success("Successfully logout!");
+  };
+  const cancelLogout = (e) => {};
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setFilter(e.target.value);
-    // TODO: load data
+    let filter = e.target.value;
+    setFilterOption(e.target.value);
+    noteStore.loadNotes({ filter, userId });
   };
   const onSearch = (value) => {
-    setKeyWord(value);
-    // TODO: load data
+    let keyWord = value;
+    setKeyWord(keyWord);
+    noteStore.loadNotes({ keyWord, userId });
   };
   const onCategoryChange = (currentSlide) => {
-    console.log(currentSlide);
+    let category = categories[currentSlide].name;
+    noteStore.loadNotes({ category, userId });
   };
   const onPageChange = (page, pageSize) => {
-    console.log(page);
-    console.log(pageSize);
+    noteStore.loadNotes({ page, userId });
   };
   useEffect(() => {
-    // TODO: load data
+    let filter = params.get("filterOption")
+      ? Number(params.get("filterOption"))
+      : 1;
+    let keyWord = params.get("keyWord");
+    let category = params.get("category")
+      ? categories[Number(params.get("category"))].name
+      : categories[0].name;
+    noteStore.loadNotes({ filter, category, keyWord, userId });
   }, []);
   return (
     <div>
@@ -46,14 +68,22 @@ function Notes() {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item">
-                  {id ? (
-                    <a class="nav-link active" aria-current="page" href="#!">
-                      Logout
-                    </a>
+                  {userId ? (
+                    <Popconfirm
+                      title=""
+                      description="Are you sure to logout?"
+                      onConfirm={confirmLogout}
+                      onCancel={cancelLogout}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <LogoutOutlined />
+                      <a href="#!">Logout</a>
+                    </Popconfirm>
                   ) : null}
                 </li>
               </ul>
-              {id ? (
+              {userId ? (
                 <Button
                   className="btn-center btn-add"
                   size="large"
@@ -71,7 +101,7 @@ function Notes() {
 
         <AddNote isOpen={openAdd} key={key}></AddNote>
 
-        <Carousel afterChange={onCategoryChange}>
+        <Carousel afterChange={onCategoryChange} initialSlide={category}>
           {categories.map((category) => {
             return (
               <header className={"py-5 bg-category-" + category.name}>
@@ -87,7 +117,7 @@ function Notes() {
 
         <section class="py-5">
           <div style={{ paddingLeft: 60 }} class="container px-lg-5">
-            <Radio.Group onChange={onChange} value={filter}>
+            <Radio.Group onChange={onChange} value={filterOption}>
               <Radio value={1}>Hottest</Radio>
               <Radio value={2}>Most Recent</Radio>
             </Radio.Group>
@@ -97,27 +127,29 @@ function Notes() {
               style={{
                 width: 300,
               }}
-              value={keyWord}
+              defaultValue={keyWord}
             />
           </div>
           <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-              {list.length > 0 ? (
+            <Row gutter={[16, 20]}>
+              {noteStore.dataList.list.length > 0 ? (
                 <>
-                  {list.map((item) => (
-                    <NoteCard></NoteCard>
+                  {noteStore.dataList.list.map((item) => (
+                    <NoteCard item={item}></NoteCard>
                   ))}
                 </>
               ) : (
-                <Empty description={false} />
+                <Col span={24}>
+                  <Empty description={false} />
+                </Col>
               )}
-            </div>
+            </Row>
           </div>
           <Pagination
             style={{ textAlign: "right", marginRight: 50 }}
             defaultCurrent={1}
-            total={16}
-            pageSize={8}
+            total={noteStore.dataList.total}
+            pageSize={6}
             onChange={onPageChange}
           />
         </section>
@@ -138,4 +170,4 @@ function Notes() {
   );
 }
 
-export default Notes;
+export default observer(Notes);
