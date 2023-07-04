@@ -34,5 +34,11 @@ namespace backend.Controllers
         {
             return R.OK(_noteService.GetNoteInfo(id));
         }
+
+        [HttpPost("/note/recommendation")]
+        public R GetRecommendation(SearchRecommendationForm searchRecommendationForm)
+        {
+            return R.OK(_noteService.GetRecommendation(searchRecommendationForm));
+        }
     }
 }

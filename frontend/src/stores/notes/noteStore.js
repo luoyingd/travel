@@ -30,7 +30,9 @@ class NoteStore {
     likes: 0,
     photos: null,
     title: null,
+    category: null,
   };
+  recommendationList = [];
   addNote = async ({ title, description, category }) => {
     let data = {
       title: title,
@@ -53,6 +55,26 @@ class NoteStore {
       .get("/note/" + id)
       .then((res) => {
         this.noteInfo = res.data;
+        http
+          .post("/note/recommendation", {
+            authorId: this.noteInfo.authorId,
+            category: this.noteInfo.category,
+            address: this.noteInfo.address,
+            id : id
+          })
+          .then((res) => {
+            this.recommendationList = [];
+            res.data.map((item) => {
+              this.recommendationList.push({
+                address: item.address,
+                id: item.id,
+                likes: item.likes,
+                photos: item.photos,
+                title: item.title,
+              });
+            });
+          })
+          .catch((err) => {});
       })
       .catch((err) => {});
   };

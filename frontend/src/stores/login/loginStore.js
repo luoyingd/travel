@@ -64,15 +64,6 @@ class LoginStore {
   //   return result;
   // };
 
-  // logout = async () => {
-  //   const result = await http.post("/user/logout", {
-  //     userId: myUser.getUserId(),
-  //   });
-  //   myToken.clearToken();
-  //   myUser.clearUserId();
-  //   return result;
-  // };
-
   constructor() {
     makeAutoObservable(this);
   }

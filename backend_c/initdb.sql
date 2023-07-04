@@ -52,6 +52,9 @@ CREATE TABLE tb_note
   update_time datetime NOT NULL DEFAULT GETDATE(),
 )
 GO
+ALTER TABLE [dbo].[tb_note]
+  ADD [country] varchar(50) NULL DEFAULT NULL
+GO
 
 CREATE INDEX user_id ON tb_note(user_id)
 GO

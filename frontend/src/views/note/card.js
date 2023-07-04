@@ -36,7 +36,7 @@ function NoteCard({ item, filters }) {
         }
         onClick={toInfo}
       >
-        {item.likes > 20 ? (
+        {item.likes >= 20 ? (
           <div
             class="badge bg-danger text-white position-absolute"
             style={{ top: 0.5, right: 0.5 }}

@@ -34,6 +34,8 @@ namespace backend.Service.Note
             {
                 throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
             }
+            string[] address = addNoteForm.Address.Split(", ");
+            string country = address[address.Length - 1];
             Models.Note note = new()
             {
                 Address = addNoteForm.Address,
@@ -42,7 +44,7 @@ namespace backend.Service.Note
                 AddressCode = addNoteForm.AddressCode,
                 Category = addNoteForm.Category,
                 UserId = addNoteForm.UserId,
-
+                Country = country
             };
             if (addNoteForm.PhotoKeys != null && addNoteForm.PhotoKeys.Length > 0)
             {
@@ -82,6 +84,35 @@ namespace backend.Service.Note
             IEnumerable<NoteInfoVO> noteInfoVOs = _noteRepository.GetNoteInfoList(searchNoteForm);
             int total = _noteRepository.GetNoteListTotal(searchNoteForm);
             return new NoteListVO() { Notes = noteInfoVOs, Total = total };
+        }
+
+        public List<NoteInfoVO> GetRecommendation(SearchRecommendationForm searchRecommendationForm)
+        {
+            List<NoteInfoVO> result = new List<NoteInfoVO>();
+            // search hottest based on address
+            string[] address = searchRecommendationForm.Address.Split(", ");
+            string country = address[address.Length - 1];
+            IEnumerable<NoteInfoVO> hotNoteByCountryAndCategory = _noteRepository
+            .GetHotNoteByCountryAndCategory(searchRecommendationForm.Id, country, searchRecommendationForm.Category);
+            List<int> curIds = new List<int>();
+            curIds.Add(searchRecommendationForm.Id);
+            foreach (NoteInfoVO noteInfoVO in hotNoteByCountryAndCategory)
+            {
+                result.Add(noteInfoVO);
+                curIds.Add(noteInfoVO.Id);
+            }
+            if (hotNoteByCountryAndCategory.Count() < 3)
+            {
+                int left = 3 - hotNoteByCountryAndCategory.Count();
+                IEnumerable<NoteInfoVO> hotNoteByAuthorOrCategory = _noteRepository
+            .GetHotNoteByAuthorOrCategory(searchRecommendationForm.AuthorId,
+            searchRecommendationForm.Category, left, curIds);
+                foreach (NoteInfoVO noteInfoVO in hotNoteByAuthorOrCategory)
+                {
+                    result.Add(noteInfoVO);
+                }
+            }
+            return result;
         }
     }
 

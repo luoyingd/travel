@@ -6,7 +6,7 @@ import noteStore from "../../stores/notes/noteStore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import history from "../../utils/history";
-import { Carousel, Row, Button } from "antd";
+import { Carousel, Row, Button, Col, Empty } from "antd";
 import { baseURL } from "../../utils/http";
 import { myUser } from "../../utils/auth";
 
@@ -14,7 +14,6 @@ function NoteInfo() {
   const [params] = useSearchParams();
   useEffect(() => {
     noteStore.loadNote(params.get("id"));
-    // TODO: load recommendation
   }, []);
   const toAuthor = () => {
     history.push("/note?id=" + noteStore.noteInfo.authorId);
@@ -118,11 +117,26 @@ function NoteInfo() {
         <div class="container px-4 mt-1">
           <h2 class="fw-bolder mb-4">Recommend Notes</h2>
           <div class="container px-4 mt-5">
-            <Row gutter={16}>
-              <NoteCard item={noteStore.noteInfo}></NoteCard>
-              <NoteCard item={noteStore.noteInfo}></NoteCard>
-              <NoteCard item={noteStore.noteInfo}></NoteCard>
-            </Row>
+            {noteStore.recommendationList.length > 0 ? (
+              <Row gutter={16}>
+                {noteStore.recommendationList.map((item) => {
+                  return (
+                    <NoteCard
+                      item={item}
+                      filters={{
+                        category: noteStore.listForm.categoryId,
+                        filterOption: noteStore.listForm.filter,
+                        keyWord: noteStore.listForm.keyWord,
+                      }}
+                    ></NoteCard>
+                  );
+                })}
+              </Row>
+            ) : (
+              <Col span={24}>
+                <Empty description={false} />
+              </Col>
+            )}
           </div>
         </div>
       </section>

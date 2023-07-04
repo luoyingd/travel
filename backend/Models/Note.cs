@@ -13,6 +13,7 @@ namespace backend.Models
         private string? _address;
         private string? _photos;
         private string? title;
+        private string? country;
 
         [Column(Name = "id")]
         public int Id { get => _id; set => _id = value; }
@@ -31,5 +32,6 @@ namespace backend.Models
         [Column(Name = "photos")]
         public string? Photos { get => _photos; set => _photos = value; }
         public string? Title { get => title; set => title = value; }
+        public string? Country { get => country; set => country = value; }
     }
 }
