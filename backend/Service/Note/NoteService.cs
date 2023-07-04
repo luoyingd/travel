@@ -24,7 +24,7 @@ namespace backend.Service.Note
             _httpClient = httpClient;
         }
 
-        public void Add(AddNoteForm addNoteForm)
+        public void Add(AddNoteForm addNoteForm, int userId)
         {
             if (addNoteForm.Address.IsNullOrEmpty()
                 || addNoteForm.AddressCode.IsNullOrEmpty()
@@ -43,7 +43,7 @@ namespace backend.Service.Note
                 Title = addNoteForm.Title,
                 AddressCode = addNoteForm.AddressCode,
                 Category = addNoteForm.Category,
-                UserId = addNoteForm.UserId,
+                UserId = userId,
                 Country = country
             };
             if (addNoteForm.PhotoKeys != null && addNoteForm.PhotoKeys.Length > 0)

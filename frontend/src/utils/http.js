@@ -15,6 +15,10 @@ const beforeRequest = (config) => {
   if (token) {
     config.headers["Authorization"] = "Bearer " + token;
   }
+  const userId = myUser.getUserId();
+  if (userId) {
+    config.headers["UserId"] = userId;
+  }
   loadingStore.isLoading = true;
   return config;
 };
@@ -35,7 +39,7 @@ const responseSuccess = (response) => {
 const responseFailed = (error) => {
   const { response } = error;
   if (response) {
-    console.log(response)
+    console.log(response);
     if (response.status === 401) {
       message.error("Need Login!", [3]);
       myToken.clearToken();

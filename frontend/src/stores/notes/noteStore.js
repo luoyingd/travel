@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import { http } from "../../utils/http";
-import { myUser } from "../../utils/auth";
 
 class NoteStore {
   address = null;
@@ -40,8 +39,7 @@ class NoteStore {
       category: category,
       photoKeys: this.photoKeys,
       addressCode: this.addressCode,
-      address: this.address,
-      userId: myUser.getUserId(),
+      address: this.address
     };
     try {
       const result = await http.post("/note", data);

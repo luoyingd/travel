@@ -1,5 +1,4 @@
 using backend.Form;
-using backend.Repository.Note;
 using backend.Service.Note;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -17,9 +16,9 @@ namespace backend.Controllers
             _noteService = noteService;
         }
         [HttpPost("/note")]
-        public R Add(AddNoteForm addNoteForm)
+        public R Add(AddNoteForm addNoteForm, [FromHeader(Name = "UserId")]int userId)
         {
-            _noteService.Add(addNoteForm);
+            _noteService.Add(addNoteForm, userId);
             return R.OK();
         }
 

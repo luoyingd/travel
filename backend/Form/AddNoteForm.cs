@@ -8,7 +8,6 @@ namespace backend.Form
         private string? addressCode;
         private string? address;
         private string[]? photoKeys;
-        private int userId;
 
         public string? Title { get => title; set => title = value; }
         public string? Category { get => category; set => category = value; }
@@ -16,6 +15,5 @@ namespace backend.Form
         public string? AddressCode { get => addressCode; set => addressCode = value; }
         public string? Address { get => address; set => address = value; }
         public string[]? PhotoKeys { get => photoKeys; set => photoKeys = value; }
-        public int UserId { get => userId; set => userId = value; }
     }
 }
