@@ -6,7 +6,7 @@ import PhotoWall from "../../components/photo/photoWall";
 import { categories } from "../../utils/constant";
 import noteStore from "../../stores/notes/noteStore";
 import { message } from "antd";
-function AddNote({ isOpen, key }) {
+function AddNote({ isOpen, key, callback }) {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const onClose = () => {
@@ -21,7 +21,7 @@ function AddNote({ isOpen, key }) {
     if (result) {
       message.success("Successfully posted!", [3]);
       onClose();
-      // TODO: load list
+      callback();
     }
   };
   useEffect(() => {

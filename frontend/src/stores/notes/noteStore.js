@@ -76,7 +76,6 @@ class NoteStore {
     if (userId) {
       this.listForm.userId = Number(userId);
     }
-    console.log(this.listForm);
     http
       .post("/note/info", this.listForm)
       .then((res) => {

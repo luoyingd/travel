@@ -109,7 +109,13 @@ function Notes() {
           </div>
         </nav>
 
-        <AddNote isOpen={openAdd} key={key}></AddNote>
+        <AddNote
+          isOpen={openAdd}
+          key={key}
+          callback={() => {
+            onSearch(keyWord)
+          }}
+        ></AddNote>
 
         <Carousel afterChange={onCategoryChange} initialSlide={category}>
           {categories.map((category) => {
