@@ -9,7 +9,8 @@ import history from "../../utils/history";
 import { Carousel, Row, Button, Col, Empty } from "antd";
 import { baseURL } from "../../utils/http";
 import { myUser } from "../../utils/auth";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -88,6 +89,15 @@ function NoteInfo() {
                 <Button onClick={toMap} type="text">
                   {noteStore.noteInfo.address}
                 </Button>
+                <Button
+                  icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
+                  type = "text"
+                ></Button>
+                 <Button
+                  icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
+                  type = "text"
+                ></Button>
+                {noteStore.noteInfo.likes}
               </div>
             </header>
             <figure class="mb-5 info-box">
