@@ -1,12 +1,21 @@
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { baseURL } from "../../utils/http";
-import { Card, Col} from "antd";
+import { Card, Col } from "antd";
 import history from "../../utils/history";
-function NoteCard({ item }) {
+function NoteCard({ item, filters }) {
   const { Meta } = Card;
   const toInfo = () => {
-    history.push("/note/info?id=" + item.id);
-  }
+    history.push(
+      "/note/info?id=" +
+        item.id +
+        "&category=" +
+        filters.category +
+        "&filterOption=" +
+        filters.filterOption +
+        "&keyWord=" +
+        filters.keyWord
+    );
+  };
   return (
     <Col span={8}>
       <Card

@@ -8,6 +8,7 @@ import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import history from "../../utils/history";
 import { Carousel, Row, Button } from "antd";
 import { baseURL } from "../../utils/http";
+import { myUser } from "../../utils/auth";
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -29,6 +30,43 @@ function NoteInfo() {
           <a class="navbar-brand" href="/">
             Travel Notes
           </a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href={
+                    "/note?id=" +
+                    myUser.getUserId() +
+                    "&category=" +
+                    params.get("category") +
+                    "&filterOption=" +
+                    params.get("filterOption") +
+                    "&keyWord=" +
+                    params.get("keyWord")
+                  }
+                >
+                  My Notes
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href={
+                    "/note?" +
+                    "category=" +
+                    params.get("category") +
+                    "&filterOption=" +
+                    params.get("filterOption") +
+                    "&keyWord=" +
+                    params.get("keyWord")
+                  }
+                >
+                  All Notes
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
 

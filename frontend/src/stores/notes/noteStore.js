@@ -11,6 +11,7 @@ class NoteStore {
     size: 6,
     keyWord: null,
     filter: null,
+    categoryId: null,
     category: null,
     userId: 0,
   };
@@ -61,7 +62,8 @@ class NoteStore {
       this.listForm.filter = filter;
     }
     if (category) {
-      this.listForm.category = category;
+      this.listForm.category = category.name;
+      this.listForm.categoryId = category.id;
     }
     if (keyWord) {
       this.listForm.keyWord = keyWord;
@@ -74,6 +76,7 @@ class NoteStore {
     if (userId) {
       this.listForm.userId = Number(userId);
     }
+    console.log(this.listForm);
     http
       .post("/note/info", this.listForm)
       .then((res) => {

@@ -22,7 +22,11 @@ function Notes() {
   const [category, setCategory] = useState(
     params.get("category") ? Number(params.get("category")) : 0
   );
-  const [keyWord, setKeyWord] = useState(params.get("keyWord"));
+  const [keyWord, setKeyWord] = useState(
+    params.get("keyWord") && params.get("keyWord") !== "null"
+      ? params.get("keyWord")
+      : null
+  );
   const confirmLogout = async (e) => {
     myToken.clearToken();
     myUser.clearUserId();
@@ -41,7 +45,7 @@ function Notes() {
     noteStore.loadNotes({ keyWord, userId });
   };
   const onCategoryChange = (currentSlide) => {
-    let category = categories[currentSlide].name;
+    let category = { id: currentSlide, name: categories[currentSlide].name };
     noteStore.loadNotes({ category, userId, keyWord });
   };
   const onPageChange = (page, pageSize) => {
@@ -51,10 +55,16 @@ function Notes() {
     let filter = params.get("filterOption")
       ? Number(params.get("filterOption"))
       : 1;
-    let keyWord = params.get("keyWord");
+    let keyWord =
+      params.get("keyWord") && params.get("keyWord") !== "null"
+        ? params.get("keyWord")
+        : null;
     let category = params.get("category")
-      ? categories[Number(params.get("category"))].name
-      : categories[0].name;
+      ? {
+          id: params.get("category"),
+          name: categories[Number(params.get("category"))].name,
+        }
+      : { id: 0, name: categories[0].name };
     noteStore.loadNotes({ filter, category, keyWord, userId });
   }, []);
   return (
@@ -135,7 +145,14 @@ function Notes() {
               {noteStore.dataList.list.length > 0 ? (
                 <>
                   {noteStore.dataList.list.map((item) => (
-                    <NoteCard item={item}></NoteCard>
+                    <NoteCard
+                      item={item}
+                      filters={{
+                        category: noteStore.listForm.categoryId,
+                        filterOption: noteStore.listForm.filter,
+                        keyWord: noteStore.listForm.keyWord,
+                      }}
+                    ></NoteCard>
                   ))}
                 </>
               ) : (
