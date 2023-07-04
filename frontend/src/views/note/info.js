@@ -15,6 +15,9 @@ function NoteInfo() {
   useEffect(() => {
     noteStore.loadNote(params.get("id"));
   }, []);
+  useEffect(() => {
+    noteStore.loadNote(params.get("id"));
+  }, [params]);
   const toAuthor = () => {
     history.push("/note?id=" + noteStore.noteInfo.authorId);
   };
@@ -22,8 +25,9 @@ function NoteInfo() {
     window.open(noteStore.noteInfo.addressCode);
   };
   const onChange = () => {};
+  // TODO: show likes
   return (
-    <div>
+    <div key={Math.random}>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
           <a class="navbar-brand" href="/">

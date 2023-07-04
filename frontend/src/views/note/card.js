@@ -15,7 +15,6 @@ function NoteCard({ item, filters }) {
         "&keyWord=" +
         filters.keyWord
     );
-    window.location.reload();
   };
   return (
     <Col span={8}>
