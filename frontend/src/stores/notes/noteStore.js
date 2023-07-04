@@ -30,6 +30,7 @@ class NoteStore {
     photos: null,
     title: null,
     category: null,
+    isLiked: false
   };
   recommendationList = [];
   addNote = async ({ title, description, category }) => {

@@ -3,8 +3,10 @@ using backend.Data;
 using backend.Filters;
 using backend.Repository;
 using backend.Repository.Common;
+using backend.Repository.Like;
 using backend.Repository.Note;
 using backend.Service.Common;
+using backend.Service.Like;
 using backend.Service.Note;
 using backend.Service.User;
 using backend.Utils;
@@ -47,6 +49,8 @@ builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();
 builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<ILikeRepository, LikeRepository>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 
 // set up authentication of jwt
 // frontend need to set Authorization = Bearer {token} in headers

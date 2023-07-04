@@ -4,6 +4,7 @@ using backend.Form;
 using backend.Repository.Common;
 using backend.Repository.Note;
 using backend.Response.VO.Note;
+using backend.Service.Like;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -15,13 +16,16 @@ namespace backend.Service.Note
         private readonly ILogger _logger;
         private readonly IPasswordRepository _passwordRepository;
         private readonly HttpClient _httpClient;
+        private readonly ILikeService _likeService;
         public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger,
-        IPasswordRepository passwordRepository, HttpClient httpClient)
+        IPasswordRepository passwordRepository, HttpClient httpClient,
+        ILikeService likeService)
         {
             _logger = logger;
             _noteRepository = noteRepository;
             _passwordRepository = passwordRepository;
             _httpClient = httpClient;
+            _likeService = likeService;
         }
 
         public void Add(AddNoteForm addNoteForm, int userId)
@@ -58,7 +62,7 @@ namespace backend.Service.Note
             _noteRepository.AddNote(note);
         }
 
-        public NoteInfoVO GetNoteInfo(int id)
+        public NoteInfoVO GetNoteInfo(int id, int userId)
         {
             NoteInfoVO noteInfoVO = _noteRepository.GetNoteInfo(id);
             string key = _passwordRepository.GetGoogleApi();
@@ -75,6 +79,7 @@ namespace backend.Service.Note
             {
                 noteInfoVO.AddressCode = null;
             }
+            noteInfoVO.IsLiked = _likeService.GetLikeStatus(id, userId);
             return noteInfoVO;
         }
 

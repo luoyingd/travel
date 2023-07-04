@@ -7,7 +7,7 @@ namespace backend.Service.Note
     {
         void Add(AddNoteForm addNoteForm, int userId);
         NoteListVO GetNoteInfoList(SearchNoteForm searchNoteForm);
-        NoteInfoVO GetNoteInfo(int id);
+        NoteInfoVO GetNoteInfo(int id, int userId);
         List<NoteInfoVO> GetRecommendation(SearchRecommendationForm searchRecommendationForm);
     }
 }

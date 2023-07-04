@@ -10,7 +10,7 @@ import { Carousel, Row, Button, Col, Empty } from "antd";
 import { baseURL } from "../../utils/http";
 import { myUser } from "../../utils/auth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -24,7 +24,6 @@ function NoteInfo() {
     window.open(noteStore.noteInfo.addressCode);
   };
   const onChange = () => {};
-  // TODO: show likes
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -89,14 +88,17 @@ function NoteInfo() {
                 <Button onClick={toMap} type="text">
                   {noteStore.noteInfo.address}
                 </Button>
-                <Button
-                  icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
-                  type = "text"
-                ></Button>
-                 <Button
-                  icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
-                  type = "text"
-                ></Button>
+                {noteStore.noteInfo.isLiked ? (
+                  <Button
+                    icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
+                    type="text"
+                  ></Button>
+                ) : (
+                  <Button
+                    icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
+                    type="text"
+                  ></Button>
+                )}
                 {noteStore.noteInfo.likes}
               </div>
             </header>

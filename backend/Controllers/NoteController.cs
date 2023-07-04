@@ -29,9 +29,9 @@ namespace backend.Controllers
         }
 
         [HttpGet("/note/{id}")]
-        public R GetInfo(int id)
+        public R GetInfo(int id, [FromHeader(Name = "UserId")]int userId)
         {
-            return R.OK(_noteService.GetNoteInfo(id));
+            return R.OK(_noteService.GetNoteInfo(id, userId));
         }
 
         [HttpPost("/note/recommendation")]
