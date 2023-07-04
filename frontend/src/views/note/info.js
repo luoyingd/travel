@@ -51,7 +51,6 @@ function NoteInfo() {
                 </Button>
               </div>
             </header>
-
             <figure class="mb-5 info-box">
               {noteStore.noteInfo.photos &&
               noteStore.noteInfo.photos.length > 0 ? (
@@ -70,7 +69,6 @@ function NoteInfo() {
                 <img class="card-img-top mb-5 mb-md-0" src="empty" alt="..." />
               )}
             </figure>
-
             <section class="mb-5">
               <p class="fs-5 mb-4">{noteStore.noteInfo.content}</p>
             </section>

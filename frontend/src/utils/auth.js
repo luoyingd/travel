@@ -1,6 +1,5 @@
 const TOKEN_KEY = "token";
 const USER_ID = "userId";
-const GOOGLE_TOKEN = "google_token";
 class Token {
   getToken = () => {
     return localStorage.getItem(TOKEN_KEY);

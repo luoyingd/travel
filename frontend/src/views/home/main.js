@@ -5,6 +5,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import loginStore from "../../stores/login/loginStore";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
+import history from "../../utils/history";
 function Main() {
   const navigate = useNavigate();
   const loginGoogle = useGoogleLogin({
@@ -15,7 +16,8 @@ function Main() {
       const result = await loginStore.loginGoogle(codeResponse.access_token);
       if (result) {
         message.success("Successfully login!", [3]);
-        navigate("/", { replace: true });
+        history.push("/");
+        window.location.reload();
       }
     },
     onError: (codeResponse) => {

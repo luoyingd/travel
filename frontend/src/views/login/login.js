@@ -12,6 +12,7 @@ import { TextField } from "@mui/material";
 import loginStore from "../../stores/login/loginStore";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import history from "../../utils/history";
 function Login() {
   const navigate = useNavigate();
   const [emailValidate, setEmailValidate] = React.useState(true);
@@ -21,7 +22,7 @@ function Login() {
     const data = new FormData(event.currentTarget);
     const form = {
       email: data.get("email"),
-      password: data.get("password")
+      password: data.get("password"),
     };
     console.log(form);
     setEmailValidate(form.email != null && form.email != "");
@@ -29,7 +30,8 @@ function Login() {
     const result = await loginStore.login(form);
     if (result) {
       message.success("Successfully login!", [3]);
-      navigate("/", { replace: true });
+      history.push("/");
+      window.location.reload();
     }
   };
   return (
@@ -55,7 +57,7 @@ function Login() {
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
