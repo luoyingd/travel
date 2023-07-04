@@ -4446,23 +4446,28 @@ fieldset:disabled .btn {
 
 .card-img-item {
   width: 100%;
-  height: 200px;
+  height: 15em;
+}
+
+.card-img-single {
+  width: 100%;
+  height: 30em;
 }
 
 .info-box {
-  width:50%;
-  height:100%;
-  margin:0 auto;
+  width: 100%;
+  height: 50%;
+  margin: 0 auto;
   overflow: hidden;
 }
 .card-img-info {
-  width:100%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.card-antd{
-  height: 100%
+.card-antd {
+  height: 100%;
 }
 
 .card-img,
@@ -8360,7 +8365,7 @@ fieldset:disabled .btn {
 
 .text-center {
   text-align: center !important;
-  text-overflow: hidden !important
+  text-overflow: hidden !important;
 }
 
 .text-decoration-none {
@@ -8595,20 +8600,18 @@ fieldset:disabled .btn {
 .bg-category-Museum {
   background-repeat: no-repeat !important;
   background-size: 100% auto !important;
-  background: 
-  linear-gradient(
-    to bottom,
-    rgba(92, 77, 66, 0.3) 0%,
-    rgba(92, 77, 66, 0.8) 100%
-  ),
+  background: linear-gradient(
+      to bottom,
+      rgba(92, 77, 66, 0.3) 0%,
+      rgba(92, 77, 66, 0.8) 100%
+    ),
     url("./assets/img/category/meseum.webp");
 }
 
 .bg-category-City {
   background-repeat: no-repeat !important;
   background-size: 100% auto !important;
-  background: 
-  linear-gradient(
+  background: linear-gradient(
       to bottom,
       rgba(92, 77, 66, 0.3) 0%,
       rgba(92, 77, 66, 0.8) 100%

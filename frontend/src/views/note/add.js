@@ -14,6 +14,7 @@ function AddNote({ isOpen, key }) {
   };
   const onSubmit = async () => {
     let title = form.getFieldsValue("title");
+    // TODO: handle \n in textarea
     let description = form.getFieldsValue("description");
     let category = form.getFieldsValue("category");
     const result = await noteStore.addNote(title, description, category);
@@ -121,8 +122,8 @@ function AddNote({ isOpen, key }) {
               >
                 <Input.TextArea
                   rows={8}
-                  maxLength={650}
-                  placeholder="Please enter description, maximum 600 words"
+                  maxLength={2000}
+                  placeholder="Please enter description, maximum 2000 characters"
                 />
               </Form.Item>
             </Col>

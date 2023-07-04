@@ -6,7 +6,7 @@ import noteStore from "../../stores/notes/noteStore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import history from "../../utils/history";
-import { Button, Carousel } from "antd";
+import { Carousel, Row, Button } from "antd";
 import { baseURL } from "../../utils/http";
 
 function NoteInfo() {
@@ -20,12 +20,12 @@ function NoteInfo() {
   };
   const toMap = () => {
     window.open(noteStore.noteInfo.addressCode);
-  }
+  };
   const onChange = () => {};
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
           <a class="navbar-brand" href="/">
             Travel Notes
           </a>
@@ -33,16 +33,33 @@ function NoteInfo() {
       </nav>
 
       <section class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
-          <div class="row gx-4 gx-lg-5 align-items-center">
-            <div class="col-md-6 info-box">
+        <div class="container px-4 px-lg-5 my-3">
+          <article>
+            <header class="mb-1">
+              <h1 class="fw-bolder mb-1">{noteStore.noteInfo.title}</h1>
+
+              <div class="text-muted fst-italic mb-4">
+                <EmojiPeopleIcon></EmojiPeopleIcon>
+                <Button onClick={toAuthor} type="text">
+                  {noteStore.noteInfo.firstName +
+                    " " +
+                    noteStore.noteInfo.lastName}
+                </Button>
+                <LocationOnIcon></LocationOnIcon>
+                <Button onClick={toMap} type="text">
+                  {noteStore.noteInfo.address}
+                </Button>
+              </div>
+            </header>
+
+            <figure class="mb-5 info-box">
               {noteStore.noteInfo.photos &&
               noteStore.noteInfo.photos.length > 0 ? (
                 <Carousel afterChange={onChange} initialSlide={0} autoplay>
                   {noteStore.noteInfo.photos.split(",").map((key) => {
                     return (
                       <img
-                        class="card-img-info mb-5 mb-md-0"
+                        class="card-img-single"
                         src={baseURL + "/common/photo/" + key}
                         alt="..."
                       />
@@ -50,40 +67,26 @@ function NoteInfo() {
                   })}
                 </Carousel>
               ) : (
-                <img class="card-img-top mb-5 mb-md-0" src="error" alt="..." />
+                <img class="card-img-top mb-5 mb-md-0" src="empty" alt="..." />
               )}
-            </div>
-            <div class="col-md-6">
-              <h1 class="display-6 fw-bolder">{noteStore.noteInfo.title}</h1>
-              <div class="fs-6 mt-3 mb-3">
-                <EmojiPeopleIcon></EmojiPeopleIcon>
-                <Button onClick={toAuthor} type="text">
-                  {noteStore.noteInfo.firstName +
-                    " " +
-                    noteStore.noteInfo.lastName}
-                </Button>
-              </div>
-              <div class="fs-5 mb-4">
-                <LocationOnIcon></LocationOnIcon>
-                <Button onClick={toMap} type="text">
-                  {noteStore.noteInfo.address}
-                </Button>
-              </div>
-              <p class="lead">{noteStore.noteInfo.content}</p>
-            </div>
-          </div>
+            </figure>
+
+            <section class="mb-5">
+              <p class="fs-5 mb-4">{noteStore.noteInfo.content}</p>
+            </section>
+          </article>
         </div>
       </section>
 
       <section class="py-5 bg-light">
-        <div class="container px-4 px-lg-5 mt-5">
+        <div class="container px-4 mt-1">
           <h2 class="fw-bolder mb-4">Recommend Notes</h2>
-          <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
-              <div class="card h-100">
-                <NoteCard item={noteStore.noteInfo}></NoteCard>
-              </div>
-            </div>
+          <div class="container px-4 mt-5">
+            <Row gutter={16}>
+              <NoteCard item={noteStore.noteInfo}></NoteCard>
+              <NoteCard item={noteStore.noteInfo}></NoteCard>
+              <NoteCard item={noteStore.noteInfo}></NoteCard>
+            </Row>
           </div>
         </div>
       </section>

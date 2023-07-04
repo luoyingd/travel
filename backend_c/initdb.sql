@@ -45,7 +45,7 @@ CREATE TABLE tb_note
   title varchar(200) NULL DEFAULT NULL,
   category varchar(50) NULL DEFAULT NULL,
   likes INT NOT NULL DEFAULT 0,
-  address_code varchar(100) NULL DEFAULT NULL,
+  address_code varchar(200) NULL DEFAULT NULL,
   address varchar(100) NULL DEFAULT NULL,
   photos varchar(500) NULL DEFAULT NULL,
   create_time datetime NOT NULL DEFAULT GETDATE(),
