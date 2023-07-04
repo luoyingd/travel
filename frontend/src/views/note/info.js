@@ -9,12 +9,10 @@ import history from "../../utils/history";
 import { Carousel, Row, Button, Col, Empty } from "antd";
 import { baseURL } from "../../utils/http";
 import { myUser } from "../../utils/auth";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function NoteInfo() {
   const [params] = useSearchParams();
-  useEffect(() => {
-    noteStore.loadNote(params.get("id"));
-  }, []);
   useEffect(() => {
     noteStore.loadNote(params.get("id"));
   }, [params]);
@@ -27,7 +25,7 @@ function NoteInfo() {
   const onChange = () => {};
   // TODO: show likes
   return (
-    <div key={Math.random}>
+    <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
           <a class="navbar-brand" href="/">
