@@ -6,5 +6,8 @@ namespace backend.Repository
     {
         void RegisterUser(User user);
         User GetUser(string? email);
+        DateTime GetResetTokenTime(string? email);
+        void InsertResetToken(ResetToken resetToken);
+        void UpdateResetToken(ResetToken resetToken);
     }
 }

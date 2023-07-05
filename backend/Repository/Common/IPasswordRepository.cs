@@ -11,5 +11,7 @@ namespace backend.Repository.Common
         string GetGoogleApi();
 
         Password GetAwsPassword();
+
+        string GetEmailPwd();
     }
 }

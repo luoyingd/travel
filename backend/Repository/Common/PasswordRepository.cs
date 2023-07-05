@@ -18,6 +18,13 @@ namespace backend.Repository.Common
             return passwords.FirstOrDefault();
         }
 
+        public string GetEmailPwd()
+        {
+            string sql = "select [email_pwd] from [tb_password] where id = 1";
+            IEnumerable<string> passwords = _dapperContext.QueryData<string>(sql, null);
+            return passwords.FirstOrDefault();
+        }
+
         public string GetGoogleApi()
         {
             string sql = "select [google_api] from [tb_password] where id = 1";

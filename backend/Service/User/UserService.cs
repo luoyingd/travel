@@ -9,6 +9,7 @@ using backend.Utils;
 using backend.Response.VO.User;
 using backend.Exceptions;
 using Newtonsoft.Json;
+using backend.Models;
 
 namespace backend.Service.User
 {
@@ -112,6 +113,52 @@ namespace backend.Service.User
              _configuration, salt);
             user.Salt = salt;
             _userRepository.RegisterUser(user);
+        }
+
+        public void SendResetMail(string email, MailUtil mailUtil)
+        {
+            // check if email is correct
+            if (email == null || email.Length == 0)
+            {
+                throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+            }
+            Models.User user = _userRepository.GetUser(email);
+            if (user == null)
+            {
+                throw new CustomException(CodeAndMsg.USER_WRONG_EMAIL);
+            }
+
+            // check if have sent request in 10 minutes
+            DateTime curTime = _userRepository.GetResetTokenTime(email);
+            _logger.LogInformation("original time : {}", curTime);
+            if (curTime != null && (DateTime.Now - curTime).TotalMinutes <= 10)
+            {
+                throw new CustomException(CodeAndMsg.USER_DUPLICATE_RESET);
+            }
+
+            // reset token
+            string token = Guid.NewGuid().ToString();
+            Models.ResetToken resetTokenNew = new()
+            {
+                Email = email,
+                Token = token,
+                CreateTime = DateTime.Now
+            };
+            if (curTime == null)
+            {
+                _userRepository.InsertResetToken(resetTokenNew);
+            }
+            else
+            {
+                _userRepository.UpdateResetToken(resetTokenNew);
+            }
+
+            // send mail
+            Dictionary<string, string> parameters = new(){
+                {"userName", user.FirstName},
+                {"url", Constant.Constant.RESET_PWD_URL + token}
+            };
+            mailUtil.sendMail(email, parameters);
         }
 
         private string GetToken(int userId)

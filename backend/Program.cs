@@ -43,7 +43,6 @@ builder.Services.AddCors((options) =>
 builder.Services.AddScoped<DapperContext>();
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<LockObj>();
-builder.Services.AddScoped<FileUtil>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordRepository, PasswordRepository>();

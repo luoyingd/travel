@@ -3,7 +3,7 @@ import { myToken, myUser } from "./auth";
 import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
 import { message } from "antd";
-const baseURL = "http://localhost:8090";
+const baseURL = "http://localhost:3000";
 const http = axios.create({
   baseURL: baseURL,
   timeout: 20000,

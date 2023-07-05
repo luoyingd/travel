@@ -1,3 +1,4 @@
+using backend.Repository.Common;
 using backend.Service.Common;
 using backend.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +12,10 @@ namespace backend.Controllers
     {
         private readonly FileUtil _fileUtil;
         private readonly ICommonService _commonService;
-        public CommonController(FileUtil fileUtil, ICommonService commonService)
+        public CommonController(ICommonService commonService, 
+        IPasswordRepository passwordRepository)
         {
-            _fileUtil = fileUtil;
+            _fileUtil = new(passwordRepository);
             _commonService = commonService;
         }
 

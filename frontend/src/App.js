@@ -12,7 +12,6 @@ import ConfirmResetPwd from "./views/login/confirmResetPwd";
 import Notes from "./views/note";
 import AuthLogin from "./components/authLogin";
 import NoteInfo from "./views/note/info";
-
 function App() {
   return (
     // use history if need route in non-component js

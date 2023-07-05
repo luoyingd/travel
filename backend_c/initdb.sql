@@ -110,3 +110,13 @@ CREATE TABLE tb_password
   google_api varchar(50) NULL DEFAULT NULL
 )
 GO
+
+DROP TABLE IF EXISTS tb_reset_token;
+CREATE TABLE tb_reset_token
+(
+  id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  token varchar(50) NULL DEFAULT NULL,
+  user_id INT NOT NULL,
+  create_time datetime NOT NULL DEFAULT GETDATE()
+)
+GO
