@@ -96,11 +96,13 @@ function NoteInfo() {
                     <Button
                       icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
                       type="text"
+                      onClick={noteStore.doLike}
                     ></Button>
                   ) : (
                     <Button
                       icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
                       type="text"
+                      onClick={noteStore.doLike}
                     ></Button>
                   )}
                   {noteStore.noteInfo.likes}

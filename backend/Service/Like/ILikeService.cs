@@ -8,5 +8,7 @@ namespace backend.Service.Like
     public interface ILikeService
     {
         bool GetLikeStatus(int noteId, int userId);
+
+        void DoLike(int like, int noteId, int userId);
     }
 }

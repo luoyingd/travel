@@ -42,6 +42,7 @@ builder.Services.AddCors((options) =>
 // add scoped for one instance in a client request
 builder.Services.AddScoped<DapperContext>();
 builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddSingleton<LockObj>();
 builder.Services.AddScoped<FileUtil>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

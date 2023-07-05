@@ -30,7 +30,7 @@ class NoteStore {
     photos: null,
     title: null,
     category: null,
-    isLiked: false
+    isLiked: false,
   };
   recommendationList = [];
   addNote = async ({ title, description, category }) => {
@@ -40,7 +40,7 @@ class NoteStore {
       category: category,
       photoKeys: this.photoKeys,
       addressCode: this.addressCode,
-      address: this.address
+      address: this.address,
     };
     try {
       const result = await http.post("/note", data);
@@ -59,7 +59,7 @@ class NoteStore {
             authorId: this.noteInfo.authorId,
             category: this.noteInfo.category,
             address: this.noteInfo.address,
-            id : id
+            id: id,
           })
           .then((res) => {
             this.recommendationList = [];
@@ -102,6 +102,24 @@ class NoteStore {
       .then((res) => {
         this.dataList.total = res.data.total;
         this.dataList.list = res.data.notes;
+      })
+      .catch((err) => {});
+  };
+
+  doLike = () => {
+    let like = this.noteInfo.isLiked ? 0 : 1;
+    http
+      .post("/like/" + like + "/" + this.noteInfo.id)
+      .then((res) => {
+        if (like == 0) {
+          this.noteInfo.likes =
+            this.noteInfo.likes == 0
+              ? this.noteInfo.likes
+              : this.noteInfo.likes - 1;
+        } else {
+          this.noteInfo.likes += 1;
+        }
+        this.noteInfo.isLiked = !this.noteInfo.isLiked;
       })
       .catch((err) => {});
   };

@@ -1,5 +1,6 @@
 using Microsoft.Data.SqlClient;
 using Dapper;
+using System.Data;
 
 namespace backend.Data
 {
@@ -20,6 +21,25 @@ namespace backend.Data
         public void Execute(string sql, DynamicParameters? dynamicParameters)
         {
             _connection.Execute(sql, dynamicParameters);
+        }
+
+        public void ExecuteMultiple(string[] sqls, DynamicParameters[] dynamicParameters)
+        {
+            _connection.Open();
+            IDbTransaction transaction = _connection.BeginTransaction();
+            try
+            {
+                for (int j = 0; j < sqls.Count(); j++)
+                {
+                    _connection.Execute(sqls[j], dynamicParameters[j], transaction);
+                }
+                transaction.Commit();
+            }
+            catch (Exception exception)
+            {
+                transaction.Rollback();
+            }
+
         }
 
 

@@ -35,7 +35,7 @@ namespace backend.Repository.Note
             _dapperContext.Execute(sql, dynamicParameters);
         }
 
-        public IEnumerable<NoteInfoVO> GetHotNoteByAuthorOrCategory(int authorId, 
+        public IEnumerable<NoteInfoVO> GetHotNoteByAuthorOrCategory(int authorId,
         string category, int left, List<int> curIds)
         {
             DynamicParameters dynamicParameters = new();
@@ -68,11 +68,21 @@ namespace backend.Repository.Note
             return _dapperContext.QueryData<NoteInfoVO>(sql, dynamicParameters);
         }
 
+        public int GetLikeCount(int id)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("id", id);
+            string sql = @"select likes 
+            from [tb_note]
+            where id = @id";
+            return _dapperContext.QueryData<int>(sql, dynamicParameters).FirstOrDefault();
+        }
+
         public NoteInfoVO GetNoteInfo(int id)
         {
             DynamicParameters dynamicParameters = new();
             dynamicParameters.Add("id", id);
-            string sql = @"select n.title as title, n.photos as photos, 
+            string sql = @"select n.id as id, n.title as title, n.photos as photos, 
             n.likes as likes, n.content as content,
             u.first_name as firstName, u.last_name as lastName,
             u.id as authorId,
