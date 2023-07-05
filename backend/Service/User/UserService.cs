@@ -156,7 +156,7 @@ namespace backend.Service.User
             // send mail
             Dictionary<string, string> parameters = new(){
                 {"userName", user.FirstName},
-                {"url", Constant.Constant.RESET_PWD_URL + token}
+                {"token",token}
             };
             mailUtil.sendMail(email, parameters);
         }
