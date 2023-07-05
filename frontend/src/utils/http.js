@@ -38,6 +38,7 @@ const responseSuccess = (response) => {
 };
 const responseFailed = (error) => {
   const { response } = error;
+  loadingStore.isLoading = false;
   if (response) {
     console.log(response);
     if (response.status === 401) {

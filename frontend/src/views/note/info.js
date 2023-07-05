@@ -6,11 +6,12 @@ import noteStore from "../../stores/notes/noteStore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import history from "../../utils/history";
-import { Carousel, Row, Button, Col, Empty } from "antd";
+import { Carousel, Row, Button, Col, Empty, Spin } from "antd";
 import { baseURL } from "../../utils/http";
 import { myUser } from "../../utils/auth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import loadingStore from "../../stores/common/loadingStore";
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -73,57 +74,65 @@ function NoteInfo() {
 
       <section class="py-5">
         <div class="container px-4 px-lg-5 my-3">
-          <article>
-            <header class="mb-1">
-              <h1 class="fw-bolder mb-1">{noteStore.noteInfo.title}</h1>
+          <Spin
+            spinning={loadingStore.isLoading}
+          >
+            <article>
+              <header class="mb-1">
+                <h1 class="fw-bolder mb-1">{noteStore.noteInfo.title}</h1>
 
-              <div class="text-muted fst-italic mb-4">
-                <EmojiPeopleIcon></EmojiPeopleIcon>
-                <Button onClick={toAuthor} type="text">
-                  {noteStore.noteInfo.firstName +
-                    " " +
-                    noteStore.noteInfo.lastName}
-                </Button>
-                <LocationOnIcon></LocationOnIcon>
-                <Button onClick={toMap} type="text">
-                  {noteStore.noteInfo.address}
-                </Button>
-                {noteStore.noteInfo.isLiked ? (
-                  <Button
-                    icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
-                    type="text"
-                  ></Button>
+                <div class="text-muted fst-italic mb-4">
+                  <EmojiPeopleIcon></EmojiPeopleIcon>
+                  <Button onClick={toAuthor} type="text">
+                    {noteStore.noteInfo.firstName +
+                      " " +
+                      noteStore.noteInfo.lastName}
+                  </Button>
+                  <LocationOnIcon></LocationOnIcon>
+                  <Button onClick={toMap} type="text">
+                    {noteStore.noteInfo.address}
+                  </Button>
+                  {noteStore.noteInfo.isLiked ? (
+                    <Button
+                      icon={<FavoriteIcon sx={{ color: "red" }}></FavoriteIcon>}
+                      type="text"
+                    ></Button>
+                  ) : (
+                    <Button
+                      icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
+                      type="text"
+                    ></Button>
+                  )}
+                  {noteStore.noteInfo.likes}
+                </div>
+              </header>
+              <figure class="mb-5 info-box">
+                {noteStore.noteInfo.photos &&
+                noteStore.noteInfo.photos.length > 0 ? (
+                  <Carousel afterChange={onChange} initialSlide={0} autoplay>
+                    {noteStore.noteInfo.photos.split(",").map((key) => {
+                      return (
+                        <img
+                          class="card-img-single"
+                          src={baseURL + "/common/photo/" + key}
+                          alt="..."
+                        />
+                      );
+                    })}
+                  </Carousel>
                 ) : (
-                  <Button
-                    icon={<FavoriteBorderIcon></FavoriteBorderIcon>}
-                    type="text"
-                  ></Button>
+                  <img
+                    class="card-img-top mb-5 mb-md-0"
+                    src="empty"
+                    alt="..."
+                  />
                 )}
-                {noteStore.noteInfo.likes}
-              </div>
-            </header>
-            <figure class="mb-5 info-box">
-              {noteStore.noteInfo.photos &&
-              noteStore.noteInfo.photos.length > 0 ? (
-                <Carousel afterChange={onChange} initialSlide={0} autoplay>
-                  {noteStore.noteInfo.photos.split(",").map((key) => {
-                    return (
-                      <img
-                        class="card-img-single"
-                        src={baseURL + "/common/photo/" + key}
-                        alt="..."
-                      />
-                    );
-                  })}
-                </Carousel>
-              ) : (
-                <img class="card-img-top mb-5 mb-md-0" src="empty" alt="..." />
-              )}
-            </figure>
-            <section class="mb-5">
-              <p class="fs-5 mb-4">{noteStore.noteInfo.content}</p>
-            </section>
-          </article>
+              </figure>
+              <section class="mb-5">
+                <p class="fs-5 mb-4">{noteStore.noteInfo.content}</p>
+              </section>
+            </article>
+          </Spin>
         </div>
       </section>
 
@@ -131,29 +140,34 @@ function NoteInfo() {
         <div class="container px-4 mt-1">
           <h2 class="fw-bolder mb-4">Recommend Notes</h2>
           <div class="container px-4 mt-5">
-            {noteStore.recommendationList.length > 0 ? (
-              <Row gutter={16}>
-                {noteStore.recommendationList.map((item) => {
-                  return (
-                    <NoteCard
-                      item={item}
-                      filters={{
-                        category: noteStore.listForm.categoryId,
-                        filterOption: noteStore.listForm.filter,
-                        keyWord: noteStore.listForm.keyWord,
-                      }}
-                    ></NoteCard>
-                  );
-                })}
-              </Row>
-            ) : (
-              <Col span={24}>
-                <Empty description={false} />
-              </Col>
-            )}
+            <Spin
+              spinning={loadingStore.isLoading}
+            >
+              {noteStore.recommendationList.length > 0 ? (
+                <Row gutter={16}>
+                  {noteStore.recommendationList.map((item) => {
+                    return (
+                      <NoteCard
+                        item={item}
+                        filters={{
+                          category: noteStore.listForm.categoryId,
+                          filterOption: noteStore.listForm.filter,
+                          keyWord: noteStore.listForm.keyWord,
+                        }}
+                      ></NoteCard>
+                    );
+                  })}
+                </Row>
+              ) : (
+                <Col span={24}>
+                  <Empty description={false} />
+                </Col>
+              )}
+            </Spin>
           </div>
         </div>
       </section>
+
       <footer class="bg-light py-5">
         <div class="container px-4 px-lg-5">
           <div class="small text-center text-muted">
