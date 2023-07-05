@@ -33,11 +33,11 @@ namespace backend.Utils
             message.Body = htmlString;
 
             SmtpClient client = new SmtpClient();
+            client.EnableSsl = true;
             client.Host = _configuration
             .GetSection("AppSettings:email_host").Value;
             client.Port = Int32.Parse(_configuration
             .GetSection("AppSettings:email_port").Value);
-            client.Host = addressFrom.Address;
             client.Credentials = new System.Net.NetworkCredential(addressFrom.Address, _password);
             try
             {

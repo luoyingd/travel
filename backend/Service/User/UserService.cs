@@ -131,10 +131,10 @@ namespace backend.Service.User
             // check if have sent request in 10 minutes
             DateTime curTime = _userRepository.GetResetTokenTime(email);
             _logger.LogInformation("original time : {}", curTime);
-            if (curTime != null && (DateTime.Now - curTime).TotalMinutes <= 10)
-            {
-                throw new CustomException(CodeAndMsg.USER_DUPLICATE_RESET);
-            }
+            // if (curTime != null && (DateTime.Now - curTime).TotalMinutes <= 10)
+            // {
+            //     throw new CustomException(CodeAndMsg.USER_DUPLICATE_RESET);
+            // }
 
             // reset token
             string token = Guid.NewGuid().ToString();
