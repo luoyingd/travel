@@ -1,15 +1,10 @@
 import axios from "axios";
-import { message } from "antd";
-import { myToken } from "./auth";
+import { myToken, myUser } from "./auth";
 import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
-const baseURL = "http://localhost:8090/api";
+import { message } from "antd";
+const baseURL = "http://deloriatravel.net";
 const http = axios.create({
-  baseURL: baseURL,
-  timeout: 20000,
-  withCredentials: true,
-});
-const http_file = axios.create({
   baseURL: baseURL,
   timeout: 20000,
   withCredentials: true,
@@ -18,34 +13,25 @@ const http_file = axios.create({
 const beforeRequest = (config) => {
   const token = myToken.getToken();
   if (token) {
-    config.headers["token"] = token;
+    config.headers["Authorization"] = "Bearer " + token;
   }
-  loadingStore.isLoading = true;
-  return config;
-};
-const beforeRequestFile = (config) => {
-  const token = myToken.getToken();
-  if (token) {
-    config.headers["token"] = token;
+  const userId = myUser.getUserId();
+  if (userId) {
+    config.headers["UserId"] = userId;
   }
-  config.headers["Content-Type"] = "multipart/form-data";
   loadingStore.isLoading = true;
   return config;
 };
 
 http.interceptors.request.use(beforeRequest);
-http_file.interceptors.request.use(beforeRequestFile);
 
 const responseSuccess = (response) => {
   const data = response.data;
   loadingStore.isLoading = false;
   if (data !== null) {
     if (data.code !== 200) {
-      message.error(data.msg, [3]);
-      if (data.code === 401) {
-        history.push("/login");
-      }
-      return Promise.reject();
+      message.error(data.message, [3]);
+      return Promise.reject(data.message);
     }
   }
   return Promise.resolve(data);
@@ -54,6 +40,13 @@ const responseFailed = (error) => {
   const { response } = error;
   loadingStore.isLoading = false;
   if (response) {
+    console.log(response);
+    if (response.status === 401) {
+      message.error("Need Login!", [3]);
+      myToken.clearToken();
+      myUser.clearUserId();
+      history.push("/");
+    }
     return Promise.reject();
   } else if (!window.navigator.onLine) {
     return Promise.reject(new Error("Please check the Internet..."));
@@ -61,6 +54,5 @@ const responseFailed = (error) => {
   return Promise.reject(error);
 };
 http.interceptors.response.use(responseSuccess, responseFailed);
-http_file.interceptors.response.use(responseSuccess, responseFailed);
 
-export { http, baseURL, http_file };
+export { http, baseURL };

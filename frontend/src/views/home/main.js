@@ -1,7 +1,32 @@
 import Services from "./service";
 import Category from "./category";
 import { myToken } from "../../utils/auth";
+import { useGoogleLogin } from "@react-oauth/google";
+import loginStore from "../../stores/login/loginStore";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
+import history from "../../utils/history";
 function Main() {
+  const navigate = useNavigate();
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      console.log("google login success");
+      console.log(codeResponse);
+      // perform login
+      const result = await loginStore.loginGoogle(codeResponse.access_token);
+      if (result) {
+        message.success("Successfully login!", [3]);
+        history.push("/");
+        window.location.reload();
+      }
+    },
+    onError: (codeResponse) => {
+      console.log("google login fail");
+      console.log(codeResponse);
+      message.error(codeResponse, [3])
+    },
+    flow: "implicit",
+  });
   return (
     <div>
       <header class="masthead">
@@ -25,16 +50,19 @@ function Main() {
                     Sign In By Email
                   </a>
                   <p></p>
-                  <a class="btn btn-primary btn-xl" href="#services">
+                  <button
+                    class="btn btn-primary btn-xl"
+                    onClick={() => loginGoogle()}
+                  >
                     Sign In By Google
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
           </div>
         </div>
       </header>
-      <section class="page-section" id="services">
+      <section class="page-section-service" id="services">
         <Services></Services>
       </section>
       <div id="portfolio">

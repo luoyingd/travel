@@ -1,9 +1,4 @@
-import nature from "../../assets/img/category/nature.png";
-import city from "../../assets/img/category/city.jpeg";
-import entertainment from "../../assets/img/category/entertainment.jpeg";
-import meseum from "../../assets/img/category/meseum.webp";
-import shopping from "../../assets/img/category/shopping.jpeg";
-import adventure from "../../assets/img/category/adventure.webp";
+import { categories } from "../../utils/constant";
 function Category() {
   return (
     <div class="container-fluid p-0">
@@ -11,69 +6,68 @@ function Category() {
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            // TODO: 做成路由
-            href="../../assets/img/portfolio/fullsize/1.jpg"
+            href={"/note?category=0"}
             title="Project Name"
           >
-            <img class="img-fluid" src={meseum} alt="..." />
+            <img class="img-fluid" src={categories[0].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Meseum</div>
+              <div class="project-name">{categories[0].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/2.jpg"
+            href={"/note?category=1"}
             title="Project Name"
           >
-            <img class="img-fluid" src={city} alt="..." />
+            <img class="img-fluid" src={categories[1].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">City</div>
+              <div class="project-name">{categories[1].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/3.jpg"
+            href={"/note?category=2"}
             title="Project Name"
           >
-            <img class="img-fluid" src={shopping} alt="..." />
+            <img class="img-fluid" src={categories[2].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Shopping</div>
+              <div class="project-name">{categories[2].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/4.jpg"
+            href={"/note?category=3"}
             title="Project Name"
           >
-            <img class="img-fluid" src={adventure} alt="..." />
+            <img class="img-fluid" src={categories[3].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Adventure</div>
+              <div class="project-name">{categories[3].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="" title="Nature">
-            <img class="img-fluid" src={entertainment} alt="..." />
+          <a class="portfolio-box" href={"/note?category=4"} title="Nature">
+            <img class="img-fluid" src={categories[4].src} alt="..." />
             <div class="portfolio-box-caption">
-              <div class="project-name">Entertainment</div>
+              <div class="project-name">{categories[4].name}</div>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
           <a
             class="portfolio-box"
-            href="../../assets/img/portfolio/fullsize/6.jpg"
+            href={"/note?category=5"}
             title="Project Name"
           >
-            <img class="img-fluid" src={nature} alt="..." />
+            <img class="img-fluid" src={categories[5].src} alt="..." />
             <div class="portfolio-box-caption p-3">
-              <div class="project-name">Nature</div>
+              <div class="project-name">{categories[5].name}</div>
             </div>
           </a>
         </div>

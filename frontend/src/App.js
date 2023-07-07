@@ -6,7 +6,12 @@ import history from "./utils/history";
 import Error from "./views/404";
 import Main from "./views/home/main";
 import Login from "./views/login/login";
-
+import SignUp from "./views/login/signup";
+import SendResetMail from "./views/login/resetPwd";
+import ConfirmResetPwd from "./views/login/confirmResetPwd";
+import Notes from "./views/note";
+import AuthLogin from "./components/authLogin";
+import NoteInfo from "./views/note/info";
 function App() {
   return (
     // use history if need route in non-component js
@@ -16,51 +21,35 @@ function App() {
           <Route exact path="/" element={<Home></Home>}>
             <Route index element={<Main></Main>}></Route>
             <Route path="login" element={<Login></Login>}></Route>
+            <Route path="signup" element={<SignUp></SignUp>}></Route>
+            <Route
+              path="sendResetMail"
+              element={<SendResetMail></SendResetMail>}
+            ></Route>
+            <Route
+              path="confirmResetPwd"
+              element={<ConfirmResetPwd></ConfirmResetPwd>}
+            ></Route>
           </Route>
           {/* use high-level component for auth */}
-          {/* <Route
-            path="/home"
-            element={
-              <AuthLogin>
-                <Main></Main>
-              </AuthLogin>
-            }
-          >
+          <Route path="/note">
             <Route
               index
               element={
                 <AuthLogin>
-                  <Data></Data>
+                  <Notes></Notes>
                 </AuthLogin>
               }
             ></Route>
-            <Route path="allBlog">
-              <Route
-                index
-                element={
-                  <AuthLogin>
-                    <Blog></Blog>
-                  </AuthLogin>
-                }
-              ></Route>
-              <Route
-                path="info/:id"
-                element={
-                  <AuthLogin>
-                    <BlogInfo></BlogInfo>
-                  </AuthLogin>
-                }
-              ></Route>
-            </Route>
             <Route
-              path="publish"
+              path="info"
               element={
                 <AuthLogin>
-                  <Publish></Publish>
+                  <NoteInfo></NoteInfo>
                 </AuthLogin>
               }
             ></Route>
-          </Route> */}
+          </Route>
           {/* 404配置 */}
           <Route path="*" element={<Error></Error>}></Route>
         </Routes>
