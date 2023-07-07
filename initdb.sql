@@ -1,6 +1,4 @@
-create database travel;
 use travel;
-SET NAMES utf8mb4;
 
 -- ----------------------------
 -- Table structure for tb_user
@@ -107,12 +105,11 @@ CREATE TABLE tb_password
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
   client_id varchar(50) NULL DEFAULT NULL,
   client_key varchar(50) NULL DEFAULT NULL,
-  google_api varchar(50) NULL DEFAULT NULL
+  google_api varchar(50) NULL DEFAULT NULL,
+  [email_pwd] varchar(50) NULL DEFAULT NULL
 )
 GO
-ALTER TABLE [dbo].[tb_password]
-  ADD [email_pwd] varchar(50) NULL DEFAULT NULL
-GO
+
 
 DROP TABLE IF EXISTS tb_reset_token;
 CREATE TABLE tb_reset_token
