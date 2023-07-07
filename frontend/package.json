@@ -53,5 +53,5 @@
     ]
   },
 
-  "proxy": "http://localhost:8090"
+  "proxy": "http://54.253.9.3:9090/"
 }
