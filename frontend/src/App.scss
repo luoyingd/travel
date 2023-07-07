@@ -642,8 +642,8 @@ progress {
 }
 
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 270px;
 }
 
 .img-thumbnail {
@@ -8649,7 +8649,7 @@ fieldset:disabled .btn {
       rgba(92, 77, 66, 0.3) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("./assets/img/category/entertainment.jpeg");
+    url("./assets/img/category/entertainment.jpg");
 }
 
 .bg-category-Nature {
@@ -8660,7 +8660,7 @@ fieldset:disabled .btn {
       rgba(92, 77, 66, 0.3) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("./assets/img/category/nature.png");
+    url("./assets/img/category/nature.jpg");
 }
 
 .user-select-all {
@@ -11301,7 +11301,7 @@ body {
       rgba(92, 77, 66, 0.8) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("./assets/img/background.jpeg");
+    url("./assets/img/background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -11408,7 +11408,7 @@ header.masthead {
       rgba(92, 77, 66, 0.8) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("./assets/img/background.gif");
+    url("./assets/img/background.jpg");
   background-position: 0px 0px;
   background-repeat: repeat-x;
   background-attachment: scroll;
