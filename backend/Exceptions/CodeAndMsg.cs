@@ -25,6 +25,14 @@ namespace backend.Exceptions
         [EnumMember]
         [Code(603)]
         [Message("Don't send multiple requests within 10 minutes")]
-        USER_DUPLICATE_RESET = 4
+        USER_DUPLICATE_RESET = 4,
+        [EnumMember]
+        [Code(604)]
+        [Message("Invalid token, please request a valid token first")]
+        USER_INVALID_RESET = 5,
+        [EnumMember]
+        [Code(605)]
+        [Message("Token expired, please request a new one")]
+        USER_EXPIRED_RESET = 6
     }
 }

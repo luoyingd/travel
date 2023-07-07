@@ -115,6 +115,44 @@ namespace backend.Service.User
             _userRepository.RegisterUser(user);
         }
 
+        public void ResetPassword(ResetPasswordForm resetPasswordForm)
+        {
+            if (resetPasswordForm.Email.IsNullOrEmpty() ||
+           resetPasswordForm.Token.IsNullOrEmpty() ||
+           resetPasswordForm.NewPassword.IsNullOrEmpty())
+            {
+                throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
+            }
+
+            // check token and time
+            ResetToken resetToken = _userRepository.GetResetToken(resetPasswordForm.Email);
+            if (resetToken == null || resetToken.Token.IsNullOrEmpty() ||
+            resetToken.Token != resetPasswordForm.Token)
+            {
+                throw new CustomException(CodeAndMsg.USER_INVALID_RESET);
+            }
+            _logger.LogInformation("token, {}", resetToken.Token);
+            _logger.LogInformation("time, {}", resetToken.CreateTime);
+            if ((DateTime.Now - resetToken.CreateTime).TotalMinutes > 30)
+            {
+                throw new CustomException(CodeAndMsg.USER_EXPIRED_RESET);
+            }
+
+            // reset password
+            Models.User user = new()
+            {
+                Email = resetPasswordForm.Email
+            };
+            RandomNumberGenerator randomNumberGenerator = RandomNumberGenerator.Create();
+            byte[] bytes = new byte[128 / 8];
+            randomNumberGenerator.GetNonZeroBytes(bytes);
+            string salt = Convert.ToBase64String(bytes);
+            user.Password = PasswordEncrypt.Encrypt(resetPasswordForm.NewPassword,
+             _configuration, salt);
+            user.Salt = salt;
+            _userRepository.UpdateUserPassword(user);
+        }
+
         public void SendResetMail(string email, MailUtil mailUtil)
         {
             // check if email is correct
@@ -129,12 +167,11 @@ namespace backend.Service.User
             }
 
             // check if have sent request in 10 minutes
-            DateTime curTime = _userRepository.GetResetTokenTime(email);
-            _logger.LogInformation("original time : {}", curTime);
-            // if (curTime != null && (DateTime.Now - curTime).TotalMinutes <= 10)
-            // {
-            //     throw new CustomException(CodeAndMsg.USER_DUPLICATE_RESET);
-            // }
+            Models.ResetToken curToken = _userRepository.GetResetToken(email);
+            if (curToken != null && (DateTime.Now - curToken.CreateTime).TotalMinutes <= 10)
+            {
+                throw new CustomException(CodeAndMsg.USER_DUPLICATE_RESET);
+            }
 
             // reset token
             string token = Guid.NewGuid().ToString();
@@ -144,7 +181,7 @@ namespace backend.Service.User
                 Token = token,
                 CreateTime = DateTime.Now
             };
-            if (curTime == null)
+            if (curToken == null)
             {
                 _userRepository.InsertResetToken(resetTokenNew);
             }
@@ -158,7 +195,7 @@ namespace backend.Service.User
                 {"userName", user.FirstName},
                 {"token",token}
             };
-            mailUtil.sendMail(email, parameters);
+            mailUtil.sendMail(Constant.Constant.BASE_DIR + "/reset_pwd.html", email, parameters);
         }
 
         private string GetToken(int userId)

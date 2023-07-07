@@ -48,5 +48,13 @@ namespace backend.Controllers
             _userService.SendResetMail(userLoginForm.Email, new MailUtil(_passwordRepository, _configuration));
             return R.OK();
         }
+
+        [AllowAnonymous]
+        [HttpPost("/user/resetPassword")]
+        public R ResetPassword(ResetPasswordForm resetPasswordForm)
+        {
+            _userService.ResetPassword(resetPasswordForm);
+            return R.OK();
+        }
     }
 }

@@ -6,28 +6,46 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import IconButton from "@mui/material/IconButton";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import { TextField } from "@mui/material";
+import { http } from "../../utils/http";
+import history from "../../utils/history";
+import { message } from "antd";
 function ConfirmResetPwd() {
   // TODO:
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [validate, setValidate] = React.useState(true);
+  const [emailValidate, setEmailValidate] = React.useState(true);
+  const [pwdValidate, setPwdValidate] = React.useState(true);
+  const [tokenValidate, setTokenValidate] = React.useState(true);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
+    if (!data.get("email")) {
+      setEmailValidate(false);
+      return;
+    }
+    setEmailValidate(true);
+    if (!data.get("password")) {
+      setPwdValidate(false);
+      return;
+    }
+    setPwdValidate(true);
+    if (!data.get("token")) {
+      setTokenValidate(false);
+      return;
+    }
+    setTokenValidate(true);
+    http
+      .post("/user/resetPassword", {
+        email: data.get("email"),
+        token: data.get("token"),
+        newPassword: data.get("password"),
+      })
+      .then((res) => {
+        message.success("Successfully reset!");
+        history.push("/login");
+      })
+      .catch((err) => {});
   };
   return (
     <section class="page-section-login" id="services">
@@ -53,74 +71,68 @@ function ConfirmResetPwd() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <FormControl
-              sx={{ m: 1 }}
-              fullWidth
-              variant="outlined"
-              style={{ backgroundColor: "white" }}
-              required
-              error={!validate}
-            >
-              <InputLabel htmlFor="outlined-adornment-password">
-                New Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="New Password"
-              />
-            </FormControl>
-            <FormControl
-              sx={{ m: 1 }}
-              fullWidth
-              variant="outlined"
-              style={{ backgroundColor: "white" }}
-              required
-              error={!validate}
-            >
-              <InputLabel htmlFor="outlined-adornment-password">
-                Confirm Password
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Confirm Password"
-              />
-            </FormControl>
-
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  error={!emailValidate}
+                  style={{ backgroundColor: "white" }}
+                  variant="filled"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="token"
+                  label="Token"
+                  name="token"
+                  autoComplete="token"
+                  error={!tokenValidate}
+                  style={{ backgroundColor: "white" }}
+                  variant="filled"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="password"
+                  error={!pwdValidate}
+                  style={{ backgroundColor: "white" }}
+                  variant="filled"
+                />
+              </Grid>
+            </Grid>
             <Button
               type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              style={{ marginLeft: 5 }}
               fullWidth
             >
               Submit
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/sendResetMail" variant="body2">
+                  No valid token yet?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Login
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

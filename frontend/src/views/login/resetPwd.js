@@ -9,16 +9,28 @@ import Container from "@mui/material/Container";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import { http } from "../../utils/http";
+import history from "../../utils/history";
+import { message } from "antd";
 function SendResetMail() {
-  // TODO:
   const [validate, setValidate] = React.useState(true);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    if (!data.get("email")) {
+      setValidate(false);
+      return;
+    }
+    setValidate(true);
+    http
+      .post("/user/sendResetMail", { email: data.get("email") })
+      .then((res) => {
+        message.success("We have sent a email to you. Please reset within 30 minutes.")
+        history.push("/confirmResetPwd");
+      })
+      .catch((err) => {});
   };
   return (
     <section class="page-section-login" id="services">
@@ -54,7 +66,11 @@ function SendResetMail() {
               <InputLabel htmlFor="outlined-adornment-amount">
                 Email Address
               </InputLabel>
-              <OutlinedInput id="outlined-adornment-amount" label="email" />
+              <OutlinedInput
+                id="outlined-adornment-amount"
+                label="email"
+                name="email"
+              />
             </FormControl>
 
             <Button
@@ -66,6 +82,18 @@ function SendResetMail() {
             >
               Submit
             </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/confirmResetPwd" variant="body2">
+                  Already sent request?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/login" variant="body2">
+                  Login
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

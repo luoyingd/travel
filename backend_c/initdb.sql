@@ -19,7 +19,7 @@ CREATE TABLE tb_user
 )
 GO
 
-CREATE INDEX email ON tb_user(email)
+CREATE UNIQUE INDEX email ON tb_user(email)
 GO
 
 create trigger mytrigger ON tb_user
@@ -110,13 +110,18 @@ CREATE TABLE tb_password
   google_api varchar(50) NULL DEFAULT NULL
 )
 GO
+ALTER TABLE [dbo].[tb_password]
+  ADD [email_pwd] varchar(50) NULL DEFAULT NULL
+GO
 
 DROP TABLE IF EXISTS tb_reset_token;
 CREATE TABLE tb_reset_token
 (
   id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
   token varchar(50) NULL DEFAULT NULL,
-  user_id INT NOT NULL,
-  create_time datetime NOT NULL DEFAULT GETDATE()
+  email varchar(50) NULL DEFAULT NULL,
+  create_time DATETIME NOT NULL DEFAULT GETDATE()
 )
+GO
+CREATE UNIQUE INDEX email ON tb_reset_token(email)
 GO

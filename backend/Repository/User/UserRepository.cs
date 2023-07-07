@@ -1,4 +1,5 @@
 using backend.Data;
+using backend.Form;
 using backend.Models;
 using Dapper;
 
@@ -12,12 +13,12 @@ namespace backend.Repository
             _dapperContext = dapperContext;
         }
 
-        public DateTime GetResetTokenTime(string? email)
+        public ResetToken GetResetToken(string? email)
         {
             DynamicParameters dynamicParameters = new();
             dynamicParameters.Add("email", email);
-            string sql = "select [create_time] from tb_reset_token where email = @email";
-            return _dapperContext.QueryData<DateTime>(sql, dynamicParameters).FirstOrDefault();
+            string sql = "select [create_time], [token] from tb_reset_token where email = @email";
+            return _dapperContext.QueryData<ResetToken>(sql, dynamicParameters).FirstOrDefault();
         }
 
         public User GetUser(string? email)
@@ -26,6 +27,17 @@ namespace backend.Repository
             dynamicParameters.Add("email", email);
             string sql = "select * from tb_user where email = @email";
             return _dapperContext.QueryData<User>(sql, dynamicParameters).FirstOrDefault();
+        }
+
+        public void UpdateUserPassword(User user)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("email", user.Email);
+            dynamicParameters.Add("password", user.Password);
+            dynamicParameters.Add("salt", user.Salt);
+            string sql = @"update tb_user set [password] = @password, [salt] = @salt 
+            where email = @email";
+            _dapperContext.Execute(sql, dynamicParameters);
         }
 
         public void InsertResetToken(ResetToken resetToken)
@@ -55,7 +67,7 @@ namespace backend.Repository
 
         public void UpdateResetToken(ResetToken resetToken)
         {
-             DynamicParameters dynamicParameters = new();
+            DynamicParameters dynamicParameters = new();
             dynamicParameters.Add("email", resetToken.Email);
             dynamicParameters.Add("token", resetToken.Token);
             dynamicParameters.Add("createTime", resetToken.CreateTime);

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using backend.Repository.Common;
 
 namespace backend.Utils
@@ -18,17 +15,18 @@ namespace backend.Utils
             _configuration = configuration;
         }
 
-        public async void sendMail(string toAddress, Dictionary<string, string> parameters)
+        public async void sendMail(string filePath, string toAddress, 
+        Dictionary<string, string> parameters)
         {
             MailAddress addressFrom = new MailAddress(_configuration
-            .GetSection("AppSettings:email_username").Value);
+            .GetSection("AppSettings:email_username").Value, "Travel Note");
             MailAddress addressTo = new MailAddress(toAddress);
             MailMessage message = new MailMessage(addressFrom, addressTo);
             message.Subject = _configuration
             .GetSection("AppSettings:email_title_reset_pwd").Value;
             message.IsBodyHtml = true;
             message.BodyEncoding = System.Text.Encoding.UTF8;
-            string htmlString = ReadHtml(Constant.Constant.BASE_DIR + "/reset_pwd.html", parameters);
+            string htmlString = ReadHtml(filePath, parameters);
 
             message.Body = htmlString;
 
@@ -51,7 +49,7 @@ namespace backend.Utils
 
         }
 
-        public string ReadHtml(string filePath, Dictionary<string, string> parameters)
+        private string ReadHtml(string filePath, Dictionary<string, string> parameters)
         {
             Stream myStream = new FileStream(filePath, FileMode.Open);
             Encoding encode = System.Text.Encoding.GetEncoding("gb2312");//若是格式为utf-8的需要将gb2312替换
@@ -64,6 +62,21 @@ namespace backend.Utils
                 stroutput = stroutput.Replace("$" + param.Key + "$", param.Value);
             }
             return stroutput;
+        }
+
+        private void ReplaceHref(string url)
+        {
+            Regex r = new Regex(@"<a href=""[^""]+"">([^<]+)");
+
+            string s0 = @"<p><a href=""docs/123.pdf"">33</a></p>";
+            string s1 = r.Replace(s0, m => GetNewLink(m));
+
+            Console.WriteLine(s1);
+        }
+
+        private string GetNewLink(Match m)
+        {
+            return string.Format(@"(<a href=""{0}.html"">{0}", m.Groups[1]);
         }
     }
 }

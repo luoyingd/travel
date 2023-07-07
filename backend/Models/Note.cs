@@ -31,7 +31,9 @@ namespace backend.Models
         public string? Address { get => _address; set => _address = value; }
         [Column(Name = "photos")]
         public string? Photos { get => _photos; set => _photos = value; }
+        [Column(Name = "title")]
         public string? Title { get => title; set => title = value; }
+        [Column(Name = "country")]
         public string? Country { get => country; set => country = value; }
     }
 }

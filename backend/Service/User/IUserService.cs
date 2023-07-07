@@ -9,5 +9,6 @@ namespace backend.Service.User
         void RegisterUser(UserRegisterForm userRegisterForm);
         UserLoginVO Login(UserLoginForm userLoginForm);
         void SendResetMail(string email, MailUtil mailUtil);
+        void ResetPassword(ResetPasswordForm resetPasswordForm);
     }
 }
