@@ -36,6 +36,13 @@ builder.Services.AddCors((options) =>
         .AllowAnyHeader()
         .AllowCredentials();
     });
+    options.AddPolicy("Cors", (corsBuilding) =>
+   {
+       corsBuilding.WithOrigins("http://deloriatravel.net")
+       .AllowAnyMethod()
+       .AllowAnyHeader()
+       .AllowCredentials();
+   });
 });
 
 // add singleton for interface and implementation here. same instance for the entire app
@@ -81,6 +88,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     // allow cross origin in dev
     app.UseCors("DevCors");
+}
+else
+{
+    app.UseCors("Cors");
 }
 
 // app.UseHttpsRedirection();
