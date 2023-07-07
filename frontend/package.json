@@ -51,7 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-
-  "proxy": "http://54.253.9.3:9090"
+  }
 }
