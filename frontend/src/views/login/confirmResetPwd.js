@@ -13,7 +13,6 @@ import { http } from "../../utils/http";
 import history from "../../utils/history";
 import { message } from "antd";
 function ConfirmResetPwd() {
-  // TODO:
   const [emailValidate, setEmailValidate] = React.useState(true);
   const [pwdValidate, setPwdValidate] = React.useState(true);
   const [tokenValidate, setTokenValidate] = React.useState(true);
