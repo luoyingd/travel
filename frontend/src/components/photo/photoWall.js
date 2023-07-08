@@ -46,11 +46,11 @@ const PhotoWall = () => {
       (file.type === "image/jpeg" ||
         file.type === "image/png" ||
         file.type === "image/jpg") &&
-      file.size / 1024 / 1024 < 3;
+      file.size / 1024 / 1024 < 10;
     if (!check) {
       file.status = "error";
       message.error(
-        "You can only upload JPG/PNG/JPEG file, and each file should be smaller than 3MB!"
+        "You can only upload JPG/PNG/JPEG file, and each file should be smaller than 10MB!"
       );
       setFileList([...fileList, file]);
     } else {
