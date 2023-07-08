@@ -19,6 +19,7 @@ namespace backend.Response.VO.Note
         private int _authorId;
         private string? category;
         private bool _isLiked;
+        private bool _isSubscribed;
 
         public int Id { get => _id; set => _id = value; }
         public string? Title { get => _title; set => _title = value; }
@@ -32,5 +33,6 @@ namespace backend.Response.VO.Note
         public string? AddressCode { get => _addressCode; set => _addressCode = value; }
         public string? Category { get => category; set => category = value; }
         public bool IsLiked { get => _isLiked; set => _isLiked = value; }
+        public bool IsSubscribed { get => _isSubscribed; set => _isSubscribed = value; }
     }
 }

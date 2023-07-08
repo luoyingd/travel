@@ -13,6 +13,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import loadingStore from "../../stores/common/loadingStore";
 import blank from "../../assets/img/blank.jpg";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -79,17 +81,30 @@ function NoteInfo() {
             <article>
               <header class="mb-1">
                 <h1 class="fw-bolder mb-1">{noteStore.noteInfo.title}</h1>
-
                 <div class="text-muted fst-italic mb-4">
+                  <LocationOnIcon></LocationOnIcon>
+                  <Button onClick={toMap} type="text">
+                    {noteStore.noteInfo.address}
+                  </Button>
+                  <br></br>
                   <EmojiPeopleIcon></EmojiPeopleIcon>
+                  {noteStore.noteInfo.isSubscribed ? (
+                    <Button
+                      icon={<StarIcon sx={{ color: "red" }}></StarIcon>}
+                      type="text"
+                      onClick={noteStore.doSubscribe}
+                    ></Button>
+                  ) : (
+                    <Button
+                      icon={<StarBorderIcon></StarBorderIcon>}
+                      type="text"
+                      onClick={noteStore.doSubscribe}
+                    ></Button>
+                  )}
                   <Button onClick={toAuthor} type="text">
                     {noteStore.noteInfo.firstName +
                       " " +
                       noteStore.noteInfo.lastName}
-                  </Button>
-                  <LocationOnIcon></LocationOnIcon>
-                  <Button onClick={toMap} type="text">
-                    {noteStore.noteInfo.address}
                   </Button>
                   {noteStore.noteInfo.isLiked ? (
                     <Button
@@ -110,7 +125,12 @@ function NoteInfo() {
               <figure class="mb-5 info-box">
                 {noteStore.noteInfo.photos &&
                 noteStore.noteInfo.photos.length > 0 ? (
-                  <Carousel afterChange={onChange} initialSlide={0} autoplay effect="fade">
+                  <Carousel
+                    afterChange={onChange}
+                    initialSlide={0}
+                    autoplay
+                    effect="fade"
+                  >
                     {noteStore.noteInfo.photos.split(",").map((key) => {
                       return (
                         <img
@@ -122,11 +142,7 @@ function NoteInfo() {
                     })}
                   </Carousel>
                 ) : (
-                  <img
-                    class="card-img-single"
-                    src={blank}
-                    alt="..."
-                  />
+                  <img class="card-img-single" src={blank} alt="..." />
                 )}
               </figure>
               <section class="mb-5">

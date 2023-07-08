@@ -221,6 +221,23 @@ namespace backend.Service.User
             return securityTokenHandler.WriteToken(securityToken);
         }
 
+        public void Subscribe(UserSubscribeForm subscribeForm, int userId)
+        {
+            UserSubscribe userSubscribe = new()
+            {
+                UserId = userId,
+                AuthorId = subscribeForm.AuthorId
+            };
+            if (subscribeForm.Subscribe == 0)
+            {
+                _userRepository.DeleteUserSubscribe(userSubscribe);
+            }
+            else
+            {
+                _userRepository.InsertUserSubscribe(userSubscribe);
+            }
+        }
+
         class GoogleUserResponse
         {
             private string? given_name;

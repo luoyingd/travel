@@ -10,5 +10,6 @@ namespace backend.Service.User
         UserLoginVO Login(UserLoginForm userLoginForm);
         void SendResetMail(string email, MailUtil mailUtil);
         void ResetPassword(ResetPasswordForm resetPasswordForm);
+        void Subscribe(UserSubscribeForm subscribeForm, int userId);
     }
 }

@@ -122,3 +122,15 @@ CREATE TABLE tb_reset_token
 GO
 CREATE UNIQUE INDEX email ON tb_reset_token(email)
 GO
+
+DROP TABLE IF EXISTS tb_user_subscribe;
+CREATE TABLE tb_user_subscribe
+(
+  id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+  user_id INT NOT NULL,
+  author_id INT NOT NULL,
+  create_time DATETIME NOT NULL DEFAULT GETDATE()
+)
+GO
+CREATE UNIQUE INDEX id_pair ON tb_user_subscribe(user_id, author_id);
+GO

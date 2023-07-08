@@ -33,6 +33,7 @@ class NoteStore {
     title: null,
     category: null,
     isLiked: false,
+    isSubscribed: false
   };
   recommendationList = [];
   addNote = async ({ title, description, category }) => {
@@ -131,6 +132,19 @@ class NoteStore {
       })
       .catch((err) => {});
   };
+
+  doSubscribe = () => {
+    let subscribed = this.noteInfo.isSubscribed ? 0 : 1;
+    http
+      .post("/user/subscribe", {
+        authorId : this.noteInfo.authorId,
+        subscribe : subscribed
+      })
+      .then((res) => {
+        this.noteInfo.isSubscribed = !this.noteInfo.isSubscribed;
+      })
+      .catch((err) => {});
+  }
 
   constructor() {
     makeAutoObservable(this);

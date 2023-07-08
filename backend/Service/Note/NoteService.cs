@@ -1,6 +1,7 @@
 using System.Text;
 using backend.Exceptions;
 using backend.Form;
+using backend.Repository;
 using backend.Repository.Common;
 using backend.Repository.Note;
 using backend.Response.VO.Note;
@@ -17,15 +18,17 @@ namespace backend.Service.Note
         private readonly IPasswordRepository _passwordRepository;
         private readonly HttpClient _httpClient;
         private readonly ILikeService _likeService;
+        private readonly  IUserRepository _userRepository;
         public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger,
         IPasswordRepository passwordRepository, HttpClient httpClient,
-        ILikeService likeService)
+        ILikeService likeService, IUserRepository userRepository)
         {
             _logger = logger;
             _noteRepository = noteRepository;
             _passwordRepository = passwordRepository;
             _httpClient = httpClient;
             _likeService = likeService;
+            _userRepository = userRepository;
         }
 
         public void Add(AddNoteForm addNoteForm, int userId)
@@ -60,6 +63,8 @@ namespace backend.Service.Note
                 note.Photos = keys.ToString(0, keys.Length - 1);
             }
             _noteRepository.AddNote(note);
+
+            // TODO: send email to subscribers
         }
 
         public NoteInfoVO GetNoteInfo(int id, int userId)
@@ -79,6 +84,10 @@ namespace backend.Service.Note
                 noteInfoVO.AddressCode = null;
             }
             noteInfoVO.IsLiked = _likeService.GetLikeStatus(id, userId);
+            noteInfoVO.IsSubscribed = _userRepository.GetUserSubscribe(new Models.UserSubscribe(){
+                UserId = userId,
+                AuthorId = noteInfoVO.AuthorId
+            }) != null;
             return noteInfoVO;
         }
 

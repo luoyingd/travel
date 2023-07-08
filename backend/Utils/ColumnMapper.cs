@@ -13,6 +13,7 @@ namespace backend.Utils
             SqlMapper.SetTypeMap(typeof(Note), new ColumnAttributeTypeMapper<Note>());
             SqlMapper.SetTypeMap(typeof(Like), new ColumnAttributeTypeMapper<Like>());
             SqlMapper.SetTypeMap(typeof(ResetToken), new ColumnAttributeTypeMapper<ResetToken>());
+            SqlMapper.SetTypeMap(typeof(UserSubscribe), new ColumnAttributeTypeMapper<UserSubscribe>());
         }
     }
 }

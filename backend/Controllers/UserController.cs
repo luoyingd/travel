@@ -56,5 +56,13 @@ namespace backend.Controllers
             _userService.ResetPassword(resetPasswordForm);
             return R.OK();
         }
+
+        [HttpPost("/user/subscribe")]
+        public R Subscribe([FromHeader(Name = "UserId")] int userId,
+        UserSubscribeForm subscribeForm)
+        {
+            _userService.Subscribe(subscribeForm, userId);
+            return R.OK();
+        }
     }
 }

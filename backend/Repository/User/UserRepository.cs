@@ -76,5 +76,37 @@ namespace backend.Repository
             where email = @email";
             _dapperContext.Execute(sql, dynamicParameters);
         }
+
+        public UserSubscribe GetUserSubscribe(UserSubscribe userSubscribe)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("userId", userSubscribe.UserId);
+            dynamicParameters.Add("authorId", userSubscribe.AuthorId);
+            string sql = @"select id from tb_user_subscribe where user_id = @userId 
+            and author_id = @authorId";
+            return _dapperContext.QueryData<UserSubscribe>(sql, dynamicParameters).FirstOrDefault();
+        }
+
+        public void InsertUserSubscribe(UserSubscribe userSubscribe)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("userId", userSubscribe.UserId);
+            dynamicParameters.Add("authorId", userSubscribe.AuthorId);
+            string sql = @"insert into [tb_user_subscribe] 
+            ([user_id], [author_id])
+             values (@userId, @authorId)";
+            _dapperContext.Execute(sql, dynamicParameters);
+        }
+
+        public void DeleteUserSubscribe(UserSubscribe userSubscribe)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("userId", userSubscribe.UserId);
+            dynamicParameters.Add("authorId", userSubscribe.AuthorId);
+            string sql = @"delete from [tb_user_subscribe] 
+            where user_id = @userId 
+            and author_id = @authorId";
+            _dapperContext.Execute(sql, dynamicParameters);
+        }
     }
 }
