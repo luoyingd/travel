@@ -6,6 +6,7 @@ using backend.Repository.Note;
 using backend.Response.VO.Note;
 using backend.Service.Like;
 using backend.Service.User;
+using backend.Utils;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -19,9 +20,11 @@ namespace backend.Service.Note
         private readonly HttpClient _httpClient;
         private readonly ILikeService _likeService;
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
         public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger,
         IPasswordRepository passwordRepository, HttpClient httpClient,
-        ILikeService likeService, IUserService userService)
+        ILikeService likeService, IUserService userService,
+        IConfiguration configuration)
         {
             _logger = logger;
             _noteRepository = noteRepository;
@@ -29,6 +32,7 @@ namespace backend.Service.Note
             _httpClient = httpClient;
             _likeService = likeService;
             _userService = userService;
+            _configuration = configuration;
         }
 
         public void Add(AddNoteForm addNoteForm, int userId)
@@ -67,7 +71,8 @@ namespace backend.Service.Note
             // publish to all subscribers
             // search current note
             NoteInfoVO noteInfoVO = _noteRepository.GetNoteInfoByTimeAndAuthor(note);
-            _userService.OnPublishNewNote(noteInfoVO, userId);
+            _userService.OnPublishNewNote(noteInfoVO, userId,
+            new MailUtil(_passwordRepository, _configuration));
         }
 
         public NoteInfoVO GetNoteInfo(int id, int userId)

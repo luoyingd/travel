@@ -17,14 +17,13 @@ namespace backend.Utils
         }
 
         public async void sendMail(string filePath, string toAddress,
-        Dictionary<string, string> parameters)
+        Dictionary<string, string> parameters, string subject)
         {
             MailAddress addressFrom = new MailAddress(_configuration
             .GetSection("AppSettings:email_username").Value, "Travel Note");
             MailAddress addressTo = new MailAddress(toAddress);
             MailMessage message = new MailMessage(addressFrom, addressTo);
-            message.Subject = _configuration
-            .GetSection("AppSettings:email_title_reset_pwd").Value;
+            message.Subject = subject;
             message.IsBodyHtml = true;
             message.BodyEncoding = System.Text.Encoding.UTF8;
             string htmlString = ReadHtml(filePath, parameters);
@@ -81,7 +80,11 @@ namespace backend.Utils
                 else
                 {
                     HtmlNode node = doc.GetElementbyId(key);
-                    node.InnerHtml = parameters[key];
+                    if (node != null)
+                    {
+                        node.InnerHtml = parameters[key];
+                    }
+
                 }
             }
             return doc.DocumentNode.OuterHtml;

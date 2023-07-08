@@ -14,6 +14,6 @@ namespace backend.Service.User
         void ResetPassword(ResetPasswordForm resetPasswordForm);
         void Subscribe(UserSubscribeForm subscribeForm, int userId);
         UserSubscribe GetUserSubscribe(UserSubscribe userSubscribe);
-        void OnPublishNewNote(NoteInfoVO noteInfoVO, int senderId);
+        void OnPublishNewNote(NoteInfoVO noteInfoVO, int senderId, MailUtil mailUtil);
     }
 }

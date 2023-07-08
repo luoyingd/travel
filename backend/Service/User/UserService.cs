@@ -197,7 +197,9 @@ namespace backend.Service.User
                 {"username", "Hi " + user.FirstName + ","},
                 {"token",token}
             };
-            mailUtil.sendMail(Constant.Constant.BASE_DIR + "/reset_pwd.html", email, parameters);
+            mailUtil.sendMail(Constant.Constant.BASE_DIR + "/reset_pwd.html", email, parameters,
+            _configuration
+            .GetSection("AppSettings:email_title_reset_pwd").Value);
         }
 
         private string GetToken(int userId)
@@ -245,7 +247,7 @@ namespace backend.Service.User
             return _userRepository.GetUserSubscribe(userSubscribe);
         }
 
-        public async void OnPublishNewNote(NoteInfoVO noteInfoVO, int senderId)
+        public async void OnPublishNewNote(NoteInfoVO noteInfoVO, int senderId, MailUtil mailUtil)
         {
             try
             {
@@ -263,7 +265,7 @@ namespace backend.Service.User
                             List<SubscribeReceiver> receivers = new();
                             foreach (string subscriber in subscribers)
                             {
-                                SubscribeReceiver subscribeReceiver = new SubscribeReceiver(subscriber);
+                                SubscribeReceiver subscribeReceiver = new SubscribeReceiver(subscriber, mailUtil);
                                 publisher.onReceiveNewPost += subscribeReceiver.SendMail;
                             }
                             SubscribeWork work = publisher.SetWork(noteInfoVO);
