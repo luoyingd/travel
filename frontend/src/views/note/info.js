@@ -24,6 +24,7 @@ function NoteInfo() {
   const toMap = () => {
     window.open(noteStore.noteInfo.addressCode);
   };
+  // TODO: like not refresh
   const onChange = () => {};
   return (
     <div>
@@ -74,9 +75,7 @@ function NoteInfo() {
 
       <section class="py-5">
         <div class="container px-4 px-lg-5 my-3">
-          <Spin
-            spinning={loadingStore.isLoading}
-          >
+          <Spin spinning={loadingStore.isLoading}>
             <article>
               <header class="mb-1">
                 <h1 class="fw-bolder mb-1">{noteStore.noteInfo.title}</h1>
@@ -142,9 +141,7 @@ function NoteInfo() {
         <div class="container px-4 mt-1">
           <h2 class="fw-bolder mb-4">Recommend Notes</h2>
           <div class="container px-4 mt-5">
-            <Spin
-              spinning={loadingStore.isLoading}
-            >
+            <Spin spinning={loadingStore.isLoading}>
               {noteStore.recommendationList.length > 0 ? (
                 <Row gutter={16}>
                   {noteStore.recommendationList.map((item) => {
@@ -174,6 +171,9 @@ function NoteInfo() {
         <div class="container px-4 px-lg-5">
           <div class="small text-center text-muted">
             Copyright &copy; 2023 - Deloria
+          </div>
+          <div class="small text-center text-muted">
+            Images from https://www.pexels.com/
           </div>
         </div>
       </footer>

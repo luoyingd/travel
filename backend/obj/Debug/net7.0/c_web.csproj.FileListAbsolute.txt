@@ -149,3 +149,4 @@
 /Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/Newtonsoft.Json.dll
 /Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/AWSSDK.Core.dll
 /Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/AWSSDK.S3.dll
+/Users/dongluoying/Desktop/code/travel/backend/bin/Debug/net7.0/c_web.staticwebassets.runtime.json

@@ -1,11 +1,37 @@
 {
   "Version": 1,
-  "Hash": "cWAGWSTA2UQiAVoU8f595JipETwsY1oaO24mwFHv5pc=",
+  "Hash": "vDv3qWnOP8B6cGM28Wq/XLzGFlHEMAk2fWJl9/OKHK8=",
   "Source": "c_web",
   "BasePath": "_content/c_web",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "c_web/wwwroot",
+      "Source": "c_web",
+      "ContentRoot": "/Users/dongluoying/Desktop/code/travel/backend/wwwroot/",
+      "BasePath": "_content/c_web",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/dongluoying/Desktop/code/travel/backend/wwwroot/reset_pwd.html",
+      "SourceId": "c_web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/dongluoying/Desktop/code/travel/backend/wwwroot/",
+      "BasePath": "_content/c_web",
+      "RelativePath": "reset_pwd.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/reset_pwd.html"
+    }
+  ]
 }

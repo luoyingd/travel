@@ -182,6 +182,9 @@ function Notes() {
             <div class="small text-center text-muted">
               Copyright &copy; 2023 - Deloria
             </div>
+            <div class="small text-center text-muted">
+              Images from https://www.pexels.com/
+            </div>
           </div>
         </footer>
 
