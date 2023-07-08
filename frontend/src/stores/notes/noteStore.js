@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { http } from "../../utils/http";
+import loadingStore from "../common/loadingStore";
 
 class NoteStore {
   address = null;
@@ -50,6 +51,7 @@ class NoteStore {
   };
 
   loadNote = (id) => {
+    loadingStore.isLoading = true;
     http
       .get("/note/" + id)
       .then((res) => {
@@ -72,10 +74,15 @@ class NoteStore {
                 title: item.title,
               });
             });
+            loadingStore.isLoading = false;
           })
-          .catch((err) => {});
+          .catch((err) => {
+            loadingStore.isLoading = false;
+          });
       })
-      .catch((err) => {});
+      .catch((err) => {
+        loadingStore.isLoading = false;
+      });
   };
 
   loadNotes = ({ filter, category, keyWord, page, userId }) => {

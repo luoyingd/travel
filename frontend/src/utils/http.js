@@ -1,9 +1,9 @@
 import axios from "axios";
 import { myToken, myUser } from "./auth";
-import loadingStore from "../stores/common/loadingStore";
 import history from "./history";
 import { message } from "antd";
 const baseURL = "http://54.253.9.3:9090";
+// const baseURL = "http://localhost:3000";
 const http = axios.create({
   baseURL: baseURL,
   timeout: 20000,
@@ -19,7 +19,6 @@ const beforeRequest = (config) => {
   if (userId) {
     config.headers["UserId"] = userId;
   }
-  loadingStore.isLoading = true;
   return config;
 };
 
@@ -27,7 +26,6 @@ http.interceptors.request.use(beforeRequest);
 
 const responseSuccess = (response) => {
   const data = response.data;
-  loadingStore.isLoading = false;
   if (data !== null) {
     if (data.code !== 200) {
       message.error(data.message, [3]);
@@ -38,7 +36,6 @@ const responseSuccess = (response) => {
 };
 const responseFailed = (error) => {
   const { response } = error;
-  loadingStore.isLoading = false;
   if (response) {
     console.log(response);
     if (response.status === 401) {
