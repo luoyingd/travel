@@ -110,7 +110,7 @@ function NoteInfo() {
               <figure class="mb-5 info-box">
                 {noteStore.noteInfo.photos &&
                 noteStore.noteInfo.photos.length > 0 ? (
-                  <Carousel afterChange={onChange} initialSlide={0} autoplay>
+                  <Carousel afterChange={onChange} initialSlide={0} autoplay effect="fade">
                     {noteStore.noteInfo.photos.split(",").map((key) => {
                       return (
                         <img
@@ -123,7 +123,7 @@ function NoteInfo() {
                   </Carousel>
                 ) : (
                   <img
-                    class="card-img-top mb-5 mb-md-0"
+                    class="card-img-single"
                     src={blank}
                     alt="..."
                   />

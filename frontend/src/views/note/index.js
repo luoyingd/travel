@@ -117,7 +117,7 @@ function Notes() {
           }}
         ></AddNote>
 
-        <Carousel afterChange={onCategoryChange} initialSlide={category}>
+        <Carousel afterChange={onCategoryChange} initialSlide={category} effect="fade">
           {categories.map((category) => {
             return (
               <header className={"py-5 bg-category-" + category.name}>
