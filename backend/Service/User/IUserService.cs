@@ -1,4 +1,5 @@
 using backend.Form;
+using backend.Models;
 using backend.Response.VO.User;
 using backend.Utils;
 
@@ -11,5 +12,7 @@ namespace backend.Service.User
         void SendResetMail(string email, MailUtil mailUtil);
         void ResetPassword(ResetPasswordForm resetPasswordForm);
         void Subscribe(UserSubscribeForm subscribeForm, int userId);
+        UserSubscribe GetUserSubscribe(UserSubscribe userSubscribe);
+        void OnPublishNewNote(Models.Note note, int senderId);
     }
 }

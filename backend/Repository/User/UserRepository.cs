@@ -108,5 +108,23 @@ namespace backend.Repository
             and author_id = @authorId";
             _dapperContext.Execute(sql, dynamicParameters);
         }
+
+        public User GetUserById(int id)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("id", id);
+            string sql = "select [email] from tb_user where id = @id";
+            return _dapperContext.QueryData<User>(sql, dynamicParameters).FirstOrDefault();
+        }
+
+        public IEnumerable<string> getSubscribeEmails(int authorId)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("authorId", authorId);
+            string sql = @"select u.email 
+            from tb_user as u,  tb_user_subscribe as s
+            where u.id = s.user_id and s.author_id = @authorId";
+            return _dapperContext.QueryData<string>(sql, dynamicParameters);
+        }
     }
 }

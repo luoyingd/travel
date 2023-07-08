@@ -10,6 +10,7 @@ using backend.Response.VO.User;
 using backend.Exceptions;
 using Newtonsoft.Json;
 using backend.Models;
+using backend.Work.Note;
 
 namespace backend.Service.User
 {
@@ -235,6 +236,46 @@ namespace backend.Service.User
             else
             {
                 _userRepository.InsertUserSubscribe(userSubscribe);
+            }
+        }
+
+        public UserSubscribe GetUserSubscribe(UserSubscribe userSubscribe)
+        {
+            return _userRepository.GetUserSubscribe(userSubscribe);
+        }
+
+        public async void OnPublishNewNote(Models.Note note, int senderId)
+        {
+            try
+            {
+                var task = Task.Factory.StartNew(() =>
+                {
+                    Models.User sender = _userRepository.GetUserById(senderId);
+                    if (sender != null && sender.Email != null)
+                    {
+                        SubscribePublisher publisher =
+                        new SubscribePublisher(sender.Email);
+                        // get all subscibers email
+                        IEnumerable<string> subscribers = _userRepository.getSubscribeEmails(senderId);
+                        if (subscribers.Count() > 0)
+                        {
+                            List<SubscribeReceiver> receivers = new();
+                            foreach (string subscriber in subscribers)
+                            {
+                                SubscribeReceiver subscribeReceiver = new SubscribeReceiver(subscriber);
+                                publisher.onReceiveNewPost += subscribeReceiver.SendMail;
+                            }
+                            SubscribeWork work = publisher.SetWork(note);
+                            publisher.ReceivePost(new SubscribeWork[] { work });
+                        }
+                    }
+
+                });
+                await task;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 

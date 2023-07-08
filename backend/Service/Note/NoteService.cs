@@ -1,11 +1,11 @@
 using System.Text;
 using backend.Exceptions;
 using backend.Form;
-using backend.Repository;
 using backend.Repository.Common;
 using backend.Repository.Note;
 using backend.Response.VO.Note;
 using backend.Service.Like;
+using backend.Service.User;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
@@ -18,17 +18,17 @@ namespace backend.Service.Note
         private readonly IPasswordRepository _passwordRepository;
         private readonly HttpClient _httpClient;
         private readonly ILikeService _likeService;
-        private readonly  IUserRepository _userRepository;
+        private readonly IUserService _userService;
         public NoteService(INoteRepository noteRepository, ILogger<NoteService> logger,
         IPasswordRepository passwordRepository, HttpClient httpClient,
-        ILikeService likeService, IUserRepository userRepository)
+        ILikeService likeService, IUserService userService)
         {
             _logger = logger;
             _noteRepository = noteRepository;
             _passwordRepository = passwordRepository;
             _httpClient = httpClient;
             _likeService = likeService;
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         public void Add(AddNoteForm addNoteForm, int userId)
@@ -64,7 +64,8 @@ namespace backend.Service.Note
             }
             _noteRepository.AddNote(note);
 
-            // TODO: send email to subscribers
+            // publish to all subscribers
+            _userService.OnPublishNewNote(note, userId);
         }
 
         public NoteInfoVO GetNoteInfo(int id, int userId)
@@ -84,7 +85,8 @@ namespace backend.Service.Note
                 noteInfoVO.AddressCode = null;
             }
             noteInfoVO.IsLiked = _likeService.GetLikeStatus(id, userId);
-            noteInfoVO.IsSubscribed = _userRepository.GetUserSubscribe(new Models.UserSubscribe(){
+            noteInfoVO.IsSubscribed = _userService.GetUserSubscribe(new Models.UserSubscribe()
+            {
                 UserId = userId,
                 AuthorId = noteInfoVO.AuthorId
             }) != null;
