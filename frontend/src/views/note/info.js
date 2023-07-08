@@ -12,6 +12,7 @@ import { myUser } from "../../utils/auth";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import loadingStore from "../../stores/common/loadingStore";
+import blank from "../../assets/img/blank.jpg";
 
 function NoteInfo() {
   const [params] = useSearchParams();
@@ -24,7 +25,6 @@ function NoteInfo() {
   const toMap = () => {
     window.open(noteStore.noteInfo.addressCode);
   };
-  // TODO: like not refresh
   const onChange = () => {};
   return (
     <div>
@@ -124,13 +124,19 @@ function NoteInfo() {
                 ) : (
                   <img
                     class="card-img-top mb-5 mb-md-0"
-                    src="empty"
+                    src={blank}
                     alt="..."
                   />
                 )}
               </figure>
               <section class="mb-5">
-                <p class="fs-5 mb-4">{noteStore.noteInfo.content}</p>
+                <p class="fs-5 mb-4">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: noteStore.noteInfo.content,
+                    }}
+                  />
+                </p>
               </section>
             </article>
           </Spin>

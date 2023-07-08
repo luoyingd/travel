@@ -2,6 +2,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { baseURL } from "../../utils/http";
 import { Card, Col } from "antd";
 import history from "../../utils/history";
+import blank from "../../assets/img/blank.jpg"
 function NoteCard({ item, filters }) {
   const { Meta } = Card;
   const toInfo = () => {
@@ -30,7 +31,7 @@ function NoteCard({ item, filters }) {
             src={
               item.photos && item.photos.length > 0
                 ? baseURL + "/common/photo/" + item.photos.split(",")[0]
-                : "error"
+                : blank
             }
           />
         }

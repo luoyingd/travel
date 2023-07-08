@@ -12,12 +12,18 @@ function AddNote({ isOpen, key, callback }) {
   const onClose = () => {
     setOpen(false);
   };
+  const getFormatTextArea = (strValue) => {
+    return strValue
+      .toString()
+      .replace(/\r\n/g, "<br/>")
+      .replace(/\n/g, "<br/>")
+      .replace(/\s/g, " ");
+  };
   const onSubmit = async () => {
-    let title = form.getFieldsValue("title");
-    // TODO: handle \n in textarea
-    let description = form.getFieldsValue("description");
-    let category = form.getFieldsValue("category");
-    const result = await noteStore.addNote(title, description, category);
+    let title = form.getFieldValue("title");
+    let description = getFormatTextArea(form.getFieldValue("description"));
+    let category = form.getFieldValue("category");
+    const result = await noteStore.addNote({title, description, category});
     if (result) {
       message.success("Successfully posted!", [3]);
       onClose();
