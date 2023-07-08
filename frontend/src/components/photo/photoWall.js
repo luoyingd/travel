@@ -54,6 +54,7 @@ const PhotoWall = () => {
       );
       setFileList([...fileList, file]);
     } else {
+      noteStore.hasUploading = true;
       file.status = "uploading";
       let uid = file.uid;
       let newList = [...fileList, file];
@@ -74,6 +75,7 @@ const PhotoWall = () => {
             return file;
           });
           setFileList(newFileList);
+          noteStore.hasUploading = false;
         })
         .catch((err) => {
           // find the file and replace status
@@ -84,6 +86,7 @@ const PhotoWall = () => {
             return file;
           });
           setFileList(newFileList);
+          noteStore.hasUploading = false;
         });
     }
     return false;

@@ -20,10 +20,14 @@ function AddNote({ isOpen, key, callback }) {
       .replace(/\s/g, " ");
   };
   const onSubmit = async () => {
+    if (noteStore.hasUploading) {
+      message.error("You have photo uploading in process!");
+      return;
+    }
     let title = form.getFieldValue("title");
     let description = getFormatTextArea(form.getFieldValue("description"));
     let category = form.getFieldValue("category");
-    const result = await noteStore.addNote({title, description, category});
+    const result = await noteStore.addNote({ title, description, category });
     if (result) {
       message.success("Successfully posted!", [3]);
       onClose();

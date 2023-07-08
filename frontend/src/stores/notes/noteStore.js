@@ -6,6 +6,7 @@ class NoteStore {
   address = null;
   addressCode = null;
   photoKeys = [];
+  hasUploading = false;
   listForm = {
     offset: 1,
     size: 6,
