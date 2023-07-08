@@ -2,6 +2,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using backend.Repository.Common;
+using HtmlAgilityPack;
 
 namespace backend.Utils
 {
@@ -15,7 +16,7 @@ namespace backend.Utils
             _configuration = configuration;
         }
 
-        public async void sendMail(string filePath, string toAddress, 
+        public async void sendMail(string filePath, string toAddress,
         Dictionary<string, string> parameters)
         {
             MailAddress addressFrom = new MailAddress(_configuration
@@ -51,32 +52,39 @@ namespace backend.Utils
 
         private string ReadHtml(string filePath, Dictionary<string, string> parameters)
         {
-            Stream myStream = new FileStream(filePath, FileMode.Open);
-            Encoding encode = System.Text.Encoding.GetEncoding("gb2312");//若是格式为utf-8的需要将gb2312替换
-            StreamReader myStreamReader = new StreamReader(myStream, encode);
-            string strhtml = myStreamReader.ReadToEnd();
-            myStream.Close();
-            string stroutput = strhtml;
-            foreach (var param in parameters)
+            HtmlWeb webClient = new HtmlWeb();
+            HtmlDocument doc = webClient.Load(filePath);
+            foreach (var key in parameters.Keys)
             {
-                stroutput = stroutput.Replace("$" + param.Key + "$", param.Value);
+                if (key == "href")
+                {
+                    HtmlNodeCollection hrefList = doc.DocumentNode.SelectNodes(".//a[@href]");
+                    if (hrefList != null)
+                    {
+                        foreach (HtmlNode href in hrefList)
+                        {
+                            href.SetAttributeValue("href", parameters[key]);
+                        }
+                    }
+                }
+                else if (key == "src")
+                {
+                    HtmlNodeCollection imgList = doc.DocumentNode.SelectNodes(".//img[@src]");
+                    if (imgList != null)
+                    {
+                        foreach (HtmlNode img in imgList)
+                        {
+                            img.SetAttributeValue("src", parameters[key]);
+                        }
+                    }
+                }
+                else
+                {
+                    HtmlNode node = doc.GetElementbyId(key);
+                    node.InnerHtml = parameters[key];
+                }
             }
-            return stroutput;
-        }
-
-        private void ReplaceHref(string url)
-        {
-            Regex r = new Regex(@"<a href=""[^""]+"">([^<]+)");
-
-            string s0 = @"<p><a href=""docs/123.pdf"">33</a></p>";
-            string s1 = r.Replace(s0, m => GetNewLink(m));
-
-            Console.WriteLine(s1);
-        }
-
-        private string GetNewLink(Match m)
-        {
-            return string.Format(@"(<a href=""{0}.html"">{0}", m.Groups[1]);
+            return doc.DocumentNode.OuterHtml;
         }
     }
 }

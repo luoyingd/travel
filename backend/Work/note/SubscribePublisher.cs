@@ -1,4 +1,5 @@
 using backend.Models;
+using backend.Response.VO.Note;
 
 namespace backend.Work.Note
 {
@@ -25,9 +26,9 @@ namespace backend.Work.Note
                 }
             }
         }
-        public SubscribeWork SetWork(Models.Note newNote)
+        public SubscribeWork SetWork(NoteInfoVO noteInfoVO)
         {
-            SubscribeWork work = new(newNote);
+            SubscribeWork work = new(noteInfoVO);
             return work;
         }
     }

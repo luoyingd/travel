@@ -14,9 +14,9 @@ namespace backend.Repository.Note
         public NoteInfoVO GetNoteInfo(int id);
 
         public IEnumerable<NoteInfoVO> GetHotNoteByCountryAndCategory(int id, string country, string category);
-        public IEnumerable<NoteInfoVO> GetHotNoteByAuthorOrCategory(int authorId, 
+        public IEnumerable<NoteInfoVO> GetHotNoteByAuthorOrCategory(int authorId,
         string category, int left, List<int> curIds);
-
+        NoteInfoVO GetNoteInfoByTimeAndAuthor(Models.Note note);
         public int GetLikeCount(int id);
     }
 }

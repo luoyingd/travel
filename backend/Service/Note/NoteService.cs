@@ -65,7 +65,9 @@ namespace backend.Service.Note
             _noteRepository.AddNote(note);
 
             // publish to all subscribers
-            _userService.OnPublishNewNote(note, userId);
+            // search current note
+            NoteInfoVO noteInfoVO = _noteRepository.GetNoteInfoByTimeAndAuthor(note);
+            _userService.OnPublishNewNote(noteInfoVO, userId);
         }
 
         public NoteInfoVO GetNoteInfo(int id, int userId)

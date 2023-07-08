@@ -1,16 +1,17 @@
 using backend.Models;
+using backend.Response.VO.Note;
 
 namespace backend.Work.Note
 {
     public class SubscribeWork : EventArgs
     {
-        private Models.Note _newNote;
+        private NoteInfoVO _noteInfoVO;
 
-        public SubscribeWork(Models.Note newNote)
+        public SubscribeWork(NoteInfoVO noteInfoVO)
         {
-            _newNote = newNote;
+            _noteInfoVO = noteInfoVO;
         }
 
-        public Models.Note NewNote { get => _newNote; set => _newNote = value; }
+        public NoteInfoVO NewNote { get => _noteInfoVO; set => _noteInfoVO = value; }
     }
 }

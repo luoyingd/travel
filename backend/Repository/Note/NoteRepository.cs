@@ -78,6 +78,23 @@ namespace backend.Repository.Note
             return _dapperContext.QueryData<int>(sql, dynamicParameters).FirstOrDefault();
         }
 
+        public NoteInfoVO GetNoteInfoByTimeAndAuthor(Models.Note note)
+        {
+            DynamicParameters dynamicParameters = new();
+            dynamicParameters.Add("userId", note.UserId);
+            dynamicParameters.Add("title", note.Title);
+            string sql = @"select n.id as id, 
+            n.title as title, 
+            n.photos as photos, 
+            u.first_name as firstName, u.last_name as lastName,
+            n.address as address
+            from [tb_note] as n, [tb_user] as u
+            where n.title = @title and n.user_id = @userId and 
+            DATEDIFF(MINUTE, GETDATE(), n.create_time) <= 2
+            order by n.create_time desc";
+            return _dapperContext.QueryData<NoteInfoVO>(sql, dynamicParameters).FirstOrDefault();
+        }
+
         public NoteInfoVO GetNoteInfo(int id)
         {
             DynamicParameters dynamicParameters = new();

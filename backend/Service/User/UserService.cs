@@ -11,6 +11,7 @@ using backend.Exceptions;
 using Newtonsoft.Json;
 using backend.Models;
 using backend.Work.Note;
+using backend.Response.VO.Note;
 
 namespace backend.Service.User
 {
@@ -193,7 +194,7 @@ namespace backend.Service.User
 
             // send mail
             Dictionary<string, string> parameters = new(){
-                {"userName", user.FirstName},
+                {"username", "Hi " + user.FirstName + ","},
                 {"token",token}
             };
             mailUtil.sendMail(Constant.Constant.BASE_DIR + "/reset_pwd.html", email, parameters);
@@ -244,7 +245,7 @@ namespace backend.Service.User
             return _userRepository.GetUserSubscribe(userSubscribe);
         }
 
-        public async void OnPublishNewNote(Models.Note note, int senderId)
+        public async void OnPublishNewNote(NoteInfoVO noteInfoVO, int senderId)
         {
             try
             {
@@ -265,7 +266,7 @@ namespace backend.Service.User
                                 SubscribeReceiver subscribeReceiver = new SubscribeReceiver(subscriber);
                                 publisher.onReceiveNewPost += subscribeReceiver.SendMail;
                             }
-                            SubscribeWork work = publisher.SetWork(note);
+                            SubscribeWork work = publisher.SetWork(noteInfoVO);
                             publisher.ReceivePost(new SubscribeWork[] { work });
                         }
                     }

@@ -6,7 +6,9 @@ namespace backend.Work.Note
         {
             SubscribePublisher publisher = (SubscribePublisher)sender;
             SubscribeWork work = (SubscribeWork)e;
-            Console.WriteLine($"{_email}收到{publisher.SenderEmail}的新note, 新的note是{work.NewNote.Title}");
+            // TODO: send mail
+            Console.WriteLine(@$"{_email}收到{publisher.SenderEmail}的新note, 新的note是{work.NewNote.Title}, 
+            {work.NewNote.Id}");
         }
         private string _email;
         public SubscribeReceiver(string email)

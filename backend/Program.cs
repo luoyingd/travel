@@ -104,29 +104,3 @@ app.MapControllers();
 app.UseStaticFiles();
 
 app.Run();
-
-// using backend.Models;
-// using backend.Work.Note;
-
-// internal class Program
-// {
-//     static void Main(string[] args)
-//     {
-//         SubscribePublisher publisher = new SubscribePublisher("luoying@123.com");
-//         // TODO: 找所有订阅的人
-//         SubscribeReceiver subscribeReceiver = new SubscribeReceiver("dongly_zz@163.com");
-//         SubscribeReceiver subscribeReceiver2 = new SubscribeReceiver("dongly_zz2@163.com");
-//         SubscribeReceiver subscribeReceiver3 = new SubscribeReceiver("dongly_zz3@163.com");
-//         SubscribeReceiver[] receivers = { subscribeReceiver, subscribeReceiver2, subscribeReceiver3 };
-//         foreach (SubscribeReceiver w in receivers)
-//         {
-//             publisher.onReceiveNewPost += w.SendMail;
-//         }
-
-//         Note note = new Note() { Title = "hi this is a new note" };
-//         SubscribeWork cleaning = publisher.SetWork(note);
-//         publisher.ReceivePost(new SubscribeWork[]{cleaning});
-//     }
-// }
-
-
