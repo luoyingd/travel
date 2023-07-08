@@ -25,8 +25,19 @@ function AddNote({ isOpen, key, callback }) {
       return;
     }
     let title = form.getFieldValue("title");
-    let description = getFormatTextArea(form.getFieldValue("description"));
+    let description = form.getFieldValue("description");
     let category = form.getFieldValue("category");
+    if (
+      !title ||
+      !description ||
+      !category ||
+      !noteStore.address ||
+      !noteStore.addressCode
+    ) {
+      message.error("Please input all necessary fields!");
+      return;
+    }
+    description = getFormatTextArea(description);
     const result = await noteStore.addNote({ title, description, category });
     if (result) {
       message.success("Successfully posted!", [3]);
@@ -36,8 +47,11 @@ function AddNote({ isOpen, key, callback }) {
   };
   useEffect(() => {
     setOpen(isOpen);
+    noteStore.hasUploading = false;
     noteStore.photoKeys = [];
-  }, []);
+    noteStore.address = null;
+    noteStore.addressCode = null;
+  }, [key]);
   return (
     <>
       <Drawer

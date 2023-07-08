@@ -69,7 +69,6 @@ namespace backend.Service.Note
             string url = Constant.Constant.GOOGLE_MAP_URL
             + noteInfoVO.AddressCode + "&key=" + key;
             var response = _httpClient.GetStringAsync(url);
-            _logger.LogInformation("google map response: {}", response.Result);
             if (response != null)
             {
                 MapResult mapResult = JsonConvert.DeserializeObject<MapResult>(response.Result);
