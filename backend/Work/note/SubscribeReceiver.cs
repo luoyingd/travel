@@ -4,7 +4,7 @@ namespace backend.Work.Note
 {
     public class SubscribeReceiver
     {
-        public async void SendMail(object sender, EventArgs e)
+        public void SendMail(object sender, EventArgs e)
         {
             SubscribePublisher publisher = (SubscribePublisher)sender;
             SubscribeWork work = (SubscribeWork)e;
