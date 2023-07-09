@@ -128,7 +128,7 @@ function AddNote({ isOpen, key, callback }) {
           <Row gutter={16}>
             <Col span={22}>
               <Form.Item name="fileKeyList" label="Photos">
-                <PhotoWall></PhotoWall>
+                <PhotoWall key={Math.random}></PhotoWall>
               </Form.Item>
             </Col>
           </Row>

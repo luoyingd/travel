@@ -1,10 +1,11 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Upload, Modal, message } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { baseURL, http } from "../../utils/http";
 import { observer } from "mobx-react-lite";
 import noteStore from "../../stores/notes/noteStore";
-const PhotoWall = () => {
+import uploadStore from "../../stores/common/uploadStore";
+const PhotoWall = ({ key }) => {
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -15,8 +16,7 @@ const PhotoWall = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([]);
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = ({ fileList: newFileList }) => uploadStore.fileList = newFileList;
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -28,6 +28,9 @@ const PhotoWall = () => {
       file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
     );
   };
+  useEffect(() => {
+    uploadStore.fileList = [];
+  }, [key]);
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -52,13 +55,12 @@ const PhotoWall = () => {
       message.error(
         "You can only upload JPG/PNG/JPEG file, and each file should be smaller than 3MB!"
       );
-      setFileList([...fileList, file]);
+      uploadStore.fileList.push(file);
     } else {
       noteStore.hasUploading = true;
       file.status = "uploading";
       let uid = file.uid;
-      let newList = [...fileList, file];
-      setFileList(newList);
+      uploadStore.fileList.push(file);
       // do upload here
       let formData = new FormData();
       formData.append("file", file);
@@ -67,25 +69,26 @@ const PhotoWall = () => {
         .then((res) => {
           noteStore.photoKeys.push(res.data);
           // find the file and replace status
-          const newFileList = newList.map((file) => {
+          const newFileList = uploadStore.fileList.map((file) => {
             if (file.uid == uid) {
               file.status = "success";
               file.url = baseURL + "/common/photo/" + res.data;
             }
             return file;
           });
-          setFileList(newFileList);
-          noteStore.hasUploading = false;
+          uploadStore.fileList = newFileList;
         })
         .catch((err) => {
           // find the file and replace status
-          const newFileList = newList.map((file) => {
+          const newFileList = uploadStore.fileList.map((file) => {
             if (file.uid == uid) {
               file.status = "error";
             }
             return file;
           });
-          setFileList(newFileList);
+          uploadStore.fileList = newFileList;
+        })
+        .finally(() => {
           noteStore.hasUploading = false;
         });
     }
@@ -96,11 +99,11 @@ const PhotoWall = () => {
       <Upload
         beforeUpload={beforeUpload}
         listType="picture-card"
-        fileList={fileList}
+        fileList={uploadStore.fileList}
         onPreview={handlePreview}
         onChange={handleChange}
       >
-        {fileList.length >= 6 ? null : uploadButton}
+        {uploadStore.fileList.length >= 6 ? null : uploadButton}
       </Upload>
       <Modal
         open={previewOpen}
