@@ -36,7 +36,7 @@ function Main() {
               <h1 class="text-white font-weight-bold">
                 Start Your Amazing Travel
               </h1>
-              <hr class="divider" />
+              {/* <hr class="divider" /> */}
             </div>
             <div class="col-lg-8 align-self-baseline">
               <p class="text-white-75 mb-5">

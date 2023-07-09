@@ -1,11 +1,11 @@
 function Services() {
   return (
     <div class="container px-4 px-lg-5">
-      <h2 class="text-center mt-0">What You Can Do</h2>
-      <hr class="divider" />
+      {/* <h2 class="text-center mt-0">What You Can Do</h2> */}
+      {/* <hr class="divider" /> */}
       <div class="row gx-4 gx-lg-5">
         <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
+          <div class="mt-3">
             <div class="mb-2">
               <i class="bi-globe fs-1 text-primary"></i>
             </div>
@@ -16,7 +16,7 @@ function Services() {
           </div>
         </div>
         <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
+          <div class="mt-3">
             <div class="mb-2">
               <i class="bi-arrow-clockwise fs-1 text-primary"></i>
             </div>
@@ -27,7 +27,7 @@ function Services() {
           </div>
         </div>
         <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
+          <div class="mt-3">
             <div class="mb-2">
               <i class=" fs-1 text-primary bi-journal-richtext"></i>
             </div>
@@ -38,7 +38,7 @@ function Services() {
           </div>
         </div>
         <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
+          <div class="mt-3">
             <div class="mb-2">
               <i class="bi-heart fs-1 text-primary"></i>
             </div>
