@@ -43,7 +43,7 @@ namespace backend.Service.Common
             var response = _httpClient.GetStringAsync(Constant.Constant.GOOGLE_ADDRESS_URL +
                     encodeInput +
                     "&types=geocode&key=" + mapApi) ?? throw new CustomException(CodeAndMsg.PARAM_VERIFICATION_FAIL);
-            if (response != null)
+            if (response != null && response.Result != null)
             {
                 MapResult mapResult = JsonConvert.DeserializeObject<MapResult>(response.Result);
                 List<Address> addresses = mapResult.Predictions;
