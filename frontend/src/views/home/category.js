@@ -7,7 +7,7 @@ function Category() {
           <a
             class="portfolio-box"
             href={"/note?category=0"}
-            title="Project Name"
+            title={categories[0].name}
           >
             <img class="img-fluid" src={categories[0].src} alt="..." />
             <div class="portfolio-box-caption">
@@ -19,7 +19,7 @@ function Category() {
           <a
             class="portfolio-box"
             href={"/note?category=1"}
-            title="Project Name"
+            title={categories[1].name}
           >
             <img class="img-fluid" src={categories[1].src} alt="..." />
             <div class="portfolio-box-caption">
@@ -31,7 +31,7 @@ function Category() {
           <a
             class="portfolio-box"
             href={"/note?category=2"}
-            title="Project Name"
+            title={categories[2].name}
           >
             <img class="img-fluid" src={categories[2].src} alt="..." />
             <div class="portfolio-box-caption">
@@ -43,7 +43,7 @@ function Category() {
           <a
             class="portfolio-box"
             href={"/note?category=3"}
-            title="Project Name"
+            title={categories[3].name}
           >
             <img class="img-fluid" src={categories[3].src} alt="..." />
             <div class="portfolio-box-caption">
@@ -52,7 +52,11 @@ function Category() {
           </a>
         </div>
         <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href={"/note?category=4"} title="Nature">
+          <a
+            class="portfolio-box"
+            href={"/note?category=4"}
+            title={categories[4].name}
+          >
             <img class="img-fluid" src={categories[4].src} alt="..." />
             <div class="portfolio-box-caption">
               <div class="project-name">{categories[4].name}</div>
@@ -63,7 +67,7 @@ function Category() {
           <a
             class="portfolio-box"
             href={"/note?category=5"}
-            title="Project Name"
+            title={categories[5].name}
           >
             <img class="img-fluid" src={categories[5].src} alt="..." />
             <div class="portfolio-box-caption p-3">
