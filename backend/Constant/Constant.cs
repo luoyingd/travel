@@ -16,7 +16,7 @@ namespace backend.Constant
         public static readonly string GOOGLE_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=";
         public static readonly string GOOGLE_ADDRESS_URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=";
         public static readonly string GOOGLE_MAP_URL = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
-        public static readonly string URL = "http://13.54.209.245:9090";
+        public static readonly string URL = "http://3.25.58.58:9090";
         // public static readonly string URL = "http://localhost:8090";
         public static readonly string BLANK_KEY = "blank.jpg";
         public static readonly string INFO_HREF = "http://deloriatravel.net/note/info?id=";

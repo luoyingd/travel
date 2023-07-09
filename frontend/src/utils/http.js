@@ -2,8 +2,8 @@ import axios from "axios";
 import { myToken, myUser } from "./auth";
 import history from "./history";
 import { message } from "antd";
-const baseURL = "http://13.54.209.245:9090";
-// const baseURL = "http://localhost:3000";
+const baseURL = "http://3.25.58.58:9090";
+// const baseURL = "http://localhost:8090";
 const http = axios.create({
   baseURL: baseURL,
   timeout: 20000,
