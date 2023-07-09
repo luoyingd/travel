@@ -33,6 +33,7 @@ function NoteCard({ item, filters }) {
                 ? baseURL + "/common/photo/" + item.photos.split(",")[0]
                 : blank
             }
+            loading="lazy"
           />
         }
         onClick={toInfo}
