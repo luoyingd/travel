@@ -5,11 +5,11 @@ import meseum from "../assets/img/category/meseum.webp";
 import shopping from "../assets/img/category/shopping.jpeg";
 import adventure from "../assets/img/category/adventure.webp";
 const categories = [
+  { name: "Nature", src: nature },
   { name: "City", src: city },
   { name: "Museum", src: meseum },
   { name: "Shopping", src: shopping },
   { name: "Adventure", src: adventure },
-  { name: "Entertainment", src: entertainment },
-  { name: "Nature", src: nature },
+  { name: "Entertainment", src: entertainment }
 ];
 export { categories };
