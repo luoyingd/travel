@@ -13,7 +13,7 @@ class TestUser:
     def test_register_user(self, firstName, lastName, password, code):
         logger.info("*************** start test_register_user***************")
         logger.info("step 1 ==>> register user：{}".format(firstName))
-        t = int(datetime.datetime.now().timestamp())
+        t = int(datetime.datetime.now().timestamp() * 1000)
         email = str(t) + "@gmail.com"
         res_code = register_user(email, firstName, lastName, password)
         assert res_code == code
@@ -53,7 +53,7 @@ class TestUser:
                              user_login_data["test_login_user_wrong_username"])
     def test_login_user_wrong_username(self, password, code):
         logger.info("*************** start test_login_user_wrong_username ***************")
-        t = int(datetime.datetime.now().timestamp())
+        t = int(datetime.datetime.now().timestamp() * 1000)
         email = str(t) + "@gmail.com"
         res_code, res_data = login_user(password=password, email=email)
         assert res_code == code
