@@ -3,7 +3,7 @@ from common.logger import logger
 import json as myJson
 
 
-def register_user(email, firstName, lastName, password):
+def register_user(email=None, firstName=None, lastName=None, password=None):
     payload = {
         "email": email,
         "firstName": firstName,
@@ -18,7 +18,7 @@ def register_user(email, firstName, lastName, password):
     json = myJson.loads(res.text)
     return json.get("code")
 
-def login_user(email, password, isFromGoogle):
+def login_user(email=None, password=None, isFromGoogle=False):
     payload = {
         "email": email,
         "password": password,

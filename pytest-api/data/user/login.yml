@@ -5,3 +5,14 @@ test_register_user_duplicate:
 test_register_user_normal:
   # firstName, lastName, password, code
   - [ "deloria", "d", "123123", 200 ]
+
+test_user_empty:
+  - 400
+
+test_login_user_wrong_username:
+  # password, code
+  - [ "123123", 601 ]
+
+test_login_user_wrong_password:
+  # email, password, code
+  - [ "dongly_zz@163.com", "999999", 602 ]
