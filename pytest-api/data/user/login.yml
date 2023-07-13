@@ -1,0 +1,7 @@
+test_register_user_duplicate:
+  # email, firstName, lastName, password, code
+  - [ "luoyingd1997@gmail.com", "deloria", "d", "123123", 600 ]
+
+test_register_user_normal:
+  # firstName, lastName, password, code
+  - [ "deloria", "d", "123123", 200 ]
